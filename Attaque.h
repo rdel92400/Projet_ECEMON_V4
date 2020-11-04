@@ -1,7 +1,3 @@
-//
-// Created by Romain on 04/11/2020.
-//
-
 #ifndef PROJET_ECEMON_V4_ATTAQUE_H
 #define PROJET_ECEMON_V4_ATTAQUE_H
 

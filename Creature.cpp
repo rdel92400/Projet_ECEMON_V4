@@ -1,11 +1,7 @@
-//
-// Created by Romain on 04/11/2020.
-//
-
 #include "Creature.h"
 
 #include "Creature.h"
-/*
+
 Creature::Creature()
 {
 
@@ -45,4 +41,3 @@ int Creature::getPV() const {
 void Creature::setPV(int PV) {
     m_PV = PV;
 }
-*/

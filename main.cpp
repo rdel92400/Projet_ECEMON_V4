@@ -11,7 +11,6 @@
 
 
 int main() {
-    /*
     Collections Collection;
 
     Attaque Boule_de_Feu("Boule de feu", "KK", "Tire une boule de feu", 30);
@@ -26,8 +25,6 @@ int main() {
     Demon.recevoirDegat(Boule_de_Glace);
     Demon.afficher();
 
-
-*/
     return 0;
 }
 

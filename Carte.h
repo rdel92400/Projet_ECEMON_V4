@@ -5,7 +5,7 @@
 #ifndef PROJET_ECEMON_V4_CARTE_H
 #define PROJET_ECEMON_V4_CARTE_H
 
-#include "principal.h"
+#include "Principal.h"
 #include "Attaque.h"
 
 class Carte {

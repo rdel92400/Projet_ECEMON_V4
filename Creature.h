@@ -1,12 +1,7 @@
-//
-// Created by Romain on 04/11/2020.
-//
-
-/*
 #ifndef PROJET_ECEMON_V4_CREATURE_H
 #define PROJET_ECEMON_V4_CREATURE_H
 
-#include "principal.h"
+#include "Principal.h"
 #include "Attaque.h"
 #include "Carte.h"
 
@@ -27,4 +22,3 @@ protected:
 };
 
 #endif //PROJET_ECEMON_V4_CREATURE_H
-*/
