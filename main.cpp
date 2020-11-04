@@ -25,7 +25,7 @@ int main() {
     Demon.recevoirDegat(Boule_de_Glace);
     Demon.afficher();
 
-    ///Romain Bg
+    ///Charles bg
 
     return 0;
 }
