@@ -7,12 +7,18 @@
 
 #include "Principal.h"
 #include "Carte.h"
+#include "Collections.h"
 
 class Deck
 {
 public:
     Deck();
     ~Deck();
+    void iniDeck(Collections toutesLesCartes);
+
+    ///Set et get
+
+    void setDeck(Carte nouvelleCarte);
 
 protected:
     std::vector<Carte> m_deck;

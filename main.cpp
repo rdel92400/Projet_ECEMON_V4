@@ -4,12 +4,24 @@
 #include "Creature.h"
 #include "Attaque.h"
 #include "Collections.h"
+#include "Joueur.h"
+
+
 
 
 int main() {
-    Collections Collection;
-    Collection.chargerCollectionEntiere();
-    Collection.getCreature()[0].afficher();
+    ///Ini de la copllection
+    Collections collection;
+    collection.chargerCollectionEntiere();
+
+    ///Zone de test mettez des trucs pas finaux que on puisse commmenter si besoin
+    collection.getCreature()[0].afficher();
+    //Test de l'ini de joueurs
+    Joueur Romain;
+    Deck deckDeTest;
+    Romain.iniJoueur("Romain",500,deckDeTest);
+    ///Fin de la zone de test
+
     return 0;
 }
 

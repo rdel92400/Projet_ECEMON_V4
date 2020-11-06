@@ -14,12 +14,16 @@ public:
     Carte(std::string nom, std::string description,bool estUtilise);
     ~Carte();
 
+    ///Set et get
+
     std::string getNom() const;
     std::string getDesc() const;
     bool get_EstUtilise() const;
     void setNom(std::string nom);
     void setDesc(std::string desc);
     void set_EstUtilise(bool util);
+
+    void affichagerCarte();
 
 protected:
     std::string m_nom;
