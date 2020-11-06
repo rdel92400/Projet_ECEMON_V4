@@ -41,3 +41,11 @@ int Creature::getPV() const {
 void Creature::setPV(int PV) {
     m_PV = PV;
 }
+
+void Creature::setCreature(std::string nom, std::string desc, bool utilisation, Attaque attaque1, Attaque attaque2
+                           ) {
+    setNom(nom);
+    setDesc(desc);
+    set_EstUtilise(utilisation);
+    AssigneAttaque(attaque1, attaque2);
+}

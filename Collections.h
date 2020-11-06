@@ -4,18 +4,24 @@
 
 #ifndef PROJET_ECEMON_V4_COLLECTIONS_H
 #define PROJET_ECEMON_V4_COLLECTIONS_H
+
 #include "Principal.h"
 #include "Carte.h"
+#include "Creature.h"
+#include "Attaque.h"
 
-class Collections
-{
+class Collections {
 public:
     Collections();
+
     ~Collections();
-    void chargement();
+
+    void chargerCollectionEntiere();
+
+    void setCreature(Creature creatureRecue);
 
 protected:
-    std::vector<Carte> m_collection;
+    std::vector<Creature> m_collection;
 };
 
 

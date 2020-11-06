@@ -11,7 +11,7 @@
 class Carte {
 public:
     Carte();
-    Carte(std::string nom, std::string description, bool estUtilise);
+    Carte(std::string nom, std::string description,bool estUtilise);
     ~Carte();
 
     std::string getNom() const;

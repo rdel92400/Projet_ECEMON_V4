@@ -6,10 +6,10 @@
 
 Deck::Deck()
 {
-    //ctor
+
 }
 
 Deck::~Deck()
 {
-    //dtor
+
 }

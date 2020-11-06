@@ -4,12 +4,14 @@
 
 #include "Carte.h"
 
-Carte::Carte()
+Carte::Carte() : m_nom("Non nomme"),m_description("Pas de description"),m_EstUtilise(false)
 {
 
 }
 
-Carte::Carte(std::string nom, std::string description, bool estUtilise) : m_nom(nom), m_description(description), m_EstUtilise(estUtilise){
+Carte::Carte(std::string nom, std::string description,bool estUtilise) :
+m_nom(nom), m_description(description),m_EstUtilise(estUtilise)
+{
 }
 
 Carte::~Carte()
