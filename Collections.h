@@ -20,6 +20,8 @@ public:
 
     void setCreature(Creature creatureRecue);
 
+    std::vector <Creature> getCreature();
+
 protected:
     std::vector<Creature> m_collection;
 };

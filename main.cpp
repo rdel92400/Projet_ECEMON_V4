@@ -9,8 +9,7 @@
 int main() {
     Collections Collection;
     Collection.chargerCollectionEntiere();
-
-
+    Collection.getCreature()[0].afficher();
     return 0;
 }
 

@@ -3,7 +3,6 @@
 //
 
 #include "Collections.h"
-
 Collections::Collections() {
 }
 
@@ -43,7 +42,9 @@ void Collections::setCreature(Creature creatureRecue) {
     m_collection.push_back(creatureRecue);
 }
 
-
+std::vector<Creature> Collections::getCreature() {
+    return m_collection;
+}
 
 
 
