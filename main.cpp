@@ -10,9 +10,10 @@
 
 
 int main() {
-    ///Ini de la copllection
+    ///Ini de la collection
     Collections collection;
     collection.chargerCollectionEntiere();
+    //collection.chargementCreatures(); (chargement avec fichiers non fonctionnel)
 
     ///Zone de test mettez des trucs pas finaux que on puisse commmenter si besoin
     collection.getCreature()[0].afficher();

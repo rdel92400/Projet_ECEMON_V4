@@ -4,16 +4,11 @@
 
 #include "Joueur.h"
 
-Joueur::Joueur() {
-    //ctor
-}
+Joueur::Joueur() {}
 
-Joueur::Joueur(std::string nom, int argent) : m_nom(nom), m_argent(argent) {
-}
+Joueur::Joueur(std::string nom, int argent) : m_nom(nom), m_argent(argent) {}
 
-Joueur::~Joueur() {
-    //dtor
-}
+Joueur::~Joueur() {}
 
 void Joueur::iniJoueur(std::string nom, int argent,Deck deckJoueur) {
     setNom(nom);

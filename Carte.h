@@ -23,7 +23,7 @@ public:
     void setDesc(std::string desc);
     void set_EstUtilise(bool util);
 
-    void affichager();
+    void afficher();
 
 protected:
     std::string m_nom;

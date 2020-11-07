@@ -4,11 +4,9 @@
 
 #include "Collections.h"
 
-Collections::Collections() {
-}
+Collections::Collections() {}
 
-Collections::~Collections() {
-}
+Collections::~Collections() {}
 
 void Collections::chargerCollectionEntiere() {
 ///Ini des attaques
@@ -63,7 +61,7 @@ void Collections::chargerCollectionEntiere() {
     luffy.setCreature("Monkey D Luffy", "Le futur roi des pirates !", false, elephantGun, jetPunch);
 
     Creature zoro(750);
-    zoro.setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy ! ", false, santoryu,enmaSlash);
+    zoro.setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy !", false, santoryu,enmaSlash);
 
     Creature sanji(750);
     sanji.setCreature("Sanji", "Cuisinier a bord du sunny et un combatant redoutable", false, jarret, troisiemeHache);
@@ -112,13 +110,67 @@ void Collections::chargerCollectionEntiere() {
 
 }
 
-void Collections::setCreature(Creature creatureRecue) {
-    m_collection.push_back(creatureRecue);
+void Collections::setCreature(Creature creatureRecue)
+{
+    m_collectionCreatures.push_back(creatureRecue);
 }
 
-std::vector<Creature> Collections::getCreature() {
-    return m_collection;
+std::vector<Creature> Collections::getCreature()
+{
+    return m_collectionCreatures;
 }
 
+/*
+void Collections::chargementCreatures()
+{
+    std::ifstream monFlux(R"(C:\Users\Charles\OneDrive - Groupe INSEEC (POCE)\ECE\ING- 2\Informatique\Projets\Projet_ECEMON_V4\Fichiers\CollectionCreatures.txt)");
 
+    std::string tempFichier;
+    std::string tempNom;
+    std::string tempDescription;
+    int tempPV;
+    std::string tempNomAttaque1;
+    std::string tempDescriptionAttaque1;
+    std::string tempCoutAttaque1;
+    int tempDegat1;
+    std::string tempNomAttaque2;
+    std::string tempDescriptionAttaque2;
+    std::string tempCoutAttaque2;
+    int tempDegat2;
 
+    Creature creatureTemp;
+    Attaque attaqueTemp1;
+    Attaque attaqueTemp2;
+
+    if(!monFlux)
+    {
+        std::cout << "Erreur chargemement fichier CollectionsCreatures.txt" << std::endl;
+    }
+    else
+    {
+        while (getline(monFlux,tempFichier))
+        {
+            getline(monFlux,tempNom);
+            monFlux >> tempPV;
+            getline(monFlux,tempDescription);
+
+            getline(monFlux,tempNomAttaque1);
+            getline(monFlux,tempDescriptionAttaque1);
+            monFlux >> tempCoutAttaque1;
+            monFlux >> tempDegat1;
+
+            getline(monFlux,tempNomAttaque2);
+            getline(monFlux,tempDescriptionAttaque2);
+            monFlux >> tempCoutAttaque2;
+            monFlux >> tempDegat2;
+
+            attaqueTemp1.setAttaque(tempNomAttaque1,tempCoutAttaque1,tempDescriptionAttaque1,tempDegat1);
+            attaqueTemp2.setAttaque(tempNomAttaque2,tempCoutAttaque2,tempDescriptionAttaque2,tempDegat2);
+
+            creatureTemp.setCreature(tempNom,tempDescription,tempPV,false,attaqueTemp1,attaqueTemp2); //(Il faut rajouter la vie dans le setter)
+
+            m_collectionCreatures.push_back(creatureTemp);
+        }
+    }
+}
+*/

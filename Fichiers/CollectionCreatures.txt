@@ -1,0 +1,11 @@
+Goku
+1000
+C'est le personnage principal de Dragon Ball Z !
+
+Monkey D Luffy
+1000
+Le futur roi des pirates !
+
+Roronoa Zoro
+750
+Meilleur epeiste a bord du Sunny et bras droit de Luffy !

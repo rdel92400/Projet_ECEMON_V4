@@ -21,7 +21,8 @@ void Creature::AssigneAttaque(Attaque &cible1, Attaque &cible2){
 }
 
 
-void Creature::afficher(){
+void Creature::afficher()
+{
     std::cout << "Le monstre s'appelle : " << getNom() << std::endl;
     std::cout << "Description : " << getDesc() << std::endl;
     std::cout << "PV : " << m_PV << std::endl;
@@ -42,8 +43,8 @@ void Creature::setPV(int PV) {
     m_PV = PV;
 }
 
-void Creature::setCreature(std::string nom, std::string desc, bool utilisation, Attaque attaque1, Attaque attaque2
-                           ) {
+void Creature::setCreature(std::string nom, std::string desc, bool utilisation, Attaque attaque1, Attaque attaque2)
+{
     setNom(nom);
     setDesc(desc);
     set_EstUtilise(utilisation);

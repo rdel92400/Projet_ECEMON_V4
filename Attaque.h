@@ -10,11 +10,14 @@ public:
     Attaque();
     Attaque(std::string nom, std::string energieDem, std::string description, int degats);
     ~Attaque();
+
     void attaquer();
+
     std::string getNom() const;
     std::string getEnergie() const;
     std::string getDesc() const;
     int getDegat() const;
+    void setAttaque(std::string _nom, std::string _energieDem, std::string _description, int _degats);
 
 protected:
     std::string m_nom;

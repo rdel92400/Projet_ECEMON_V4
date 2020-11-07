@@ -32,3 +32,11 @@ int Attaque::getDegat() const{
 void Attaque::attaquer() {
 
 }
+
+void Attaque::setAttaque(std::string _nom, std::string _energieDem, std::string _description, int _degats)
+{
+    m_nom = _nom;
+    m_degats = _degats;
+    m_energieDem = _energieDem;
+    m_description = _description;
+}

@@ -9,6 +9,7 @@
 #include "Carte.h"
 #include "Creature.h"
 #include "Attaque.h"
+#include "Energie.h"
 
 
 class Collections {
@@ -18,13 +19,15 @@ public:
     ~Collections();
 
     void chargerCollectionEntiere();
+    //void chargementCreatures(); (chargement avec fichier non fonctionnel)
 
     void setCreature(Creature creatureRecue);
 
-    std::vector <Creature> getCreature();
+    std::vector<Creature> getCreature();
 
 protected:
-    std::vector<Creature> m_collection;
+    std::vector<Creature> m_collectionCreatures;
+    std::vector<Energie> m_collectionEnergies;
 };
 
 
