@@ -41,7 +41,7 @@ bool Carte::get_EstUtilise() const {
     return m_EstUtilise;
 }
 
-void Carte::affichagerCarte() {
+void Carte::affichager() {
 
     std::cout << getNom() << std::endl;
 

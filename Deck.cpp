@@ -27,11 +27,7 @@ void Deck::iniDeck(Collections toutesLesCartes) {
     ///Choix du joueur
 
     while (!deckEstComplet) {
-        choix = NOMBRE_CARTES_DECK + 1;
-        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK) {
-            deckEstComplet = true;
-        }
-
+        choix = 0;
         do {
             std::cout << "Quelle carte voulez vous voir ?" << std::endl;
             std::cin >> choix;
@@ -46,6 +42,10 @@ void Deck::iniDeck(Collections toutesLesCartes) {
 
         if (choixCarte == 1) {
             compteurDeCartesChoisies++;
+        }
+
+        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK) {
+            deckEstComplet = true;
         }
 
         ///Impossible d'ajouter une carte puisque la collection est constituée de créatures et pas de cartes
