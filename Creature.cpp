@@ -27,7 +27,7 @@ void Creature::afficher(){
     std::cout << "PV : " << m_PV << std::endl;
     std::cout << "Attaque 1 : " << m_attaque[0].getNom() << " Description : " << m_attaque[0].getDesc() << " Degats : " << m_attaque[0].getDegat() << std::endl;
     std::cout << "Attaque 2 : " << m_attaque[1].getNom() << " Description : " << m_attaque[1].getDesc() << " Degats : " << m_attaque[1].getDegat() << std::endl;
-    std::cout << "La carte est utilisé : " << get_EstUtilise() << std::endl;
+    std::cout << "La carte est utilise : " << get_EstUtilise() << std::endl;
 }
 
 void Creature::recevoirDegat(Attaque &attaque) {

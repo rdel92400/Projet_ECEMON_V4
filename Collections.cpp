@@ -11,7 +11,7 @@ Collections::~Collections() {
 }
 
 void Collections::chargerCollectionEntiere() {
-    ///Ini des attaques
+///Ini des attaques
 
     ///Attaques basiques
     Attaque Boule_de_Feu("Boule de feu", "KK", "Tire une boule de feu", 30);
@@ -35,8 +35,23 @@ void Collections::chargerCollectionEntiere() {
     Attaque billeEnflamee("Bille enflamee","K","Tire une bille qui brule la cible",100);
 
     Attaque hornPoint("Horn Point","K","Chopper acquiert des enormes cornes tranchantes qu'il utilise pour attaquer",100);
-    Attaque soinPeutEtre ("Ca serait cool de lui integrer du soin","K","Ca serait cool de lui permetre de soiogner, valeur d'attaque = valeur du soin",150);
+    Attaque soin("Soin","K","Permet de regagner de la vie",-150);
+
     ///Attaques Naruto
+    Attaque rasengan("Rasengan","CCC","Una attaque de type vent très puissante",250);
+    Attaque clonage("Clonage","CC","Technique permettant de faire apparaitre 1000 clones",200);
+
+    Attaque milleOiseaux("Mille oiseaux","CCC","Una attaque de type éléctrique très puissante",250);
+    Attaque bouleDeFeuSupreme("Clonage","CC","Une attaque qui invoque une boule de feu géante",200);
+
+    Attaque astreDivin("Astre Divin","CCC","Technique permettant d'enfermer l'ennemi dans un astre",200);
+    Attaque attractionCeleste("Attraction Celeste","CC","Technique permettant d'attirer ou de repousser l'adversaire",150);
+
+    Attaque manipulationDesOmbres("Manipulation Des Ombres","CC","Technique permettant de manipuler son ombre",175);
+    Attaque etreinteMortelle("Etreinte Mortelle","CC","Immobilisation de l'adversaire grace aux ombres",175);
+
+    Attaque forceAmelioree("Force amelioree","CC","Coup de poing avec une grande force de frappe",150);
+
 ///Ini des creatures
 
     ///Creatures DBZ
@@ -45,11 +60,10 @@ void Collections::chargerCollectionEntiere() {
 
     ///Creatures One Piece
     Creature luffy(1000);
-    luffy.setCreature("Luffy", "Le futur roi des pirates !", false, elephantGun, jetPunch);
+    luffy.setCreature("Monkey D Luffy", "Le futur roi des pirates !", false, elephantGun, jetPunch);
 
     Creature zoro(750);
-    zoro.setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy ! ", false, santoryu,
-                     enmaSlash);
+    zoro.setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy ! ", false, santoryu,enmaSlash);
 
     Creature sanji(750);
     sanji.setCreature("Sanji", "Cuisinier a bord du sunny et un combatant redoutable", false, jarret, troisiemeHache);
@@ -58,10 +72,27 @@ void Collections::chargerCollectionEntiere() {
     usopp.setCreature("Usopp", "Le sniper de l'equipage", false,tournesolStar,billeEnflamee);
 
     Creature chopper(200);
-    chopper.setCreature("Chopper","C'est le medecin de l'equipage. C'est un Cerf ayant mangé un fruit du demon et quia donc acquis la capacite de la parole",false,hornPoint,soinPeutEtre);
+    chopper.setCreature("Chopper","C'est le medecin de l'equipage. C'est un Cerf ayant mangé un fruit du demon et qui a donc acquis la capacite de la parole",false,hornPoint,soin);
+
     ///Creatures Naruto
+    Creature naruto(1000);
+    naruto.setCreature("Uzumaki Naruto","C'est le personnage principal du manga Naruto",false,rasengan,clonage);
+
+    Creature sasuke(1000);
+    sasuke.setCreature("Uchiwa Sasuke","Le plus grand ami et rival de Naruto",false,milleOiseaux,bouleDeFeuSupreme);
+
+    Creature pain(750);
+    pain.setCreature("Rikudo Pain","Chef de l'Akatsuki, la plus grande organisation criminelle",false,astreDivin,attractionCeleste);
+
+    Creature shikamaru(750);
+    shikamaru.setCreature("Nara Shikamaru","16ème chef du clan Nara", false,manipulationDesOmbres,etreinteMortelle);
+
+    Creature sakura(300);
+    sakura.setCreature("Haruno Sakura","Grande ninja medecin",false,forceAmelioree,soin);
+
 
 ///Chargement des cartes dans le vecteur de cartes
+
     ///Pour les cartes de DBZ
     setCreature(goku);
 
@@ -69,8 +100,16 @@ void Collections::chargerCollectionEntiere() {
     setCreature(luffy);
     setCreature(zoro);
     setCreature(sanji);
+    setCreature(usopp);
     setCreature(chopper);
+
     ///Pour les cartes de Naruto
+    setCreature(naruto);
+    setCreature(sasuke);
+    setCreature(pain);
+    setCreature(shikamaru);
+    setCreature(sakura);
+
 }
 
 void Collections::setCreature(Creature creatureRecue) {
