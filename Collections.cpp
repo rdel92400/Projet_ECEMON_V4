@@ -16,8 +16,22 @@ void Collections::chargerCollectionEntiere() {
     Attaque Boule_de_Glace("Boule de glace", "HH", "Tire une boule de glace", 30);
 
     ///Attaques de DBZ
-    Attaque Kamehameha("Kamehameha", "KKK", "Une attaque surpuissante !", 250);
+    Attaque Kamehameha("Kamehameha", "KKS", "Une attaque surpuissante !", 250);
     Attaque coupMeteor("Coup Meteor", "KKP", "Une attaque physique tres puissante", 200);
+
+    Attaque canonGarric("Canon Garric", "KKS", "Une attaque qui envoie un rayon d'énergie surpuissant !", 250);
+    Attaque coupFinal("Coup Final", "KKP", "Vegeta enchaine son adversaire de coup avant de l'achever avec un coup surpuissant", 200);
+
+    Attaque kienzan("Kienzan", "KKS", "Krilin envoie une disque d'énergie capable de tout trancher", 200);
+    Attaque enchainementDevas("Enchainement devastateur", "KKP", "Krilin roue de coup son adversaire", 150);
+
+    Attaque rayonMortel("Rayon Mortel", "KKS", "Freezer tire un rayon capable de tout traverser", 250);
+    Attaque attaqueSR("Attaque sans rancoeur", "KKP", "Freezer laisse exploser sa colère et attaque sans relache", 200);
+
+    Attaque makankosappo("Makankosappo", "KKS", "Piccolo charge un rayon surpuissant", 250);
+    Attaque regeneratiob("Regeneration", "KK", "Piccolo utilise son sang Nemek pour recuperer des points de vie", 0);
+
+    Attaque attaqueSui("Attaque suicide", "KKS", "Le saibaman s'accroche à son adversaire et explose", 400);
 
     ///Attaques One Piece
     Attaque elephantGun("elephantGun", "KKK", "Une attaque surpuissante !", 250);
@@ -53,60 +67,91 @@ void Collections::chargerCollectionEntiere() {
 ///Ini des creatures
 
     ///Creatures DBZ
-    Creature goku(1000);
-    goku.setCreature("Goku", "C'est le personnage principal de Dragon Ball Z !", false, Kamehameha, coupMeteor);
+    Carte* goku(0);
+    goku = new Creature(1000);
+    goku->setCreature("Goku", "C'est le personnage principal de Dragon Ball Z !", false, Kamehameha, coupMeteor);
+
+    Carte* vegeta(0);
+    vegeta = new Creature(900);
+    vegeta->setCreature("Vegeta", "C'est le rival de Son Goku et le prince des saiyans", false, canonGarric, coupFinal);
+
+    Carte* krilin(0);
+    krilin = new Creature(700);
+    krilin->setCreature("Krilin", "Ami de Son Goku depuis l'enfance", false, kienzan, enchainementDevas);
+
+    Carte* freezer(0);
+    freezer = new Creature(1000);
+    freezer->setCreature("Freezer", "Enemi principal de Son Goku, il hait les saiyans", false, rayonMortel, attaqueSR);
+
+    Carte* saibaman(0);
+    saibaman = new Creature(500);
+    saibaman->setCreature("Saibaman", "Petite creature qui attaque en explosant", false, attaqueSui, attaqueSui);
 
     ///Creatures One Piece
-    Creature luffy(1000);
-    luffy.setCreature("Monkey D Luffy", "Le futur roi des pirates !", false, elephantGun, jetPunch);
+    Carte* luffy(0);
+    luffy = new Creature(1000);
+    luffy->setCreature("Monkey D Luffy", "Le futur roi des pirates !", false, elephantGun, jetPunch);
 
-    Creature zoro(750);
-    zoro.setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy !", false, santoryu,enmaSlash);
+    Carte* zoro(0);
+    zoro = new Creature(750);
+    zoro->setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy !", false, santoryu,enmaSlash);
 
-    Creature sanji(750);
-    sanji.setCreature("Sanji", "Cuisinier a bord du sunny et un combatant redoutable", false, jarret, troisiemeHache);
+    Carte* sanji(0);
+    sanji = new Creature(750);
+    sanji->setCreature("Sanji", "Cuisinier a bord du sunny et un combatant redoutable", false, jarret, troisiemeHache);
 
-    Creature usopp(300);
-    usopp.setCreature("Usopp", "Le sniper de l'equipage", false,tournesolStar,billeEnflamee);
+    Carte* usopp(0);
+    usopp = new Creature(300);
+    usopp->setCreature("Usopp", "Le sniper de l'equipage", false,tournesolStar,billeEnflamee);
 
-    Creature chopper(200);
-    chopper.setCreature("Chopper","C'est le medecin de l'equipage. C'est un Cerf ayant mangé un fruit du demon et qui a donc acquis la capacite de la parole",false,hornPoint,soin);
+    Carte* chopper(0);
+    chopper = new Creature(200);
+    chopper->setCreature("Chopper","C'est le medecin de l'equipage. C'est un Cerf ayant mangé un fruit du demon et qui a donc acquis la capacite de la parole",false,hornPoint,soin);
 
     ///Creatures Naruto
-    Creature naruto(1000);
-    naruto.setCreature("Uzumaki Naruto","C'est le personnage principal du manga Naruto",false,rasengan,clonage);
+    Carte* naruto(0);
+    naruto = new Creature(1000);
+    naruto->setCreature("Uzumaki Naruto","C'est le personnage principal du manga Naruto",false,rasengan,clonage);
 
-    Creature sasuke(1000);
-    sasuke.setCreature("Uchiwa Sasuke","Le plus grand ami et rival de Naruto",false,milleOiseaux,bouleDeFeuSupreme);
+    Carte* sasuke(0);
+    sasuke = new Creature(1000);
+    sasuke->setCreature("Uchiwa Sasuke","Le plus grand ami et rival de Naruto",false,milleOiseaux,bouleDeFeuSupreme);
 
-    Creature pain(750);
-    pain.setCreature("Rikudo Pain","Chef de l'Akatsuki, la plus grande organisation criminelle",false,astreDivin,attractionCeleste);
+    Carte* pain(0);
+    pain = new Creature(750);
+    pain->setCreature("Rikudo Pain","Chef de l'Akatsuki, la plus grande organisation criminelle",false,astreDivin,attractionCeleste);
 
-    Creature shikamaru(750);
-    shikamaru.setCreature("Nara Shikamaru","16ème chef du clan Nara", false,manipulationDesOmbres,etreinteMortelle);
+    Carte* shikamaru(0);
+    shikamaru = new Creature(750);
+    shikamaru->setCreature("Nara Shikamaru","16ème chef du clan Nara", false,manipulationDesOmbres,etreinteMortelle);
 
-    Creature sakura(300);
-    sakura.setCreature("Haruno Sakura","Grande ninja medecin",false,forceAmelioree,soin);
+    Carte* sakura(0);
+    sakura = new Creature(300);
+    sakura->setCreature("Haruno Sakura","Grande ninja medecin",false,forceAmelioree,soin);
 
 
 ///Chargement des cartes dans le vecteur de cartes
 
     ///Pour les cartes de DBZ
-    setCreature(goku);
+    setCarte(goku);
+    setCarte(vegeta);
+    setCarte(krilin);
+    setCarte(freezer);
+    setCarte(saibaman);
 
     ///Pour les carte de One Piece
-    setCreature(luffy);
-    setCreature(zoro);
-    setCreature(sanji);
-    setCreature(usopp);
-    setCreature(chopper);
+    setCarte(luffy);
+    setCarte(zoro);
+    setCarte(sanji);
+    setCarte(usopp);
+    setCarte(chopper);
 
     ///Pour les cartes de Naruto
-    setCreature(naruto);
-    setCreature(sasuke);
-    setCreature(pain);
-    setCreature(shikamaru);
-    setCreature(sakura);
+    setCarte(naruto);
+    setCarte(sasuke);
+    setCarte(pain);
+    setCarte(shikamaru);
+    setCarte(sakura);
 
 }
 
@@ -119,6 +164,16 @@ std::vector<Creature> Collections::getCreature()
 {
     return m_collectionCreatures;
 }
+
+void Collections::setCarte(Carte *carteRecue) {
+    m_collectionCarte.push_back(carteRecue);
+}
+
+std::vector<Carte *> Collections::getCarte() {
+    return m_collectionCarte;
+}
+
+
 
 /*
 void Collections::chargementCreatures()

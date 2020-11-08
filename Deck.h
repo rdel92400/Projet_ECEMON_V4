@@ -7,6 +7,7 @@
 
 #include "Principal.h"
 #include "Carte.h"
+#include "Creature.h"
 #include "Collections.h"
 
 class Deck
@@ -17,11 +18,12 @@ public:
     void iniDeck(Collections toutesLesCartes);
 
     ///Set et get
+    void setDeck(Carte* nouvelleCarte);
+    std::vector<Carte*> getDeck() const;
 
-    void setDeck(Carte nouvelleCarte);
-
+    void afficherDeck() const;
 protected:
-    std::vector<Carte> m_deck;
+    std::vector<Carte*> m_deck;
 };
 
 

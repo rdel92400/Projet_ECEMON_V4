@@ -16,12 +16,13 @@ void Deck::iniDeck(Collections toutesLesCartes) {
 
     Carte carteChoisie;
     int choix;
-    int choixCarte;
+    std::string choixCarte;
     bool deckEstComplet = false;
-    int compteurDeCartesChoisies;
+    int compteurDeCartesChoisies(0);
 
-    for (int i = 0; i < NOMBRE_CARTES_DECK; i++) {
-        toutesLesCartes.getCreature()[i].afficher();
+    for (int i = 0; i < NOMBRE_CARTES_DECK-1; i++) {
+        std::cout << "Carte " << i << " : \n";
+        toutesLesCartes.getCarte()[i]->afficher();
     }
 
     ///Choix du joueur
@@ -31,31 +32,52 @@ void Deck::iniDeck(Collections toutesLesCartes) {
         do {
             std::cout << "Quelle carte voulez vous voir ?" << std::endl;
             std::cin >> choix;
-        } while (choix > NOMBRE_CARTES_DECK);
+        } while (choix < 0 && choix > NOMBRE_CARTES_DECK);
 
         ///Probleme dans la classe collection constituée de créatures et pas de cartes
 
-        toutesLesCartes.getCreature()[choix].afficher();
+        toutesLesCartes.getCarte()[choix]->afficher();
 
-        std::cout << "Voulez vous garder cette carte ?" << std::endl;
-        std::cin >> choixCarte;
+        do {
+            std::cout << "Voulez vous garder cette carte ?" << std::endl;
+            std::cin >> choixCarte;
+            std::cin.ignore();
+        }while (choixCarte!="OUI" && choixCarte!="NON");
 
-        if (choixCarte == 1) {
+
+        if (choixCarte == "OUI") {
             compteurDeCartesChoisies++;
+            setDeck(toutesLesCartes.getCarte()[choix]);
+        } else{
+            std::cout << "Choisissez une autre carte." << std::endl;
         }
 
-        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK) {
+        if (compteurDeCartesChoisies == 5) {
             deckEstComplet = true;
         }
 
-        ///Impossible d'ajouter une carte puisque la collection est constituée de créatures et pas de cartes
-        //setDeck(toutesLesCartes.)
-    }
 
+    }
+    afficherDeck();
 }
 
-void Deck::setDeck(Carte nouvelleCarte) {
+
+
+void Deck::setDeck(Carte* nouvelleCarte) {
     m_deck.push_back(nouvelleCarte);
 }
+
+std::vector<Carte *> Deck::getDeck() const{
+    return m_deck;
+}
+
+void Deck::afficherDeck() const{
+    for (int i=0; i<5; i++){
+        std::cout << "Carte numero " << i+1 << std::endl;
+        getDeck()[i]->afficher();
+    }
+}
+
+
 
 

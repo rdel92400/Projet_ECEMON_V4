@@ -23,7 +23,8 @@ public:
     void setDesc(std::string desc);
     void set_EstUtilise(bool util);
 
-    void afficher();
+    virtual void setCreature(std::string nom,std::string desc,bool utilisation,Attaque attaque1,Attaque attaque2);
+    virtual void afficher();
 
 protected:
     std::string m_nom;

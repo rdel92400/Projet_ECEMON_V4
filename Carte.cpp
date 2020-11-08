@@ -43,4 +43,11 @@ void Carte::afficher()
     ///J'ai pas fait plus d'affichage pour pas me faire chier comme on fait allegro (Romain)
 }
 
+void Carte::setCreature(std::string nom, std::string desc, bool utilisation, Attaque attaque1, Attaque attaque2) {
+
+}
+
+
+
+
 

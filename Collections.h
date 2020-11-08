@@ -22,10 +22,13 @@ public:
     //void chargementCreatures(); (chargement avec fichier non fonctionnel)
 
     void setCreature(Creature creatureRecue);
-
     std::vector<Creature> getCreature();
 
+    void setCarte(Carte *carteRecue);
+    std::vector<Carte*> getCarte();
+
 protected:
+    std::vector<Carte*> m_collectionCarte;
     std::vector<Creature> m_collectionCreatures;
     std::vector<Energie> m_collectionEnergies;
 };
