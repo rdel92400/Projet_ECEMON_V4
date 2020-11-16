@@ -16,7 +16,7 @@ public:
     void AssigneAttaque(Attaque &cible1, Attaque &cible2);
     void recevoirDegat(Attaque &attaque);
     void setCreature(std::string nom,std::string desc,bool utilisation,Attaque attaque1,Attaque attaque2);
-
+    void attaquer(Carte *cible, int i);
 protected:
     int m_PV;
     std::vector <Attaque> m_attaque;

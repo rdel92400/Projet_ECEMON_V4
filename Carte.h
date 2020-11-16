@@ -23,8 +23,13 @@ public:
     void setDesc(std::string desc);
     void set_EstUtilise(bool util);
 
+
+    virtual int getPV() const;
+    virtual void setPV(int PV);
     virtual void setCreature(std::string nom,std::string desc,bool utilisation,Attaque attaque1,Attaque attaque2);
+    virtual void recevoirDegat(Attaque &attaque);
     virtual void afficher();
+    virtual void attaquer(Carte *cible, int i);
 
 protected:
     std::string m_nom;

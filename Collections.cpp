@@ -155,15 +155,6 @@ void Collections::chargerCollectionEntiere() {
 
 }
 
-void Collections::setCreature(Creature creatureRecue)
-{
-    m_collectionCreatures.push_back(creatureRecue);
-}
-
-std::vector<Creature> Collections::getCreature()
-{
-    return m_collectionCreatures;
-}
 
 void Collections::setCarte(Carte *carteRecue) {
     m_collectionCarte.push_back(carteRecue);

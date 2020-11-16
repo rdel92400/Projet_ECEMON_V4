@@ -52,13 +52,13 @@ void Deck::iniDeck(Collections toutesLesCartes) {
             std::cout << "Choisissez une autre carte." << std::endl;
         }
 
-        if (compteurDeCartesChoisies == 5) {
+        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK) {
             deckEstComplet = true;
         }
 
 
     }
-    afficherDeck();
+    //afficherDeck();
 }
 
 
@@ -72,7 +72,7 @@ std::vector<Carte *> Deck::getDeck() const{
 }
 
 void Deck::afficherDeck() const{
-    for (int i=0; i<5; i++){
+    for (int i=0; i<NOMBRE_CARTES_DECK; i++){
         std::cout << "Carte numero " << i+1 << std::endl;
         getDeck()[i]->afficher();
     }

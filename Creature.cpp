@@ -50,3 +50,7 @@ void Creature::setCreature(std::string nom, std::string desc, bool utilisation, 
     set_EstUtilise(utilisation);
     AssigneAttaque(attaque1, attaque2);
 }
+
+void Creature::attaquer(Carte *cible, int i) {
+    cible->recevoirDegat(m_attaque[i]);
+}

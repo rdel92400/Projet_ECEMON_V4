@@ -19,6 +19,9 @@ public:
     void setArgent(int argent);
     void setDeck(Deck nouveauDeck);
     void setNom(std::string nom);
+    int getArgent();
+    Deck getDeck();
+    std::string getNom();
 
 protected:
     std::string m_nom;

@@ -47,6 +47,22 @@ void Carte::setCreature(std::string nom, std::string desc, bool utilisation, Att
 
 }
 
+void Carte::attaquer(Carte *cible, int i) {
+
+}
+
+void Carte::recevoirDegat(Attaque &attaque) {
+
+}
+
+int Carte::getPV() const {
+    return 0;
+}
+
+void Carte::setPV(int PV) {
+
+}
+
 
 
 

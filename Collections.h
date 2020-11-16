@@ -29,8 +29,6 @@ public:
 
 protected:
     std::vector<Carte*> m_collectionCarte;
-    std::vector<Creature> m_collectionCreatures;
-    std::vector<Energie> m_collectionEnergies;
 };
 
 

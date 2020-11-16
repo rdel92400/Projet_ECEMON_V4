@@ -13,7 +13,18 @@ class Plateau
 {
 public:
     Plateau();
+    Plateau(std::string nom, Deck deckJ);
     ~Plateau();
+    ///Set et Get
+    std::string getNom();
+    int getPDV();
+    Deck getDeck();
+    Carte GetCarteEJ();
+    std::vector<Carte> get;
+    void setPDV(int pdv);
+    void setCarteEJ(Carte EJ);
+
+
     void Joueur(std::string nom);
     void piocherEnJeu();
     void piocher();
@@ -24,7 +35,7 @@ protected:
     int m_pointDeVie;
     Carte m_carteEnjeu;
     Deck m_deckJoueur;
-    std::vector <Carte> m_energies;
+    std::vector <Carte> m_carte;
     std::vector <Carte> m_speciales;
     std::vector <Carte> m_creatures;
     std::vector <Carte> m_cimetiere;

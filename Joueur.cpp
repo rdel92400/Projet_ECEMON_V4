@@ -27,3 +27,15 @@ void Joueur::setDeck(Deck nouveauDeck) {
 void Joueur::setNom(std::string nom) {
     m_nom = nom;
 }
+
+int Joueur::getArgent() {
+    return m_argent;
+}
+
+Deck Joueur::getDeck() {
+    return m_deck;
+}
+
+std::string Joueur::getNom() {
+    return m_nom;
+}

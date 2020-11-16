@@ -29,3 +29,31 @@ void Plateau::piocher() {
 void Plateau::Partie() {
 
 }
+
+Plateau::Plateau(std::string nom, Deck deckJ) : m_nomJoueur(nom), m_pointDeVie(1000), m_deckJoueur(deckJ){
+
+}
+
+std::string Plateau::getNom() {
+    return m_nomJoueur;
+}
+
+int Plateau::getPDV() {
+    return m_pointDeVie;
+}
+
+Deck Plateau::getDeck() {
+    return m_deckJoueur;
+}
+
+Carte Plateau::GetCarteEJ() {
+    return m_carteEnjeu;
+}
+
+void Plateau::setPDV(int pdv) {
+    m_pointDeVie = pdv;
+}
+
+void Plateau::setCarteEJ(Carte EJ) {
+    m_carteEnjeu = EJ;
+}

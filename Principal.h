@@ -7,6 +7,9 @@
 #include <vector>
 #include <fstream>
 
-#define NOMBRE_CARTES_DECK 14
+void menu();
+void partie();
+
+#define NOMBRE_CARTES_DECK 4
 
 #endif //PROJET_ECEMON_V4_PRINCIPAL_H

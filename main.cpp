@@ -15,8 +15,9 @@ int main() {
     collection.chargerCollectionEntiere();
     //collection.chargementCreatures(); (chargement avec fichiers non fonctionnel)
 
+    menu();
+
     ///Zone de test mettez des trucs pas finaux que on puisse commmenter si besoin
-    collection.getCarte()[9]->afficher();
     //Test de l'ini de joueurs
     Joueur Romain;
     Deck deckDeTest;
