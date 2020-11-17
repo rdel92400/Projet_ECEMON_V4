@@ -20,7 +20,7 @@ void Deck::iniDeck(Collections toutesLesCartes) {
     bool deckEstComplet = false;
     int compteurDeCartesChoisies(0);
 
-    for (int i = 0; i < NOMBRE_CARTES_DECK-1; i++) {
+    for (int i = 0; i < NOMBRE_CARTES_DECK; i++) {
         std::cout << "Carte " << i << " : \n";
         toutesLesCartes.getCarte()[i]->afficher();
     }
@@ -52,7 +52,7 @@ void Deck::iniDeck(Collections toutesLesCartes) {
             std::cout << "Choisissez une autre carte." << std::endl;
         }
 
-        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK) {
+        if (compteurDeCartesChoisies == 5) {
             deckEstComplet = true;
         }
 

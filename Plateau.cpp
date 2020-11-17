@@ -57,3 +57,18 @@ void Plateau::setPDV(int pdv) {
 void Plateau::setCarteEJ(Carte EJ) {
     m_carteEnjeu = EJ;
 }
+
+std::map<std::string, int> Plateau::getEnergie() {
+    return m_energieJ;
+}
+
+
+
+std::vector<Carte> Plateau::getCarte() {
+    return m_carte;
+}
+
+void Plateau::setEnergie(std::string type, int lv) {
+    getEnergie()[type] = lv;
+
+}

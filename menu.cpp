@@ -31,7 +31,7 @@ void partie(){
     Deck deckDeTest1, deckDeTest2;
     collection.chargerCollectionEntiere();
     int choix(0), i(0), j(0);
-    std::string nom;
+    std::string nom, type;
     do {
         std::cout << "Choisissez le premier joueur. \n1. Creer un nouveau joueur\n2. Prendre un joueur existant\nQue voulez vous faire : ";
         std::cin >> choix;
@@ -67,35 +67,68 @@ void partie(){
 
 
     do {
-        std::cout << "Carte J1 : " << std::endl;
+        std::cout << "PV J1 : " << J1.getPDV() << "\nPV J2 : " << J2.getPDV() << std::endl;
+        for (auto elem : J1.getEnergie()){
+            std::cout << elem.first << " : " << elem.second << std::endl;
+        }
+        std::cout << "\n\nCarte J1 : " << std::endl;
         J1.getDeck().getDeck()[i]->afficher();
         std::cout << "Carte J2 : " << std::endl;
         J2.getDeck().getDeck()[j]->afficher();
-        do {
-            std::cout << "\nQuelle attaque voulez-vous utiliser ? : \n1. Attaque 1\n2. Attaque 2\nChoix : ";
-            std::cin >> choix;
-        }while (choix<1 && choix>2);
-        if (choix==1){
-            J1.getDeck().getDeck()[i]->attaquer(J2.getDeck().getDeck()[j], 0);
+
+        ///J1 pioche une carte Energie
+        if (J1.getDeck().getDeck()[i]->get_EstUtilise() == ENERGIE){
+            do {
+                std::cout << "De quel type est votre carte energie ? : ";
+                std::cin >> type;
+                std::cin.ignore();
+            }while (type!="H" && type!="C" && type!="K");
+            J1.setEnergie(type, J1.getDeck().getDeck()[i]->get_EstUtilise());
+            i++;
         }
-        if (choix==2){
-            J1.getDeck().getDeck()[i]->attaquer(J2.getDeck().getDeck()[j], 1);
+        ///J2 pioche une carte Energie
+        if (J2.getDeck().getDeck()[j]->get_EstUtilise() == ENERGIE){
+            do {
+                std::cout << "De quel type est votre carte energie ? : ";
+                std::cin >> type;
+                std::cin.ignore();
+            }while (type!="H" && type!="C" && type!="K");
+            J2.setEnergie(type, J2.getDeck().getDeck()[j]->get_EstUtilise());
+            j++;
         }
 
-        std::cout << "Carte J1 : " << std::endl;
+        ///J1 pioche une crate Créature
+        if (J1.getDeck().getDeck()[i]->get_EstUtilise() == CREATURE){
+            do {
+                std::cout << "\nQuelle attaque voulez-vous utiliser ? : \n1. Attaque 1\n2. Attaque 2\nChoix : ";
+                std::cin >> choix;
+            }while (choix<1 && choix>2);
+            if (choix==1){
+                J1.getDeck().getDeck()[i]->attaquer(J2.getDeck().getDeck()[j], 0);
+            }
+            if (choix==2){
+                J1.getDeck().getDeck()[i]->attaquer(J2.getDeck().getDeck()[j], 1);
+            }
+        }
+        ///J2 pioche une crate Créature
+        if (J2.getDeck().getDeck()[j]->get_EstUtilise() == CREATURE){
+            do {
+                std::cout << "\nQuelle attaque voulez-vous utiliser ? : \n1. Attaque 1\n2. Attaque 2\nChoix : ";
+                std::cin >> choix;
+            }while (choix<1 && choix>2);
+            if (choix==1){
+                J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 0);
+            }
+            if (choix==2){
+                J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 1);
+            }
+        }
+
+        std::cout << "\nCarte J1 : " << std::endl;
         J1.getDeck().getDeck()[i]->afficher();
-        std::cout << "Carte J2 : " << std::endl;
+        std::cout << "\nCarte J2 : " << std::endl;
         J2.getDeck().getDeck()[j]->afficher();
-        do {
-            std::cout << "\nQuelle attaque voulez-vous utiliser ? : \n1. Attaque 1\n2. Attaque 2\nChoix : ";
-            std::cin >> choix;
-        }while (choix<1 && choix>2);
-        if (choix==1){
-            J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 0);
-        }
-        if (choix==2){
-            J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 1);
-        }
+
         if (J1.getDeck().getDeck()[i]->getPV()<=0) {
             J1.setPDV(J1.getPDV()+J1.getDeck().getDeck()[i]->getPV());
             i++;
@@ -104,8 +137,6 @@ void partie(){
             J2.setPDV(J2.getPDV()+J2.getDeck().getDeck()[j]->getPV());
             j++;
         }
-
-        std::cout << "PV J1 : " << J1.getPDV() << "\nPV J2 : " << J2.getPDV() << std::endl;
 
 
     }while (J1.getPDV()>0 && J2.getPDV()>0);

@@ -1,7 +1,3 @@
-//
-// Created by Romain on 04/11/2020.
-//
-
 #include "Energie.h"
 
 Energie::Energie()
@@ -12,4 +8,14 @@ Energie::Energie()
 Energie::~Energie()
 {
     //dtor
+}
+
+Energie::Energie(int lv, std::string type) : m_Lv(lv), m_type(type){
+
+}
+
+void Energie::setEnergie(std::string nom, std::string desc, int utilisation) {
+    setNom(nom);
+    setDesc(desc);
+    set_EstUtilise(utilisation);
 }

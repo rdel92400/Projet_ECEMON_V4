@@ -5,9 +5,9 @@
 #include "Carte.h"
 
 
-Carte::Carte() : m_nom("Non nomme"), m_description("Pas de description"), m_EstUtilise(false) {}
+Carte::Carte() : m_nom("Non nomme"), m_description("Pas de description"), m_EstUtilise(0) {}
 
-Carte::Carte(std::string nom, std::string description, bool estUtilise) :
+Carte::Carte(std::string nom, std::string description, int estUtilise) :
         m_nom(nom), m_description(description), m_EstUtilise(estUtilise) {}
 
 Carte::~Carte() {}
@@ -28,11 +28,11 @@ void Carte::setNom(std::string nom) {
     m_nom = nom;
 }
 
-void Carte::set_EstUtilise(bool util) {
+void Carte::set_EstUtilise(int util) {
     m_EstUtilise = util;
 }
 
-bool Carte::get_EstUtilise() const {
+int Carte::get_EstUtilise() const {
     return m_EstUtilise;
 }
 
@@ -43,7 +43,7 @@ void Carte::afficher()
     ///J'ai pas fait plus d'affichage pour pas me faire chier comme on fait allegro (Romain)
 }
 
-void Carte::setCreature(std::string nom, std::string desc, bool utilisation, Attaque attaque1, Attaque attaque2) {
+void Carte::setCreature(std::string nom, std::string desc, int utilisation, Attaque attaque1, Attaque attaque2) {
 
 }
 
@@ -60,6 +60,10 @@ int Carte::getPV() const {
 }
 
 void Carte::setPV(int PV) {
+
+}
+
+void Carte::setEnergie(std::string nom, std::string desc, int utilisation) {
 
 }
 

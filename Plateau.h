@@ -20,7 +20,9 @@ public:
     int getPDV();
     Deck getDeck();
     Carte GetCarteEJ();
-    std::vector<Carte> get;
+    std::vector<Carte> getCarte();
+    std::map<std::string, int> getEnergie();
+    void setEnergie(std::string type, int lv);
     void setPDV(int pdv);
     void setCarteEJ(Carte EJ);
 
@@ -35,6 +37,7 @@ protected:
     int m_pointDeVie;
     Carte m_carteEnjeu;
     Deck m_deckJoueur;
+    std::map<std::string, int> m_energieJ;
     std::vector <Carte> m_carte;
     std::vector <Carte> m_speciales;
     std::vector <Carte> m_creatures;

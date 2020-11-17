@@ -11,7 +11,10 @@ class Energie : public Carte
 {
 public:
     Energie();
-    virtual ~Energie();
+    Energie(int lv, std::string type);
+    ~Energie();
+    void setEnergie(std::string nom,std::string desc,int utilisation);
+
 
 protected:
     int m_Lv;
