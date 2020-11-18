@@ -31,6 +31,8 @@ public:
     virtual void afficher();
     virtual void attaquer(Carte *cible, int i);
     virtual void setEnergie(std::string nom,std::string desc,int utilisation);
+    virtual int getLV() const;
+    virtual std::string getType();
 
 protected:
     std::string m_nom;

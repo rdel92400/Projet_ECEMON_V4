@@ -19,3 +19,11 @@ void Energie::setEnergie(std::string nom, std::string desc, int utilisation) {
     setDesc(desc);
     set_EstUtilise(utilisation);
 }
+
+int Energie::getLV() const {
+    return m_Lv;
+}
+
+std::string Energie::getType() {
+    return m_type;
+}

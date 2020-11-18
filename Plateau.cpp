@@ -14,9 +14,6 @@ Plateau::~Plateau()
     //dtor
 }
 
-void Plateau::Joueur(std::string nom) {
-
-}
 
 void Plateau::piocherEnJeu() {
 
@@ -70,5 +67,11 @@ std::vector<Carte> Plateau::getCarte() {
 
 void Plateau::setEnergie(std::string type, int lv) {
     getEnergie()[type] = lv;
+}
 
+void Plateau::initEnergie() {
+    getEnergie()["K"]=0;
+    getEnergie()["H"]=0;
+    getEnergie()["C"]=0;
+    getEnergie()["N"]=0;
 }

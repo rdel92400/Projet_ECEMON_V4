@@ -8,7 +8,7 @@ class Attaque
 {
 public:
     Attaque();
-    Attaque(std::string nom, std::string energieDem, std::string description, int degats);
+    Attaque(std::string nom, std::string energieDem, int energieLV, std::string description, int degats);
     ~Attaque();
 
     void attaquer();
@@ -17,11 +17,13 @@ public:
     std::string getEnergie() const;
     std::string getDesc() const;
     int getDegat() const;
-    void setAttaque(std::string _nom, std::string _energieDem, std::string _description, int _degats);
+    int getEnergieLV() const;
+    void setAttaque(std::string _nom, std::string _energieDem, int _energieLV, std::string _description, int _degats);
 
 protected:
     std::string m_nom;
     std::string m_energieDem;
+    int m_lvEnergie;
     std::string m_description;
     int m_degats;
 };

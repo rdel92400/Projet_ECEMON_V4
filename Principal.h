@@ -7,11 +7,14 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro.h>
+#include <unistd.h>
 
 void menu();
 void partie();
 
-#define NOMBRE_CARTES_DECK 24
+#define NOMBRE_CARTES_DECK 32
 #define CREATURE 1
 #define ENERGIE 2
 

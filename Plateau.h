@@ -26,8 +26,8 @@ public:
     void setPDV(int pdv);
     void setCarteEJ(Carte EJ);
 
+    void initEnergie();
 
-    void Joueur(std::string nom);
     void piocherEnJeu();
     void piocher();
     void Partie();

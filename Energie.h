@@ -14,7 +14,8 @@ public:
     Energie(int lv, std::string type);
     ~Energie();
     void setEnergie(std::string nom,std::string desc,int utilisation);
-
+    int getLV() const;
+    std::string getType();
 
 protected:
     int m_Lv;

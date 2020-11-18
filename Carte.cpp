@@ -67,6 +67,14 @@ void Carte::setEnergie(std::string nom, std::string desc, int utilisation) {
 
 }
 
+int Carte::getLV() const {
+    return 0;
+}
+
+std::string Carte::getType() {
+    return std::__cxx11::string();
+}
+
 
 
 
