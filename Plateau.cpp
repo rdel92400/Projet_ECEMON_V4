@@ -66,12 +66,12 @@ std::vector<Carte> Plateau::getCarte() {
 }
 
 void Plateau::setEnergie(std::string type, int lv) {
-    getEnergie()[type] = lv;
+    m_energieJ[type]+=lv;
 }
 
 void Plateau::initEnergie() {
-    getEnergie()["K"]=0;
-    getEnergie()["H"]=0;
-    getEnergie()["C"]=0;
-    getEnergie()["N"]=0;
+    m_energieJ["K"]=0;
+    m_energieJ["H"]=0;
+    m_energieJ["C"]=0;
+    m_energieJ["N"]=0;
 }

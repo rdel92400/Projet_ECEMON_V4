@@ -7,7 +7,6 @@
 #include "Plateau.h"
 #include "Energie.h"
 
-
 void menu(){
     int menu(0);
     do {
@@ -69,8 +68,11 @@ void partie(){
     J1.initEnergie();
     J2.initEnergie();
 
+    //std::shuffle(std::begin(J1.getDeck().getDeck()), std::end(J1.getDeck().getDeck()), 20);
+    //std::shuffle(std::begin(J2.getDeck().getDeck()), std::end(J2.getDeck().getDeck()), 20);
+
     for (auto &elem : J1.getEnergie()){
-        std::cout << elem.first << "  " << elem.second << std::endl;
+        std::cout << elem.first << " ET " << elem.second << std::endl;
     }
 
     do {

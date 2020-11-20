@@ -4,6 +4,8 @@
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <random>
+#include <algorithm>
 #include <vector>
 #include <map>
 #include <fstream>
