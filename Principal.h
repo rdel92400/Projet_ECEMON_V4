@@ -12,6 +12,8 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro.h>
 #include <unistd.h>
+#include <fstream>
+
 
 void menu();
 void partie();

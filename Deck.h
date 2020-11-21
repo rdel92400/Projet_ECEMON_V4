@@ -26,5 +26,4 @@ protected:
     std::vector<Carte*> m_deck;
 };
 
-
 #endif //PROJET_ECEMON_V4_DECK_H

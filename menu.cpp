@@ -6,6 +6,7 @@
 #include "Joueur.h"
 #include "Plateau.h"
 #include "Energie.h"
+#include "sauvegarde.h"
 
 void menu(){
     int menu(0);

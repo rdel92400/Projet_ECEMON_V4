@@ -27,6 +27,7 @@ void Plateau::Partie() {
 
 }
 
+
 Plateau::Plateau(std::string nom, Deck deckJ) : m_nomJoueur(nom), m_pointDeVie(1000), m_deckJoueur(deckJ){
 
 }

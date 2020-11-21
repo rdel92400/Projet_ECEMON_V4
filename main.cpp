@@ -5,8 +5,7 @@
 #include "Attaque.h"
 #include "Collections.h"
 #include "Joueur.h"
-
-
+#include "sauvegarde.h"
 
 
 int main() {
@@ -15,7 +14,7 @@ int main() {
     collection.chargerCollectionEntiere();
     //collection.chargementCreatures(); (chargement avec fichiers non fonctionnel)
 
-
+/*
     ///Test allegro
     ALLEGRO_DISPLAY *display = nullptr;
 
@@ -34,7 +33,7 @@ int main() {
     sleep(5);
 
     al_destroy_display(display);
-
+*/
     ///Fin test allegro
 
 
