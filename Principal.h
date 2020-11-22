@@ -18,7 +18,8 @@
 void menu();
 void partie();
 
-#define NOMBRE_CARTES_DECK 32
+#define NOMBRE_CARTES_DECK 5
+#define NOMBRE_CARTE_COLLEC 32
 #define CREATURE 1
 #define ENERGIE 2
 

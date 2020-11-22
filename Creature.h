@@ -11,6 +11,7 @@ public:
     Creature(int Pv);
     ~Creature();
     int getPV() const;
+    std::vector<Attaque> getAttaque();
     void setPV(int PV);
     void afficher();
     void AssigneAttaque(Attaque &cible1, Attaque &cible2);

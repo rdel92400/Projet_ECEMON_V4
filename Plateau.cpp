@@ -28,7 +28,7 @@ void Plateau::Partie() {
 }
 
 
-Plateau::Plateau(std::string nom, Deck deckJ) : m_nomJoueur(nom), m_pointDeVie(1000), m_deckJoueur(deckJ){
+Plateau::Plateau(std::string nom, Deck deckJ) : m_nomJoueur(nom), m_pointDeVie(200), m_deckJoueur(deckJ){
 
 }
 
@@ -70,9 +70,18 @@ void Plateau::setEnergie(std::string type, int lv) {
     m_energieJ[type]+=lv;
 }
 
+
+
 void Plateau::initEnergie() {
     m_energieJ["K"]=0;
     m_energieJ["H"]=0;
     m_energieJ["C"]=0;
     m_energieJ["N"]=0;
+}
+
+bool Plateau::verifEnergie() {
+
+
+
+    return false;
 }

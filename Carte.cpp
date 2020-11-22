@@ -75,6 +75,10 @@ std::string Carte::getType() {
     return std::__cxx11::string();
 }
 
+std::vector<Attaque> Carte::getAttaque() {
+    return std::vector<Attaque>();
+}
+
 
 
 

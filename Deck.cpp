@@ -20,7 +20,7 @@ void Deck::iniDeck(Collections toutesLesCartes) {
     bool deckEstComplet = false;
     int compteurDeCartesChoisies(0);
 
-    for (int i = 0; i < NOMBRE_CARTES_DECK; i++) {
+    for (int i = 0; i < NOMBRE_CARTE_COLLEC; i++) {
         std::cout << "Carte " << i << " : \n";
         toutesLesCartes.getCarte()[i]->afficher();
     }
@@ -32,7 +32,7 @@ void Deck::iniDeck(Collections toutesLesCartes) {
         do {
             std::cout << "Quelle carte voulez vous voir ?" << std::endl;
             std::cin >> choix;
-        } while (choix < 0 && choix > NOMBRE_CARTES_DECK);
+        } while (choix < 0 && choix > NOMBRE_CARTE_COLLEC);
 
         ///Probleme dans la classe collection constituée de créatures et pas de cartes
 
@@ -52,7 +52,7 @@ void Deck::iniDeck(Collections toutesLesCartes) {
             std::cout << "Choisissez une autre carte." << std::endl;
         }
 
-        if (compteurDeCartesChoisies == 5) {
+        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK) {
             deckEstComplet = true;
         }
 

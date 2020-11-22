@@ -54,3 +54,7 @@ void Creature::setCreature(std::string nom, std::string desc, int utilisation, A
 void Creature::attaquer(Carte *cible, int i) {
     cible->recevoirDegat(m_attaque[i]);
 }
+
+std::vector<Attaque> Creature::getAttaque() {
+    return m_attaque;
+}
