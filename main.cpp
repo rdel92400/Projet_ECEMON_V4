@@ -10,6 +10,7 @@
 
 int main() {
     ///Ini de la collection
+    std::srand ( unsigned ( std::time(nullptr) ) );
     Collections collection;
     collection.chargerCollectionEntiere();
     //collection.chargementCreatures(); (chargement avec fichiers non fonctionnel)

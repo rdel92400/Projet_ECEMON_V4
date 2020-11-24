@@ -27,6 +27,7 @@ protected:
     std::string m_nom;
     int m_argent;
     Deck m_deck;
+
 };
 
 #endif //PROJET_ECEMON_V4_JOUEUR_H

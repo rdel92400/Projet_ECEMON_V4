@@ -79,9 +79,19 @@ void Plateau::initEnergie() {
     m_energieJ["N"]=0;
 }
 
-bool Plateau::verifEnergie() {
-
-
-
-    return false;
+void Plateau::melangerDeck() {
+    int nb2 = NOMBRE_CARTES_DECK;
+    int index;
+    Carte* temp(0);
+    for (int i=0; i<NOMBRE_CARTES_DECK; i++){
+        index = std::rand()%nb2;
+        std::cout << index << std::endl;
+        temp = m_deckJoueur.getDeck()[index];
+        std::cout << temp->getNom() << std::endl;
+        m_deckJoueur.getDeck()[index] = m_deckJoueur.getDeck()[nb2-1];
+        m_deckJoueur.getDeck()[NOMBRE_CARTES_DECK - i - 1] = temp;
+        nb2--;
+    }
 }
+
+

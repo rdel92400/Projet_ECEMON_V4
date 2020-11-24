@@ -1,3 +1,6 @@
+
+#include <random>
+
 #include "Principal.h"
 #include "Carte.h"
 #include "Creature.h"
@@ -69,9 +72,17 @@ void partie(){
     J1.initEnergie();
     J2.initEnergie();
 
-    //std::shuffle(std::begin(J1.getDeck().getDeck()), std::end(J1.getDeck().getDeck()), 20);
-    //std::shuffle(std::begin(J2.getDeck().getDeck()), std::end(J2.getDeck().getDeck()), 20);
+    for (const auto& elem : J1.getDeck().getDeck()){
+        std::cout << elem->getNom() << std::endl;
+    }
 
+    J1.melangerDeck();
+
+    for (const auto& elem : J1.getDeck().getDeck()){
+        std::cout << elem->getNom() << std::endl;
+    }
+
+    //std::shuffle ( J2.getDeck().getDeck().begin(), J2.getDeck().getDeck().end() , std::mt19937(std::random_device()()));
 
 
     do {
@@ -106,29 +117,35 @@ void partie(){
         }
 
         ///J1 pioche une carte Créature
-        if (J1.getDeck().getDeck()[i]->get_EstUtilise() == CREATURE){
+        if (J1.getDeck().getDeck()[i]->get_EstUtilise() == CREATURE) {
             std::cout << "\n\nCarte J1 : " << std::endl;
             J1.getDeck().getDeck()[i]->afficher();
             do {
                 std::cout << "\nQuelle attaque voulez-vous utiliser ? : \n1. Attaque 1\n2. Attaque 2\nChoix : ";
                 std::cin >> choix;
-            }while (choix<1 && choix>2);
-            if (choix==1){
-                //if(J1.getDeck().getDeck()[i]->getAttaque()[0].getEnergieLV() >= J1.getEnergie()[J1.getDeck().getDeck()[i]->getAttaque()[0].getEnergie()]){
-                   // std::cout << "on est la ";
+            } while (choix < 1 && choix > 2);
+
+            if (choix == 1) {
+
+                if (J1.getDeck().getDeck()[i]->getAttaque()[0].getEnergieLV() <=
+                    J1.getEnergie()[J1.getDeck().getDeck()[i]->getAttaque()[0].getEnergie()]) {
                     J1.getDeck().getDeck()[i]->attaquer(J2.getDeck().getDeck()[j], 0);
-                //}else{
-                //    std::cout << "Pas assez d'énergie pour attaquer ou alors vous n'avez pas la bonne combinaison\n";
-                //}
+                    J1.setEnergie(J1.getDeck().getDeck()[i]->getAttaque()[0].getEnergie(), -(J1.getDeck().getDeck()[i]->getAttaque()[0].getEnergieLV()));
+                } else {
+                    std::cout << "Pas assez d'énergie pour attaquer ou alors vous n'avez pas la bonne combinaison\n";
+                }
             }
-            if (choix==2){
-                //if (J1.getDeck().getDeck()[i]->getAttaque()[1].getEnergieLV() >= J1.getEnergie()[J1.getDeck().getDeck()[i]->getAttaque()[1].getEnergie()])
-                J1.getDeck().getDeck()[i]->attaquer(J2.getDeck().getDeck()[j], 1);
-            //}else{
-            //    std::cout << "Pas assez d'énergie pour attaquer ou alors vous n'avez pas la bonne combinaison\n";
+            if (choix == 2) {
+
+                if (J1.getDeck().getDeck()[i]->getAttaque()[1].getEnergieLV() <=
+                    J1.getEnergie()[J1.getDeck().getDeck()[i]->getAttaque()[1].getEnergie()]) {
+                    J1.getDeck().getDeck()[i]->attaquer(J2.getDeck().getDeck()[j], 1);
+                    J1.setEnergie(J1.getDeck().getDeck()[i]->getAttaque()[1].getEnergie(), -(J1.getDeck().getDeck()[i]->getAttaque()[1].getEnergieLV()));
+                } else {
+                    std::cout << "Pas assez d'énergie pour attaquer ou alors vous n'avez pas la bonne combinaison\n";
+                }
             }
         }
-
         ///J2 pioche une carte Créature
         if (J2.getDeck().getDeck()[j]->get_EstUtilise() == CREATURE){
             std::cout << "Carte J2 : " << std::endl;
@@ -137,10 +154,25 @@ void partie(){
                 std::cout << "\nQuelle attaque voulez-vous utiliser ? : \n1. Attaque 1\n2. Attaque 2\nChoix : ";
                 std::cin >> choix;
             }while (choix<1 && choix>2);
+
             if (choix==1){
-                J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 0);
+
+                if (J2.getDeck().getDeck()[j]->getAttaque()[0].getEnergieLV() <=
+                    J2.getEnergie()[J2.getDeck().getDeck()[j]->getAttaque()[0].getEnergie()]) {
+                    J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 0);
+                    J2.setEnergie(J2.getDeck().getDeck()[j]->getAttaque()[0].getEnergie(), -(J2.getDeck().getDeck()[j]->getAttaque()[0].getEnergieLV()));
+                } else {
+                    std::cout << "Pas assez d'énergie pour attaquer ou alors vous n'avez pas la bonne combinaison\n";
+                }
             }
             if (choix==2){
+                if (J2.getDeck().getDeck()[j]->getAttaque()[1].getEnergieLV() <=
+                    J2.getEnergie()[J2.getDeck().getDeck()[j]->getAttaque()[1].getEnergie()]) {
+                    J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 1);
+                    J2.setEnergie(J2.getDeck().getDeck()[j]->getAttaque()[1].getEnergie(), -(J2.getDeck().getDeck()[j]->getAttaque()[1].getEnergieLV()));
+                } else {
+                    std::cout << "Pas assez d'énergie pour attaquer ou alors vous n'avez pas la bonne combinaison\n";
+                }
                 J2.getDeck().getDeck()[j]->attaquer(J1.getDeck().getDeck()[i], 1);
             }
         }
@@ -150,7 +182,7 @@ void partie(){
         std::cout << "\nCarte J2 : " << std::endl;
         J2.getDeck().getDeck()[j]->afficher();
 
-
+        ///Si une carte créature meurt
         if (J1.getDeck().getDeck()[i]->get_EstUtilise() == CREATURE){
             if (J1.getDeck().getDeck()[i]->getPV()<=0) {
                 J1.setPDV(J1.getPDV()+J1.getDeck().getDeck()[i]->getPV());

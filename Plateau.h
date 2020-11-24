@@ -27,7 +27,7 @@ public:
     void setCarteEJ(Carte EJ);
 
     void initEnergie();
-    bool verifEnergie();
+    void melangerDeck();
 
 
     void piocherEnJeu();
