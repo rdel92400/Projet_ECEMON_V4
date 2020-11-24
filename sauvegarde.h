@@ -10,4 +10,8 @@
 #include "principal.h"
 #include "Joueur.h"
 
-void sauvegardeDeck (Joueur joueurRecu,Collections collection);
+void sauvegardeJoueur (Joueur joueurRecu,Collections collection);
+
+Joueur chargementJoueur(Collections collection);
+
+Joueur chargementJoueurAuChoix (Collections collection);

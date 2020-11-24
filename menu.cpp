@@ -177,6 +177,8 @@ void partie(){
             }
         }
 
+
+
         std::cout << "\nCarte J1 : " << std::endl;
         J1.getDeck().getDeck()[i]->afficher();
         std::cout << "\nCarte J2 : " << std::endl;
@@ -211,7 +213,6 @@ void partie(){
     }
 
     menu();
-
 
 }
 
