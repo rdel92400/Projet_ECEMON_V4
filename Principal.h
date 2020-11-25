@@ -9,6 +9,7 @@
 #include <random>
 #include <algorithm>
 #include <vector>
+#include <deque>
 #include <map>
 #include <fstream>
 #include <allegro5/allegro_native_dialog.h>

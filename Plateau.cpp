@@ -15,17 +15,14 @@ Plateau::~Plateau()
 }
 
 
-void Plateau::piocherEnJeu() {
 
-}
 
 void Plateau::piocher() {
-
+    std::cout << "Pioche : ";
+    m_pioche.front()->afficher();
 }
 
-void Plateau::Partie() {
 
-}
 
 
 Plateau::Plateau(std::string nom, Deck deckJ) : m_nomJoueur(nom), m_pointDeVie(200), m_deckJoueur(deckJ){
@@ -44,7 +41,7 @@ Deck Plateau::getDeck() {
     return m_deckJoueur;
 }
 
-Carte Plateau::GetCarteEJ() {
+Carte* Plateau::GetCarteEJ() {
     return m_carteEnjeu;
 }
 
@@ -52,8 +49,10 @@ void Plateau::setPDV(int pdv) {
     m_pointDeVie = pdv;
 }
 
-void Plateau::setCarteEJ(Carte EJ) {
-    m_carteEnjeu = EJ;
+void Plateau::setCarteEJ() {
+    m_pioche.front()->afficher();
+    m_carteEnjeu = m_pioche.front();
+    m_pioche.pop_front();
 }
 
 std::map<std::string, int> Plateau::getEnergie() {
@@ -62,8 +61,8 @@ std::map<std::string, int> Plateau::getEnergie() {
 
 
 
-std::vector<Carte> Plateau::getCarte() {
-    return m_carte;
+std::deque<Carte*> Plateau::getPioche() {
+    return m_pioche;
 }
 
 void Plateau::setEnergie(std::string type, int lv) {
@@ -85,13 +84,73 @@ void Plateau::melangerDeck() {
     Carte* temp(0);
     for (int i=0; i<NOMBRE_CARTES_DECK; i++){
         index = std::rand()%nb2;
-        std::cout << index << std::endl;
-        temp = m_deckJoueur.getDeck()[index];
-        std::cout << temp->getNom() << std::endl;
-        m_deckJoueur.getDeck()[index] = m_deckJoueur.getDeck()[nb2-1];
-        m_deckJoueur.getDeck()[NOMBRE_CARTES_DECK - i - 1] = temp;
+        temp = m_pioche[index];
+        m_pioche[index] = m_pioche[nb2-1];
+        m_pioche[NOMBRE_CARTES_DECK - i - 1] = temp;
         nb2--;
     }
+}
+
+void Plateau::initPioche() {
+    for (int i=0; i<NOMBRE_CARTES_DECK; i++){
+        m_pioche.push_back(getDeck().getDeck()[i]);
+    }
+}
+
+void Plateau::afficherPioche() {
+    for (const auto& elem : getPioche()){
+        elem->afficher();
+    }
+}
+
+
+
+std::vector<Carte *> Plateau::getCimetiere() {
+    return m_cimetiere;
+}
+
+void Plateau::ajouterCimetiere(Carte* mort) {
+    m_cimetiere.push_back(mort);
+}
+
+void Plateau::supprimerCarteFront() {
+    m_pioche.pop_front();
+}
+
+void Plateau::supprimerCarteBack() {
+    m_pioche.pop_back();
+}
+
+void Plateau::remiseSouspaquet() {
+    m_pioche.push_back(m_pioche.front());
+    m_pioche.pop_front();
+}
+
+Carte *Plateau::getCreature() {
+    return m_creatures;
+}
+
+void Plateau::setCarteCreature(Carte* crea) {
+    m_creatures = crea;
+}
+
+void Plateau::initCarteCrea() {
+    m_creatures = nullptr;
+}
+
+void Plateau::afficherCarteCrea() {
+    if (m_creatures == nullptr){
+        std::cout << " La carte est nulle" << std::endl;
+    }else{
+        m_creatures->afficher();
+    }
+}
+
+void Plateau::afficherCimetiere() {
+    for(const auto& elem : m_cimetiere){
+        elem->afficher();
+    }
+
 }
 
 

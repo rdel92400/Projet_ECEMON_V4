@@ -86,7 +86,8 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
     Collections collection;
     Joueur Joueur1, Joueur2;
     Deck deckDeTest1, deckDeTest2;
-
+    bool premierTourJ1(true);
+    bool premierTourJ2(true);
     int choix(0), i(0), j(0);
     std::string type;
     std::string nom1;
@@ -227,20 +228,229 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
     J1.initEnergie();
     J2.initEnergie();
 
-    for (const auto& elem : J1.getDeck().getDeck()){
-        std::cout << elem->getNom() << std::endl;
+    std::cout << "\n\nNOUVEAU \n";
+    J1.initPioche();
+    J2.initPioche();
+
+    for (int i=0; i<2; i++){
+        J1.melangerDeck();
+        J2.melangerDeck();
     }
 
-    J1.melangerDeck();
 
-    for (const auto& elem : J1.getDeck().getDeck()){
-        std::cout << elem->getNom() << std::endl;
-    }
+    J1.afficherPioche();
+    J2.afficherPioche();
 
-    //std::shuffle ( J2.getDeck().getDeck().begin(), J2.getDeck().getDeck().end() , std::mt19937(std::random_device()()));
+    J1.initCarteCrea();
+    J2.initCarteCrea();
 
+    std::cout << "\nFIN NEW\n";
+
+    std::cout << "\n\nL'enjeu du Joueur 1 est : ";
+    J1.setCarteEJ();
+
+    std::cout << "\nL'enjeu du joueur 2 est ";
+    J2.setCarteEJ();
+
+    std::cout << "\n\n\n\n DEBUT PARTIE \n\n";
 
     do {
+
+        std::cout << "pioche J1 : \n";
+        J1.afficherPioche();
+        std::cout << "Cimetiere J1 : \n";
+        J1.afficherCimetiere();
+        std::cout << "pioche J2 : \n";
+        J2.afficherPioche();
+        std::cout << "Cimetiere J2 : \n";
+        J2.afficherCimetiere();
+
+
+        ///TOUR DE J1
+        premierTourJ1 = false;
+        J1.piocher();
+        std::cout << "PV J1 : " << J1.getPDV() << std::endl;
+        std::cout << "\nEnergie J1 : \n";
+        for (auto &elem : J1.getEnergie()){
+            std::cout << elem.first << " : " << elem.second << std::endl;
+        }
+
+        if (J1.getPioche().front()->get_EstUtilise() == ENERGIE){
+            std::cout << "Voulez vous jouer cette carte ? : ";
+            std::cin >> choix;
+            if (choix == 1){
+                J1.setEnergie(J1.getPioche().front()->getType(), J1.getPioche().front()->getLV());
+                J1.ajouterCimetiere(J1.getPioche().front());
+                J1.supprimerCarteFront();
+            }
+            if (choix == 2){
+                std::cout << "Carte remise sous le paquet" << std::endl;
+                J1.remiseSouspaquet();
+            }
+            premierTourJ1 = true;
+        }
+        if (premierTourJ1 == false){
+            if (J1.getPioche().front()->get_EstUtilise() == CREATURE){
+                std::cout << "Voulez vous jouer cette carte ? : ";
+                std::cin >> choix;
+                if (choix == 1){
+                    if (J1.getCreature() == nullptr){
+                        J1.setCarteCreature(J1.getPioche().front());
+                        J1.supprimerCarteFront();
+                    }else{
+                        std::cout << "Voulez vous vriament jouer cette carte ? ";
+                        std::cin >> choix;
+                        if (choix == 1){
+                            J1.getPioche().push_back(J1.getCreature());
+                            J1.setCarteCreature(J1.getPioche().front());
+                            J1.supprimerCarteFront();
+
+                            std::cout << "Veux tu attaquer ton adversaire ? : ";
+                            std::cin >> choix;
+                            if (choix==1){
+                                if (J2.getCreature() == nullptr){
+                                    std::cout << "Votre adversaire n'a pas de carte creature, il perd 50 points de vie." << std::endl;
+                                    J2.setPDV(J2.getPDV()-50);
+                                }
+                                if (J2.getCreature() != nullptr){
+                                    std::cout << "Quelle attaque voulez vous utiliser ? :";
+                                    std::cin >> choix;
+                                    if (choix == 1){
+                                        if (J1.getCreature()->getAttaque()[0].getEnergieLV() <= J1.getEnergie()[J1.getCreature()->getAttaque()[0].getEnergie()]){
+                                            J1.getCreature()->attaquer(J2.getCreature(), 0);
+                                            J1.setEnergie(J1.getCreature()->getAttaque()[0].getEnergie(), J1.getCreature()->getAttaque()[0].getEnergieLV());
+
+                                            if (J2.getCreature()->getPV() <= 0){
+                                                J2.ajouterCimetiere(J2.getCreature());
+                                                J2.setCarteCreature(nullptr);
+                                            }
+                                        }else{
+                                            std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+                                        }
+                                    }
+                                    if(choix ==2){
+                                        if (J1.getCreature()->getAttaque()[1].getEnergieLV() <= J1.getEnergie()[J1.getCreature()->getAttaque()[1].getEnergie()]){
+                                            J1.getCreature()->attaquer(J2.getCreature(), 1);
+                                            J1.setEnergie(J1.getCreature()->getAttaque()[1].getEnergie(), J1.getCreature()->getAttaque()[1].getEnergieLV());
+                                        }else{
+                                            std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+                                        }
+                                    }
+                                }
+                            }
+                            if (choix==2){
+                                std::cout << "Au tour du joueur suivant de jouer" << std::endl;
+                            }
+                        }
+                        if(choix ==2){
+                            std::cout << "Carte remise sous le paquet" << std::endl;
+                            J1.remiseSouspaquet();
+                        }
+                    }
+                }
+                if(choix == 2){
+                    std::cout << "Carte remise sous le paquet" << std::endl;
+                    J1.remiseSouspaquet();
+                }
+
+            }
+        }
+
+        ///TOUR de J2
+        premierTourJ2 = false;
+        J2.piocher();
+        std::cout << "\nPV J2 : " << J2.getPDV() << std::endl;
+        std::cout << "\nEnergie J2 :\n";
+        for (auto &elem : J2.getEnergie()){
+            std::cout << elem.first << " : " << elem.second << std::endl;
+        }
+
+        if (J2.getPioche().front()->get_EstUtilise() == ENERGIE){
+            std::cout << "Voulez vous jouer cette carte ? : ";
+            std::cin >> choix;
+            if (choix == 1){
+                J2.setEnergie(J2.getPioche().front()->getType(), J2.getPioche().front()->getLV());
+                J2.ajouterCimetiere(J2.getPioche().front());
+                J2.supprimerCarteFront();
+            }
+            if (choix == 2){
+                std::cout << "Carte remise sous le paquet" << std::endl;
+                J2.remiseSouspaquet();
+            }
+            premierTourJ2 = true;
+        }
+
+        if (premierTourJ2 == false){
+            if (J2.getPioche().front()->get_EstUtilise() == CREATURE){
+                std::cout << "Voulez vous jouer cette carte ? : ";
+                std::cin >> choix;
+                if (choix == 1){
+                    if (J2.getCreature() == nullptr){
+                        J2.setCarteCreature(J2.getPioche().front());
+                        J2.supprimerCarteFront();
+                    }else{
+                        std::cout << "Voulez vous vriament jouer cette carte ? ";
+                        std::cin >> choix;
+                        if (choix == 1){
+                            J2.getPioche().push_back(J2.getCreature());
+                            J2.setCarteCreature(J2.getPioche().front());
+                            J2.supprimerCarteFront();
+
+                            std::cout << "Veux tu attaquer ton adversaire ? : ";
+                            std::cin >> choix;
+                            if (choix==1){
+                                if (J1.getCreature() == nullptr){
+                                    std::cout << "Votre adversaire n'a pas de carte creature, il perd 50 points de vie." << std::endl;
+                                    J1.setPDV(J1.getPDV()-50);
+                                }
+                                if (J1.getCreature() != nullptr){
+                                    std::cout << "Quelle attaque voulez vous utiliser ? :";
+                                    std::cin >> choix;
+                                    if (choix == 1){
+                                        if (J2.getCreature()->getAttaque()[0].getEnergieLV() <= J2.getEnergie()[J2.getCreature()->getAttaque()[0].getEnergie()]){
+                                            J2.getCreature()->attaquer(J1.getCreature(), 0);
+                                            J2.setEnergie(J2.getCreature()->getAttaque()[0].getEnergie(), J2.getCreature()->getAttaque()[0].getEnergieLV());
+
+                                            if (J1.getCreature()->getPV() <= 0){
+                                                J1.ajouterCimetiere(J1.getCreature());
+                                                J1.setCarteCreature(nullptr);
+                                            }
+                                        }else{
+                                            std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+                                        }
+                                    }
+                                    if(choix ==2){
+                                        if (J2.getCreature()->getAttaque()[1].getEnergieLV() <= J2.getEnergie()[J2.getCreature()->getAttaque()[1].getEnergie()]){
+                                            J2.getCreature()->attaquer(J1.getCreature(), 1);
+                                            J2.setEnergie(J2.getCreature()->getAttaque()[1].getEnergie(), J2.getCreature()->getAttaque()[1].getEnergieLV());
+                                        }else{
+                                            std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+                                        }
+                                    }
+                                }
+                            }
+                            if (choix==2){
+                                std::cout << "Au tour du joueur suivant de jouer" << std::endl;
+                            }
+                        }
+                        if(choix ==2){
+                            std::cout << "Carte remise sous le paquet" << std::endl;
+                            J2.remiseSouspaquet();
+                        }
+                    }
+                }
+                if(choix == 2){
+                    std::cout << "Carte remise sous le paquet" << std::endl;
+                    J2.remiseSouspaquet();
+
+
+                }
+
+            }
+        }
+
+
+        /*
         std::cout << "PV J1 : " << J1.getPDV() << "\nPV J2 : " << J2.getPDV() << std::endl;
         std::cout << "Energie J1 : \n";
         for (auto &elem : J1.getEnergie()){
@@ -359,6 +569,7 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                 }
             }
         }
+         */
     }while (J1.getPDV()>0 && J2.getPDV()>0);
 
     if (J1.getPDV()>0){

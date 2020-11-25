@@ -19,31 +19,45 @@ public:
     std::string getNom();
     int getPDV();
     Deck getDeck();
-    Carte GetCarteEJ();
-    std::vector<Carte> getCarte();
+    Carte* GetCarteEJ();
+
+    std::deque<Carte*> getPioche();
+    std::vector<Carte*> getCimetiere();
     std::map<std::string, int> getEnergie();
+    Carte* getCreature();
+    void setCarteCreature(Carte* crea);
+
+
     void setEnergie(std::string type, int lv);
     void setPDV(int pdv);
-    void setCarteEJ(Carte EJ);
+    void setCarteEJ();
 
     void initEnergie();
+    void initPioche();
+    void initCarteCrea();
+    void afficherPioche();
+    void afficherCarteCrea();
+    void supprimerCarteFront();
+    void supprimerCarteBack();
+    void ajouterCimetiere(Carte* mort);
+    void afficherCimetiere();
+    void remiseSouspaquet();
     void melangerDeck();
 
-
-    void piocherEnJeu();
     void piocher();
-    void Partie();
 
 protected:
     std::string m_nomJoueur;
     int m_pointDeVie;
-    Carte m_carteEnjeu;
-    Deck m_deckJoueur;
     std::map<std::string, int> m_energieJ;
-    std::vector <Carte> m_carte;
-    std::vector <Carte> m_speciales;
-    std::vector <Carte> m_creatures;
-    std::vector <Carte> m_cimetiere;
+
+    Deck m_deckJoueur;
+
+    Carte* m_carteEnjeu;
+    std::deque<Carte*> m_pioche;
+    std::vector <Carte*> m_speciales;
+    Carte* m_creatures;
+    std::vector <Carte*> m_cimetiere;
 
 };
 
