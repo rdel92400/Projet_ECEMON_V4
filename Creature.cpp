@@ -58,3 +58,8 @@ void Creature::attaquer(Carte *cible, int i) {
 std::vector<Attaque> Creature::getAttaque() {
     return m_attaque;
 }
+
+Attaque Creature::getAttaque(int numero) const
+{
+    return m_attaque[numero];
+}

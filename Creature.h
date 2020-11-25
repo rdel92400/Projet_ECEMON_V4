@@ -12,6 +12,7 @@ public:
     ~Creature();
     int getPV() const;
     std::vector<Attaque> getAttaque();
+    Attaque getAttaque(int numero) const;
     void setPV(int PV);
     void afficher();
     void AssigneAttaque(Attaque &cible1, Attaque &cible2);

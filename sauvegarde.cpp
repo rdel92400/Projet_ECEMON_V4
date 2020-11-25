@@ -5,7 +5,7 @@
 #include "sauvegarde.h"
 
 
-void sauvegardeDeJoueur(Joueur joueurRecu, Collections collection) {
+void sauvegardeJoueur(Joueur joueurRecu, Collections collection) {
     std::map<int, std::string> indiceCarte;
 
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");

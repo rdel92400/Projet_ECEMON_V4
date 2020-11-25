@@ -79,6 +79,11 @@ std::vector<Attaque> Carte::getAttaque() {
     return std::vector<Attaque>();
 }
 
+Attaque Carte::getAttaque(int numero) const
+{
+    Attaque attaque;
+    return attaque;
+}
 
 
 

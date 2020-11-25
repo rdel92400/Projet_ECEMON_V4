@@ -10,7 +10,10 @@
 #include "Plateau.h"
 #include "Energie.h"
 #include "sauvegarde.h"
+#include "menu.h"
+#include "Allegro.h"
 
+/*
 void menu(){
     int menu(0);
     do {
@@ -29,14 +32,161 @@ void menu(){
 
 
 }
+*/
 
-void partie(){
+void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
+{
+    int menu(0);
+
+    ALLEGRO_MOUSE_STATE mouse;
+
+    do
+    {
+        al_draw_bitmap(mapBitmap["fondMenu"],0,0,0);
+
+        al_get_mouse_state(&mouse);
+
+        ///JOUER
+        if (mouse.x >= 125 && mouse.x <= 125+308 && mouse.y >= 391 && mouse.y <= 391+122)
+        {
+            al_draw_bitmap(mapBitmap["fondMenuJouer"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                partie(mapBitmap);
+            }
+        }
+        ///REGLES
+        if (mouse.x >= 125+308+53 && mouse.x <= 125+2*308+53 && mouse.y >= 391 && mouse.y <= 391+122)
+        {
+            al_draw_bitmap(mapBitmap["fondMenuRegles"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                regles(mapBitmap);
+            }
+        }
+        ///REGLES
+        if (mouse.x >= 125+2*308+2*53 && mouse.x <= 125+3*308+2*53 && mouse.y >= 391 && mouse.y <= 391+122)
+        {
+            al_draw_bitmap(mapBitmap["fondMenuQuitter"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                menu = 1;
+            }
+        }
+        al_flip_display();
+
+    }while (menu != 1);
+}
+
+void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
+{
     Collections collection;
     Joueur Joueur1, Joueur2;
     Deck deckDeTest1, deckDeTest2;
-    collection.chargerCollectionEntiere();
+
     int choix(0), i(0), j(0);
-    std::string nom, type;
+    std::string type;
+    std::string nom1;
+    std::string nom2;
+
+    ALLEGRO_MOUSE_STATE mouse;
+
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_EVENT event;
+    if (!queue)
+    {
+        erreur("Initialisation","queue");
+    }
+    al_register_event_source(queue,al_get_keyboard_event_source());
+
+
+    collection.chargerCollectionEntiere();
+
+
+
+    ///INI JOUEUR 1
+    do
+    {
+        al_draw_bitmap(mapBitmap["fondCreaJoueur1"],0,0,0);
+        al_get_mouse_state(&mouse);
+
+        ///NOUVEAU JOUEUR
+        if (mouse.x >= 408 && mouse.x <= 408+464 && mouse.y >= 275 && mouse.y <= 275+107)
+        {
+            al_draw_bitmap(mapBitmap["fondCreaJoueur1Nouveau"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                nom1 = iniNom(mapBitmap["fondCreaJoueur1Nom"]);
+                deckDeTest1.iniDeck(collection,mapBitmap);
+
+                Joueur1.iniJoueur(nom1,500,deckDeTest1);
+
+                sauvegardeJoueur(Joueur1,collection);
+
+                choix = 1;
+            }
+        }
+        ///JOUEUR EXISTANT
+        if (mouse.x >= 408 && mouse.x <= 408+464 && mouse.y >= 275+107+42 && mouse.y <= 275+2*107+42)
+        {
+            al_draw_bitmap(mapBitmap["fondCreaJoueur1Existant"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                std::cout << "Pas encore disponible" << std::endl;
+                choix = 1;
+            }
+        }
+        al_flip_display();
+
+    }while (choix != 1);
+
+
+
+    ///INI JOUEUR 2
+    do
+    {
+        choix = 0;
+        al_draw_bitmap(mapBitmap["fondCreaJoueur2"],0,0,0);
+        al_get_mouse_state(&mouse);
+
+        ///NOUVEAU JOUEUR
+        if (mouse.x >= 408 && mouse.x <= 408+464 && mouse.y >= 275 && mouse.y <= 275+107)
+        {
+            al_draw_bitmap(mapBitmap["fondCreaJoueur2Nouveau"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                nom2 = iniNom(mapBitmap["fondCreaJoueur2Nom"]);
+                deckDeTest2.iniDeck(collection,mapBitmap);
+
+                Joueur2.iniJoueur(nom2,500,deckDeTest2);
+
+                sauvegardeJoueur(Joueur2,collection);
+
+                choix = 1;
+            }
+        }
+        ///JOUEUR EXISTANT
+        if (mouse.x >= 408 && mouse.x <= 408+464 && mouse.y >= 275+107+42 && mouse.y <= 275+2*107+42)
+        {
+            al_draw_bitmap(mapBitmap["fondCreaJoueur2Existant"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                std::cout << "Pas encore disponible" << std::endl;
+                choix = 1;
+            }
+        }
+        al_flip_display();
+
+    }while (choix != 1);
+
+    /*
     do {
         std::cout << "Choisissez le premier joueur. \n1. Creer un nouveau joueur\n2. Prendre un joueur existant\nQue voulez vous faire : ";
         std::cin >> choix;
@@ -67,6 +217,8 @@ void partie(){
     if (choix==2){
         std::cout << "Pas encore disponible" << std::endl;
     }
+    */
+
     Plateau J1(Joueur1.getNom(), Joueur1.getDeck());
     Plateau J2(Joueur2.getNom(), Joueur2.getDeck());
     J1.initEnergie();
@@ -211,8 +363,6 @@ void partie(){
     }else{
         std::cout << "Bravo J2 à gagner !!!\n";
     }
-
-    menu();
 
 }
 

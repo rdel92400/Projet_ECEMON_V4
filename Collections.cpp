@@ -1,5 +1,5 @@
 //
-// Created by Romain on 04/11/2020.
+// Created by Romain,Charles et pas Maxence on 04/11/2020.
 //
 
 #include "Collections.h"
@@ -13,70 +13,70 @@ void Collections::chargerCollectionEntiere() {
 
 
     ///Attaques de DBZ
-    Attaque Kamehameha("Kamehameha", "K",2, "Une attaque surpuissante !", 250);
-    Attaque coupMeteor("Coup Meteor", "K",2, "Une attaque physique tres puissante", 200);
+    Attaque Kamehameha("Kamehameha", "K",2, "Rayon d'énergie surpuissante !", 250);
+    Attaque coupMeteor("Coup Meteor", "K",2, "Attaque physique tres puissante", 200);
 
-    Attaque canonGarric("Canon Garric", "K",2, "Une attaque qui envoie un rayon d'énergie surpuissant !", 250);
-    Attaque coupFinal("Coup Final", "K",2, "Vegeta enchaine son adversaire de coup avant de l'achever avec un coup surpuissant", 200);
+    Attaque canonGarric("Canon Garric", "K",2, "Rayon d'énergie surpuissant !", 250);
+    Attaque coupFinal("Coup Final", "K",2, "Attaque physique tres puissante", 200);
 
-    Attaque kienzan("Kienzan", "K",2, "Krilin envoie une disque d'énergie capable de tout trancher", 200);
+    Attaque kienzan("Kienzan", "K",2, "Disque d'énergie tranchant", 200);
     Attaque enchainementDevas("Enchainement devastateur", "K",2, "Krilin roue de coup son adversaire", 150);
 
-    Attaque rayonMortel("Rayon Mortel", "K",2, "Freezer tire un rayon capable de tout traverser", 250);
-    Attaque attaqueSR("Attaque sans rancoeur", "K",2, "Freezer laisse exploser sa colère et attaque sans relache", 200);
+    Attaque rayonMortel("Rayon Mortel", "K",2, "Rayon capable de tout traverser", 250);
+    Attaque attaqueSR("Attaque sans rancoeur", "K",2, "Explosion de colere et dechainement", 200);
 
-    Attaque makankosappo("Makankosappo", "K",2, "Piccolo charge un rayon surpuissant", 250);
-    Attaque regeneratiob("Regeneration", "K",2, "Piccolo utilise son sang Nemek pour recuperer des points de vie", 0);
+    Attaque makankosappo("Makankosappo", "K",2, "Rayon surpuissant", 250);
+    Attaque regeneratiob("Regeneration", "K",2, "Regeneration des points de vie", 0);
 
-    Attaque attaqueSui("Attaque suicide", "K",3, "Le saibaman s'accroche à son adversaire et explose", 400);
+    //Attaque attaqueSui("Attaque suicide", "K",3, "Le saibaman s'accroche à son adversaire et explose", 400);
 
     ///Attaques One Piece
-    Attaque elephantGun("elephantGun", "H",2, "Une attaque surpuissante !", 250);
-    Attaque jetPunch("jetPunch", "H",2, "L'attaque phare de Luffy en gear Second", 200);
+    Attaque elephantGun("ElephantGun", "H",2, "Une attaque surpuissante !", 250);
+    Attaque jetPunch("JetPunch", "H",2, "Coup de point en gear Second", 200);
 
     Attaque santoryu("Santoryu", "H",2, "Zoro attaque utilisant ses 3 sabres", 200);
-    Attaque enmaSlash("Enma Slash", "H",1, "Zoro attaque avec l'epee legendaire Enma", 150);
+    Attaque enmaSlash("Enma Slash", "H",1, "Attaque avec l'epee legendaire Enma", 150);
 
-    Attaque jarret("Jarret", "H",2, "Sanji assene un coup dans la zone haute de la cuisse", 200);
-    Attaque troisiemeHache("Troisieme Hache", "H",1, "Une rafale de coup de pieds donnes au visage", 150);
+    Attaque jarret("Jarret", "H",2, "Coup devastateur dans la cuisse", 200);
+    Attaque troisiemeHache("Troisieme Hache", "H",1, "Rafale de coups de pied au visage", 150);
 
-    Attaque tournesolStar("Tournesol Star","H",2, "Tire 5 balles explosives en meme temps, l'explosion prend la forme d'une fleur",175);
+    Attaque tournesolStar("Tournesol Star","H",2, "Tire 5 balles explosives puissantes",175);
     Attaque billeEnflamee("Bille enflamee","H",1, "Tire une bille qui brule la cible",100);
 
-    Attaque hornPoint("Horn Point","H",1, "Chopper acquiert des enormes cornes tranchantes qu'il utilise pour attaquer",100);
+    Attaque hornPoint("Horn Point","H",1, "Des cornes poussent sur sa tete",100);
     Attaque soin("Soin","H",1, "Permet de regagner de la vie",-150);
 
     ///Attaques Naruto
-    Attaque rasengan("Rasengan","C",2,"Una attaque de type vent très puissante",250);
-    Attaque clonage("Clonage","C",1, "Technique permettant de faire apparaitre 1000 clones",200);
+    Attaque rasengan("Rasengan","C",2,"Una attaque vent très puissante",250);
+    Attaque clonage("Clonage","C",1, "Apparition de 1000 clones de Naruto",200);
 
-    Attaque milleOiseaux("Mille oiseaux","C",1, "Una attaque de type éléctrique très puissante",250);
-    Attaque bouleDeFeuSupreme("Clonage","C",1, "Une attaque qui invoque une boule de feu géante",200);
+    Attaque milleOiseaux("Mille oiseaux","C",1, "Una attaque éléctrique très puissante",250);
+    Attaque bouleDeFeuSupreme("Boule de feu supreme","C",1, "Sasuke crache une boule de feu",200);
 
-    Attaque astreDivin("Astre Divin","C",2, "Technique permettant d'enfermer l'ennemi dans un astre",200);
-    Attaque attractionCeleste("Attraction Celeste","C",1, "Technique permettant d'attirer ou de repousser l'adversaire",150);
+    Attaque astreDivin("Astre Divin","C",2, "Apparition d'un astre geant",200);
+    Attaque attractionCeleste("Attraction Celeste","C",1, "Attire ou repousse l'adversaire",150);
 
-    Attaque manipulationDesOmbres("Manipulation Des Ombres","C",1, "Technique permettant de manipuler son ombre",175);
-    Attaque etreinteMortelle("Etreinte Mortelle","C",1, "Immobilisation de l'adversaire grace aux ombres",175);
+    Attaque manipulationDesOmbres("Manipulation Des Ombres","C",1, "Manipulation de son ombre",175);
+    Attaque etreinteMortelle("Etreinte Mortelle","C",1, "Immobilisation de l'adversaire",175);
 
-    Attaque forceAmelioree("Force amelioree","C",1, "Coup de poing avec une grande force de frappe",150);
+    Attaque forceAmelioree("Force amelioree","C",1, "Coup de poing devastateur",150);
 
     ///Attaque HxH
 
-    Attaque pfc("Pierre Ciseaux Papier", "N",1,  "Gon concentre son nen dans sa main et lance un puissante attaque", 150);
-    Attaque transfoUlt("Transformation Ultime", "N",3, "Gon eclate toute sa colère et deviens surpuissant", 300);
+    Attaque pfc("Pierre Ciseaux Papier", "N",1,  "Concentration et explosion du nen", 150);
+    Attaque transfoUlt("Transformation Ultime", "N",3, "Explosion de colere et dechainement", 300);
 
     Attaque griffes("Griffes", "N",1,  "Kirua griffes son enemi", 150);
-    Attaque serpentEv("Le serpent s'eveillant", "N",2, "Kirua deplace ses bras a une vitesse incroyable et tranche tout sur son chemin", 250);
+    Attaque serpentEv("Le serpent s'eveillant", "N",2, "Augmantation de vitesse et tranchant", 250);
 
-    Attaque jeuDeCarte("Jeu de carte", "N",1, "Hisoka utilise sa magie pour ataquer avec des cartes", 150);
-    Attaque pansyGum("Pansy Gum", "N",2, "Hisoka peut changer son aura et cree une substance collante", 250);
+    Attaque jeuDeCarte("Jeu de carte", "N",1, "Utilisation de magie avec des cartes", 150);
+    Attaque pansyGum("Pansy Gum", "N",2, "Utilisation de gum", 250);
 
-    Attaque chaineMat("Chaine materialise", "N",1, "Kurapika materialise une chaine et s'en sert comme arme", 150);
-    Attaque Emperor("Emperor Time", "N",3, "Kurapika devient un utilisateur de la specialisation et devient surpuissant", 300);
+    Attaque chaineMat("Chaine materialise", "N",1, "Materialisation d'une chaine", 150);
+    Attaque Emperor("Emperor Time", "N",3, "Specialisation : Surpuissance", 300);
 
-    Attaque poingUtl("Poing ultime", "N",1, "Netero donne un coup de poing surpuissant", 200);
-    Attaque Tech1000("Technique des 1000 paumes", "N",3, "Netero invoque le Hyakushiki Kannon, une divinité et assene de coup de paume son adversaire", 300);
+    Attaque poingUtl("Poing ultime", "N",1, "Coup de poing surpuissant", 200);
+    Attaque Tech1000("Technique des 1000 paumes", "N",3, "Invocation de Hyakushiki Kannon", 300);
 
 ///Ini des creatures
 
@@ -95,11 +95,11 @@ void Collections::chargerCollectionEntiere() {
 
     Carte* freezer(0);
     freezer = new Creature(1000);
-    freezer->setCreature("Freezer", "Enemi principal de Son Goku, il hait les saiyans", CREATURE, rayonMortel, attaqueSR);
+    freezer->setCreature("Freezer", "Ennemi principal de Son Goku, il hait les saiyans", CREATURE, rayonMortel, attaqueSR);
 
-    Carte* saibaman(0);
-    saibaman = new Creature(500);
-    saibaman->setCreature("Saibaman", "Petite creature qui attaque en explosant", CREATURE, attaqueSui, attaqueSui);
+    Carte* piccolo(0);
+    piccolo = new Creature(500);
+    piccolo->setCreature("Piccolo", "Extraterrestre très puissant qui peut se regénérer", CREATURE, makankosappo, regeneratiob);
 
     ///Creatures One Piece
     Carte* luffy(0);
@@ -133,7 +133,7 @@ void Collections::chargerCollectionEntiere() {
 
     Carte* pain(0);
     pain = new Creature(750);
-    pain->setCreature("Rikudo Pain","Chef de l'Akatsuki, la plus grande organisation criminelle",CREATURE,astreDivin,attractionCeleste);
+    pain->setCreature("Pain","Chef de l'Akatsuki, la plus grande organisation criminelle",CREATURE,astreDivin,attractionCeleste);
 
     Carte* shikamaru(0);
     shikamaru = new Creature(750);
@@ -154,7 +154,7 @@ void Collections::chargerCollectionEntiere() {
 
     Carte* hisoka(0);
     hisoka = new Creature(900);
-    hisoka->setCreature("Hisoka Morow", "Hunter proffesionnel qui fait parti de la brigade fantome et qui est le principal enemi de Gon", CREATURE, jeuDeCarte, pansyGum);
+    hisoka->setCreature("Hisoka Morow", "Hunter profesionnel qui fait parti de la brigade fantome et qui est le principal enemi de Gon", CREATURE, jeuDeCarte, pansyGum);
 
     Carte* kurapika(0);
     kurapika = new Creature(750);
@@ -169,93 +169,103 @@ void Collections::chargerCollectionEntiere() {
 
     Carte* ki1(0);
     ki1 = new Energie(1, "K");
-    ki1->setEnergie("Energie Ki Lv 1", "Faible carte énergie de Ki", ENERGIE);
+    ki1->setEnergie("Ki Lv 1", "Faible carte énergie de Ki", ENERGIE);
 
     Carte* ki2(0);
     ki2 = new Energie(2, "K");
-    ki2->setEnergie("Energie Ki Lv 2", "Carte intermediare d'énergie de Ki", ENERGIE);
+    ki2->setEnergie("Ki Lv 2", "Carte intermediare d'énergie de Ki", ENERGIE);
 
     Carte* ki3(0);
     ki3 = new Energie(3, "K");
-    ki3->setEnergie("Energie Ki Lv 3", "Puissante carte énergie de Ki", ENERGIE);
+    ki3->setEnergie("Ki Lv 3", "Puissante carte énergie de Ki", ENERGIE);
 
     Carte* haki1(0);
     haki1 = new Energie(1, "H");
-    haki1->setEnergie("Energie Haki Lv 1", "Faible carte énergie de Haki", ENERGIE);
+    haki1->setEnergie("Haki Lv 1", "Faible carte énergie de Haki", ENERGIE);
 
     Carte* haki2(0);
     haki2 = new Energie(2, "H");
-    haki2->setEnergie("Energie Haki Lv 2", "Carte intermediare d'énergie de Haki", ENERGIE);
+    haki2->setEnergie("Haki Lv 2", "Carte intermediare d'énergie de Haki", ENERGIE);
 
     Carte* haki3(0);
     haki3 = new Energie(3, "H");
-    haki3->setEnergie("Energie Haki Lv 3", "Puissante carte énergie de Haki", ENERGIE);
+    haki3->setEnergie("Haki Lv 3", "Puissante carte énergie de Haki", ENERGIE);
 
     Carte* chakra1(0);
     chakra1 = new Energie(1, "C");
-    chakra1->setEnergie("Energie Chakra Lv 1", "Faible carte énergie de Chakra", ENERGIE);
+    chakra1->setEnergie("Chakra Lv 1", "Faible carte énergie de Chakra", ENERGIE);
 
     Carte* chakra2(0);
     chakra2 = new Energie(2, "C");
-    chakra2->setEnergie("Energie Chakra Lv 2", "Carte intermediaire d'énergie de Chakra", ENERGIE);
+    chakra2->setEnergie("Chakra Lv 2", "Carte intermediaire d'énergie de Chakra", ENERGIE);
 
     Carte* chakra3(0);
     chakra3 = new Energie(3, "C");
-    chakra3->setEnergie("Energie Chakra Lv 3", "Puissante carte énergie de Chakra", ENERGIE);
+    chakra3->setEnergie("Chakra Lv 3", "Puissante carte énergie de Chakra", ENERGIE);
 
     Carte* nen1(0);
     nen1 = new Energie(1, "N");
-    nen1->setEnergie("Energie Nen Lv 1", "faible carte énergie de nen", ENERGIE);
+    nen1->setEnergie("Nen Lv 1", "faible carte énergie de nen", ENERGIE);
 
     Carte* nen2(0);
     nen2 = new Energie(2, "N");
-    nen2->setEnergie("Energie Nen Lv 2", "Carte intermediaire d'énergie de nen", ENERGIE);
+    nen2->setEnergie("Nen Lv 2", "Carte intermediaire d'énergie de nen", ENERGIE);
 
     Carte* nen3(0);
     nen3 = new Energie(3, "N");
-    nen3->setEnergie("Energie Nen Lv 3", "Puissante carte énergie de Nen", ENERGIE);
+    nen3->setEnergie("Nen Lv 3", "Puissante carte énergie de Nen", ENERGIE);
 
 ///Chargement des cartes dans le vecteur de cartes
 
-    ///Pour les cartes de DBZ
+    ///Pour les cartes Creatures de DBZ
     setCarte(goku);
     setCarte(vegeta);
     setCarte(krilin);
     setCarte(freezer);
-    setCarte(saibaman);
-    setCarte(ki1);
-    setCarte(ki2);
-    setCarte(ki3);
+    setCarte(piccolo);
 
-    ///Pour les carte de One Piece
+    ///Pour les carte Creatures de One Piece
     setCarte(luffy);
     setCarte(zoro);
     setCarte(sanji);
     setCarte(usopp);
     setCarte(chopper);
-    setCarte(haki1);
-    setCarte(haki2);
-    setCarte(haki3);
 
-    ///Pour les cartes de Naruto
+    ///Pour les cartes Creatures de Naruto
     setCarte(naruto);
     setCarte(sasuke);
     setCarte(pain);
     setCarte(shikamaru);
     setCarte(sakura);
-    setCarte(chakra1);
-    setCarte(chakra2);
-    setCarte(chakra3);
 
-    ///Pour les cartes de HxH
+    ///Pour les cartes Creatures de HxH
     setCarte(gon);
     setCarte(kirua);
     setCarte(kurapika);
     setCarte(hisoka);
     setCarte(netero);
+
+    ///Pour les cartes Energies de DBZ
+    setCarte(ki1);
+    setCarte(ki2);
+    setCarte(ki3);
+
+    ///Pour les cartes Energies de One Piece
+    setCarte(haki1);
+    setCarte(haki2);
+    setCarte(haki3);
+
+    ///Pour les cartes Energies de Naruto
+    setCarte(chakra1);
+    setCarte(chakra2);
+    setCarte(chakra3);
+
+    ///Pour les cartes Energies de HxH
     setCarte(nen1);
     setCarte(nen2);
     setCarte(nen3);
+
+
 }
 
 

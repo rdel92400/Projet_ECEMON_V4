@@ -24,6 +24,7 @@ public:
     void set_EstUtilise(int util);
 
     virtual std::vector<Attaque> getAttaque();
+    virtual Attaque getAttaque(int numero) const;
     virtual int getPV() const;
     virtual void setPV(int PV);
     virtual void setCreature(std::string nom,std::string desc,int utilisation,Attaque attaque1,Attaque attaque2);
