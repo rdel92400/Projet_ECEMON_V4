@@ -13,7 +13,7 @@ public:
     Energie();
     Energie(int lv, std::string type);
     ~Energie();
-    void setEnergie(std::string nom,std::string desc,int utilisation);
+    void setEnergie(std::string nom,std::string desc,int utilisation,int prix);
     int getLV() const;
     std::string getType();
 

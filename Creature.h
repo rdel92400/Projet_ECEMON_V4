@@ -17,7 +17,7 @@ public:
     void afficher();
     void AssigneAttaque(Attaque &cible1, Attaque &cible2);
     void recevoirDegat(Attaque &attaque);
-    void setCreature(std::string nom,std::string desc,int utilisation,Attaque attaque1,Attaque attaque2);
+    void setCreature(std::string nom,std::string desc,int utilisation,Attaque attaque1,Attaque attaque2,int prix);
     void attaquer(Carte *cible, int i);
 protected:
     int m_PV;

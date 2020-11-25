@@ -5,7 +5,7 @@
 #include "Carte.h"
 
 
-Carte::Carte() : m_nom("Non nomme"), m_description("Pas de description"), m_EstUtilise(0) {}
+Carte::Carte() : m_nom("Non nomme"), m_description("Pas de description"), m_EstUtilise(0),m_prix(0) {}
 
 Carte::Carte(std::string nom, std::string description, int estUtilise) :
         m_nom(nom), m_description(description), m_EstUtilise(estUtilise) {}
@@ -40,16 +40,15 @@ void Carte::afficher()
 {
     std::cout << getNom() << std::endl;
 
-    ///J'ai pas fait plus d'affichage pour pas me faire chier comme on fait allegro (Romain)
 }
 
-void Carte::setCreature(std::string nom, std::string desc, int utilisation, Attaque attaque1, Attaque attaque2) {
+void Carte::setCreature(std::string nom, std::string desc, int utilisation, Attaque attaque1, Attaque attaque2,int prix) {
 
 }
 
 void Carte::attaquer(Carte *cible, int i) {
 
-}
+ }
 
 void Carte::recevoirDegat(Attaque &attaque) {
 
@@ -63,7 +62,7 @@ void Carte::setPV(int PV) {
 
 }
 
-void Carte::setEnergie(std::string nom, std::string desc, int utilisation) {
+void Carte::setEnergie(std::string nom, std::string desc, int utilisation,int prix) {
 
 }
 
@@ -85,8 +84,13 @@ Attaque Carte::getAttaque(int numero) const
     return attaque;
 }
 
+int Carte::getPrix() {
+    return m_prix;
+}
 
-
+void Carte::setPrix(int prix) {
+    m_prix = prix;
+}
 
 
 

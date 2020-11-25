@@ -14,10 +14,11 @@ Energie::Energie(int lv, std::string type) : m_Lv(lv), m_type(type){
 
 }
 
-void Energie::setEnergie(std::string nom, std::string desc, int utilisation) {
+void Energie::setEnergie(std::string nom, std::string desc, int utilisation,int prix) {
     setNom(nom);
     setDesc(desc);
     set_EstUtilise(utilisation);
+    setPrix(prix);
 }
 
 int Energie::getLV() const {

@@ -43,12 +43,13 @@ void Creature::setPV(int PV) {
     m_PV = PV;
 }
 
-void Creature::setCreature(std::string nom, std::string desc, int utilisation, Attaque attaque1, Attaque attaque2)
+void Creature::setCreature(std::string nom, std::string desc, int utilisation, Attaque attaque1, Attaque attaque2,int prix)
 {
     setNom(nom);
     setDesc(desc);
     set_EstUtilise(utilisation);
     AssigneAttaque(attaque1, attaque2);
+    setPrix(prix);
 }
 
 void Creature::attaquer(Carte *cible, int i) {

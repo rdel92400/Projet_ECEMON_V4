@@ -82,137 +82,137 @@ void Collections::chargerCollectionEntiere() {
     ///Creatures DBZ
     Carte* goku(0);
     goku = new Creature(1000);
-    goku->setCreature("Goku", "C'est le personnage principal de Dragon Ball Z !", CREATURE, Kamehameha, coupMeteor);
+    goku->setCreature("Goku", "C'est le personnage principal de Dragon Ball Z !", CREATURE, Kamehameha, coupMeteor,500);
 
     Carte* vegeta(0);
     vegeta = new Creature(900);
-    vegeta->setCreature("Vegeta", "C'est le rival de Son Goku et le prince des saiyans", CREATURE, canonGarric, coupFinal);
+    vegeta->setCreature("Vegeta", "C'est le rival de Son Goku et le prince des saiyans", CREATURE, canonGarric, coupFinal,300);
 
     Carte* krilin(0);
     krilin = new Creature(700);
-    krilin->setCreature("Krilin", "Ami de Son Goku depuis l'enfance", CREATURE, kienzan, enchainementDevas);
+    krilin->setCreature("Krilin", "Ami de Son Goku depuis l'enfance", CREATURE, kienzan, enchainementDevas,200);
 
     Carte* freezer(0);
     freezer = new Creature(1000);
-    freezer->setCreature("Freezer", "Ennemi principal de Son Goku, il hait les saiyans", CREATURE, rayonMortel, attaqueSR);
+    freezer->setCreature("Freezer", "Ennemi principal de Son Goku, il hait les saiyans", CREATURE, rayonMortel, attaqueSR,250);
 
     Carte* piccolo(0);
     piccolo = new Creature(500);
-    piccolo->setCreature("Piccolo", "Extraterrestre très puissant qui peut se regénérer", CREATURE, makankosappo, regeneratiob);
+    piccolo->setCreature("Piccolo", "Extraterrestre très puissant qui peut se regénérer", CREATURE, makankosappo, regeneratiob,200);
 
     ///Creatures One Piece
     Carte* luffy(0);
     luffy = new Creature(1000);
-    luffy->setCreature("Monkey D Luffy", "Le futur roi des pirates !", CREATURE, elephantGun, jetPunch);
+    luffy->setCreature("Monkey D Luffy", "Le futur roi des pirates !", CREATURE, elephantGun, jetPunch,500);
 
     Carte* zoro(0);
     zoro = new Creature(750);
-    zoro->setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy !", CREATURE, santoryu,enmaSlash);
+    zoro->setCreature("Roronoa zoro", "meilleur épéiste a bord du Sunny et bras droit de Luffy !", CREATURE, santoryu,enmaSlash,250);
 
     Carte* sanji(0);
     sanji = new Creature(750);
-    sanji->setCreature("Sanji", "Cuisinier a bord du sunny et un combatant redoutable", CREATURE, jarret, troisiemeHache);
+    sanji->setCreature("Sanji", "Cuisinier a bord du sunny et un combatant redoutable", CREATURE, jarret, troisiemeHache,200);
 
     Carte* usopp(0);
     usopp = new Creature(300);
-    usopp->setCreature("Usopp", "Le sniper de l'equipage", CREATURE,tournesolStar,billeEnflamee);
+    usopp->setCreature("Usopp", "Le sniper de l'equipage", CREATURE,tournesolStar,billeEnflamee,200);
 
     Carte* chopper(0);
     chopper = new Creature(200);
-    chopper->setCreature("Chopper","C'est le medecin de l'equipage. C'est un Cerf ayant mangé un fruit du demon et qui a donc acquis la capacite de la parole",CREATURE,hornPoint,soin);
+    chopper->setCreature("Chopper","C'est le medecin de l'equipage. C'est un Cerf ayant mangé un fruit du demon et qui a donc acquis la capacite de la parole",CREATURE,hornPoint,soin,150);
 
     ///Creatures Naruto
     Carte* naruto(0);
     naruto = new Creature(1000);
-    naruto->setCreature("Uzumaki Naruto","C'est le personnage principal du manga Naruto",CREATURE,rasengan,clonage);
+    naruto->setCreature("Uzumaki Naruto","C'est le personnage principal du manga Naruto",CREATURE,rasengan,clonage,500);
 
     Carte* sasuke(0);
     sasuke = new Creature(1000);
-    sasuke->setCreature("Uchiwa Sasuke","Le plus grand ami et rival de Naruto",CREATURE,milleOiseaux,bouleDeFeuSupreme);
+    sasuke->setCreature("Uchiwa Sasuke","Le plus grand ami et rival de Naruto",CREATURE,milleOiseaux,bouleDeFeuSupreme,250);
 
     Carte* pain(0);
     pain = new Creature(750);
-    pain->setCreature("Pain","Chef de l'Akatsuki, la plus grande organisation criminelle",CREATURE,astreDivin,attractionCeleste);
+    pain->setCreature("Pain","Chef de l'Akatsuki, la plus grande organisation criminelle",CREATURE,astreDivin,attractionCeleste,200);
 
     Carte* shikamaru(0);
     shikamaru = new Creature(750);
-    shikamaru->setCreature("Nara Shikamaru","16ème chef du clan Nara", CREATURE,manipulationDesOmbres,etreinteMortelle);
+    shikamaru->setCreature("Nara Shikamaru","16ème chef du clan Nara", CREATURE,manipulationDesOmbres,etreinteMortelle,200);
 
     Carte* sakura(0);
     sakura = new Creature(300);
-    sakura->setCreature("Haruno Sakura","Grande ninja medecin",CREATURE,forceAmelioree,soin);
+    sakura->setCreature("Haruno Sakura","Grande ninja medecin",CREATURE,forceAmelioree,soin,1);
 
     ///Carte HxH
     Carte* gon(0);
     gon = new Creature(800);
-    gon->setCreature("Gon Freecss", "Protagoniste de Hunter X Hunter et future Hunter", CREATURE, pfc, transfoUlt);
+    gon->setCreature("Gon Freecss", "Protagoniste de Hunter X Hunter et future Hunter", CREATURE, pfc, transfoUlt,400);
 
     Carte* kirua(0);
     kirua = new Creature(800);
-    kirua->setCreature("Kirua Zoldik", "Meilleur ami de Gon et très celebre assassin", CREATURE, griffes, serpentEv);
+    kirua->setCreature("Kirua Zoldik", "Meilleur ami de Gon et très celebre assassin", CREATURE, griffes, serpentEv,400);
 
     Carte* hisoka(0);
     hisoka = new Creature(900);
-    hisoka->setCreature("Hisoka Morow", "Hunter profesionnel qui fait parti de la brigade fantome et qui est le principal enemi de Gon", CREATURE, jeuDeCarte, pansyGum);
+    hisoka->setCreature("Hisoka Morow", "Hunter profesionnel qui fait parti de la brigade fantome et qui est le principal enemi de Gon", CREATURE, jeuDeCarte, pansyGum,250);
 
     Carte* kurapika(0);
     kurapika = new Creature(750);
-    kurapika->setCreature("Kurapika", "Membre du clan Kuruta, il possede les yeux rouges et veut exterminer la brigade fantome", CREATURE, chaineMat, Emperor);
+    kurapika->setCreature("Kurapika", "Membre du clan Kuruta, il possede les yeux rouges et veut exterminer la brigade fantome", CREATURE, chaineMat, Emperor,200);
 
     Carte* netero(0);
     netero = new Creature(1000);
-    netero->setCreature("Isaac Netero", "President de l'association hunter et surrement le plus fort d'entre eux", CREATURE, poingUtl, Tech1000);
+    netero->setCreature("Isaac Netero", "President de l'association hunter et surrement le plus fort d'entre eux", CREATURE, poingUtl, Tech1000,200);
 
 
     ///Carte Energie
 
     Carte* ki1(0);
     ki1 = new Energie(1, "K");
-    ki1->setEnergie("Ki Lv 1", "Faible carte énergie de Ki", ENERGIE);
+    ki1->setEnergie("Ki Lv 1", "Faible carte énergie de Ki", ENERGIE,100);
 
     Carte* ki2(0);
     ki2 = new Energie(2, "K");
-    ki2->setEnergie("Ki Lv 2", "Carte intermediare d'énergie de Ki", ENERGIE);
+    ki2->setEnergie("Ki Lv 2", "Carte intermediare d'énergie de Ki", ENERGIE,150);
 
     Carte* ki3(0);
     ki3 = new Energie(3, "K");
-    ki3->setEnergie("Ki Lv 3", "Puissante carte énergie de Ki", ENERGIE);
+    ki3->setEnergie("Ki Lv 3", "Puissante carte énergie de Ki", ENERGIE,200);
 
     Carte* haki1(0);
     haki1 = new Energie(1, "H");
-    haki1->setEnergie("Haki Lv 1", "Faible carte énergie de Haki", ENERGIE);
+    haki1->setEnergie("Haki Lv 1", "Faible carte énergie de Haki", ENERGIE,100);
 
     Carte* haki2(0);
     haki2 = new Energie(2, "H");
-    haki2->setEnergie("Haki Lv 2", "Carte intermediare d'énergie de Haki", ENERGIE);
+    haki2->setEnergie("Haki Lv 2", "Carte intermediare d'énergie de Haki", ENERGIE,150);
 
     Carte* haki3(0);
     haki3 = new Energie(3, "H");
-    haki3->setEnergie("Haki Lv 3", "Puissante carte énergie de Haki", ENERGIE);
+    haki3->setEnergie("Haki Lv 3", "Puissante carte énergie de Haki", ENERGIE,200);
 
     Carte* chakra1(0);
     chakra1 = new Energie(1, "C");
-    chakra1->setEnergie("Chakra Lv 1", "Faible carte énergie de Chakra", ENERGIE);
+    chakra1->setEnergie("Chakra Lv 1", "Faible carte énergie de Chakra", ENERGIE,100);
 
     Carte* chakra2(0);
     chakra2 = new Energie(2, "C");
-    chakra2->setEnergie("Chakra Lv 2", "Carte intermediaire d'énergie de Chakra", ENERGIE);
+    chakra2->setEnergie("Chakra Lv 2", "Carte intermediaire d'énergie de Chakra", ENERGIE,150);
 
     Carte* chakra3(0);
     chakra3 = new Energie(3, "C");
-    chakra3->setEnergie("Chakra Lv 3", "Puissante carte énergie de Chakra", ENERGIE);
+    chakra3->setEnergie("Chakra Lv 3", "Puissante carte énergie de Chakra", ENERGIE,200);
 
     Carte* nen1(0);
     nen1 = new Energie(1, "N");
-    nen1->setEnergie("Nen Lv 1", "faible carte énergie de nen", ENERGIE);
+    nen1->setEnergie("Nen Lv 1", "faible carte énergie de nen", ENERGIE,100);
 
     Carte* nen2(0);
     nen2 = new Energie(2, "N");
-    nen2->setEnergie("Nen Lv 2", "Carte intermediaire d'énergie de nen", ENERGIE);
+    nen2->setEnergie("Nen Lv 2", "Carte intermediaire d'énergie de nen", ENERGIE,150);
 
     Carte* nen3(0);
     nen3 = new Energie(3, "N");
-    nen3->setEnergie("Nen Lv 3", "Puissante carte énergie de Nen", ENERGIE);
+    nen3->setEnergie("Nen Lv 3", "Puissante carte énergie de Nen", ENERGIE,200);
 
 ///Chargement des cartes dans le vecteur de cartes
 

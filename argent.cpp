@@ -9,7 +9,7 @@ void victoireArgent(Joueur joueurRecu) {
     nouvelArgent = joueurRecu.getArgent() + ARGENT_VICTOIRE;
     joueurRecu.setArgent(nouvelArgent);
 }
-/*
+
 int achat(Joueur joueurRecu, Carte carteRecue) {
     int nouvelArgent;
 
@@ -23,4 +23,4 @@ int achat(Joueur joueurRecu, Carte carteRecue) {
         return 1;
     }
 }
- */
+
