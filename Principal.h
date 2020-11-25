@@ -20,6 +20,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro.h>
 #include <unistd.h>
+#include <fstream>
 
 
 //void menu();
@@ -29,5 +30,6 @@
 #define NOMBRE_CARTE_COLLEC 32
 #define CREATURE 1
 #define ENERGIE 2
+#define ARGENT_VICTOIRE 250
 
 #endif //PROJET_ECEMON_V4_PRINCIPAL_H

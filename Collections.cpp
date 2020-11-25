@@ -11,7 +11,6 @@ Collections::~Collections() {}
 void Collections::chargerCollectionEntiere() {
 ///Ini des attaques
 
-
     ///Attaques de DBZ
     Attaque Kamehameha("Kamehameha", "K",2, "Rayon d'énergie surpuissante !", 250);
     Attaque coupMeteor("Coup Meteor", "K",2, "Attaque physique tres puissante", 200);

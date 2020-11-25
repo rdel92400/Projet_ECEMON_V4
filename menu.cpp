@@ -198,6 +198,7 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
         std::cout << "Creer votre deck :" << std::endl;
         deckDeTest1.iniDeck(collection);
         Joueur1.iniJoueur(nom, 500, deckDeTest1);
+        sauvegardeJoueur(Joueur1,collection);
     }
     if (choix==2){
         std::cout << "Pas encore disponible" << std::endl;

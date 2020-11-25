@@ -10,8 +10,7 @@ void sauvegardeJoueur(Joueur joueurRecu, Collections collection) {
 
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
 
-
-    for (int i = 0; i < NOMBRE_CARTES_DECK; i++) {
+    for (int i = 0; i < NOMBRE_CARTE_COLLEC; i++) {
         indiceCarte[i] = collection.getCarte()[i]->getNom();
     }
 
