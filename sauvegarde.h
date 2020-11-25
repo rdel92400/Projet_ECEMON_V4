@@ -14,4 +14,5 @@ void sauvegardeJoueur (Joueur joueurRecu,Collections collection);
 
 Joueur chargementJoueur(Collections collection);
 
-Joueur chargementJoueurAuChoix (Collections collection);
+Joueur chargementJoueur1(Collections collection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
+Joueur chargementJoueur2(Collections collection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, const std::string& nomJoueur1);

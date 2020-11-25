@@ -20,3 +20,4 @@ void destructionBitmaps(std::map<std::string,ALLEGRO_BITMAP*> mymap);
 void regles(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
 
 std::string iniNom(ALLEGRO_BITMAP* fond);
+std::string iniNomChargementJoueur(ALLEGRO_BITMAP* fond, int posX, int posY, std::map<int,std::string> tabNoms);

@@ -65,6 +65,8 @@ std::map<std::string,ALLEGRO_BITMAP*> chargementBitmaps()
     mymap["fondKi"] = chargement("..\\Bitmaps\\Templates\\fondKi.bmp");
     mymap["fondHaki"] = chargement("..\\Bitmaps\\Templates\\fondHaki.bmp");
     mymap["fondJeu"] = chargement("..\\Bitmaps\\Fonds\\fondJeu.bmp");
+    mymap["fondChargementJoueurOui"] = chargement("..\\Bitmaps\\Fonds\\fondChargementJoueurOui.bmp");
+    mymap["fondChargementJoueurNon"] = chargement("..\\Bitmaps\\Fonds\\fondChargementJoueurNon.bmp");
 
     mymap["Chopper"] = chargement("..\\Bitmaps\\Cartes Creatures\\chopper.bmp");
     mymap["Usopp"] = chargement("..\\Bitmaps\\Cartes Creatures\\usopp.bmp");
@@ -117,6 +119,8 @@ void destructionBitmaps(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     al_destroy_bitmap(mymap["fondKi"]);
     al_destroy_bitmap(mymap["fondHaki"]);
     al_destroy_bitmap(mymap["fondJeu"]);
+    al_destroy_bitmap(mymap["fondChargementJoueurOui"]);
+    al_destroy_bitmap(mymap["fondChargementJoueurNon"]);
 
     al_destroy_bitmap(mymap["Chopper"]);
     al_destroy_bitmap(mymap["Usopp"]);
@@ -271,6 +275,83 @@ std::string iniNom(ALLEGRO_BITMAP* fond)
 
         al_draw_bitmap(fond,0,0,0);
         al_draw_text(agencyFB,colorText,562,295,0,nom.c_str());
+        al_flip_display();
+
+    }while (event.keyboard.keycode != ALLEGRO_KEY_ENTER);
+
+    return nom;
+}
+
+std::string iniNomChargementJoueur(ALLEGRO_BITMAP* fond, int posX, int posY, std::map<int,std::string> tabNoms)
+{
+    ALLEGRO_FONT* agencyFB = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",55);
+    ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
+
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_EVENT event;
+
+    if (!queue)
+        erreur("Initialisation","queue");
+
+    al_register_event_source(queue,al_get_keyboard_event_source());
+
+    std::string nom;
+    int cpt(0);
+    char ascii;
+
+    al_draw_bitmap(fond,0,0,0);
+    for (const auto &elem : tabNoms)
+    {
+        al_draw_text(agencyFB,colorText,1280/2,elem.first,ALLEGRO_ALIGN_CENTER,elem.second.c_str());
+    }
+    al_flip_display();
+
+    do
+    {
+        al_wait_for_event(queue,&event);
+
+        if(event.type == ALLEGRO_EVENT_KEY_CHAR)
+        {
+            ///ESPACE
+            if (event.keyboard.keycode == 75)
+            {
+                ascii = 32;
+            }
+                ///BACKSPACE
+            else if (event.keyboard.keycode == 63 && nom.size() > 0)
+            {
+                ascii = 8;
+                nom.pop_back();
+            }
+                ///LETTRES
+            else if (event.keyboard.keycode >= 1 && event.keyboard.keycode <= 26)
+            {
+                ascii = event.keyboard.keycode + 64;
+            }
+            else
+            {
+                ascii = 0;
+            }
+            cpt = 1;
+        }
+
+        if ((ascii >= 65 && ascii <= 90) || (ascii == 32))
+        {
+            if (cpt == 1)
+            {
+                nom = nom + ascii;
+            }
+            cpt = 0;
+        }
+
+        al_draw_bitmap(fond,0,0,0);
+
+        for (const auto &elem : tabNoms)
+        {
+            al_draw_text(agencyFB,colorText,1280/2,elem.first,ALLEGRO_ALIGN_CENTER,elem.second.c_str());
+        }
+
+        al_draw_text(agencyFB,colorText,posX,posY,0,nom.c_str());
         al_flip_display();
 
     }while (event.keyboard.keycode != ALLEGRO_KEY_ENTER);

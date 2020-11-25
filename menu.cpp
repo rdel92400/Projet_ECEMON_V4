@@ -137,7 +137,8 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                std::cout << "Pas encore disponible" << std::endl;
+                Joueur1 = chargementJoueur1(collection,mapBitmap);
+
                 choix = 1;
             }
         }
@@ -178,7 +179,8 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                std::cout << "Pas encore disponible" << std::endl;
+                Joueur2 = chargementJoueur2(collection,mapBitmap,Joueur1.getNom());
+
                 choix = 1;
             }
         }
