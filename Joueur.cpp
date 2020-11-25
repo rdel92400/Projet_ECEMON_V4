@@ -10,10 +10,13 @@ Joueur::Joueur(std::string nom, int argent) : m_nom(nom), m_argent(argent) {}
 
 Joueur::~Joueur() {}
 
-void Joueur::iniJoueur(std::string nom, int argent,Deck deckJoueur) {
+void Joueur::iniJoueur(std::string nom, Deck deckJoueur) {
     setNom(nom);
-    setArgent(argent);
     setDeck(deckJoueur);
+}
+
+void Joueur::iniJoueurArgent(int argent) {
+    setArgent(argent);
 }
 
 void Joueur::setArgent(int argent) {

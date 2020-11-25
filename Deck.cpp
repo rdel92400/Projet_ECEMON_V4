@@ -4,6 +4,9 @@
 
 #include "Deck.h"
 #include "Allegro.h"
+#include "Joueur.h"
+
+
 
 Deck::Deck() {
 
@@ -63,7 +66,7 @@ void Deck::iniDeck(Collections toutesLesCartes) {
 }
 */
 
-void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
+void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, Joueur joueur)
 {
     Carte carteChoisie;
     int choix;
@@ -89,6 +92,8 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
     std::string energieRequis1;
     std::string energieRequis2;
     std::string lvlEnergie;
+    std::string argentJoueur;
+    std::string argentCarte;
 
     ALLEGRO_FONT* agencyFB30 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
     ALLEGRO_FONT* agencyFB33 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",33);
@@ -258,6 +263,9 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         pv = std::to_string(maCollection.getCarte()[tabCreature[y][x][2]]->getPV());
                         degat1 = "Degats : " + std::to_string(maCollection.getCarte()[tabCreature[y][x][2]]->getAttaque(0).getDegat());
                         degat2 = "Degats : " + std::to_string(maCollection.getCarte()[tabCreature[y][x][2]]->getAttaque(1).getDegat());
+                        argentCarte = std::to_string(maCollection.getCarte()[tabCreature[y][x][2]]->getPrix());
+                        argentJoueur = std::to_string(joueur.getArgent());
+
                         if (maCollection.getCarte()[tabCreature[y][x][2]]->getAttaque(0).getEnergie() == "H")
                         {
                             energieRequis1 = "Requis : " + std::to_string(maCollection.getCarte()[tabCreature[y][x][2]]->getAttaque(0).getEnergieLV()) + " Haki";
@@ -280,6 +288,9 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         }
 
                         al_draw_bitmap(mapBitmap["templateCarteCreature"],0,0,0);
+
+                        al_draw_text(agencyFB35,noirPresque,280,220,0,argentCarte.c_str());
+                        al_draw_text(agencyFB35,noirPresque,246,172,0,argentJoueur.c_str());
 
                         al_draw_text(agencyFB40,noirPresque,463 + 275/2,88,ALLEGRO_ALIGN_CENTER,maCollection.getCarte()[tabCreature[y][x][2]]->getNom().c_str());
                         al_draw_text(agencyFB35,noirPresque,758 + 27,92,ALLEGRO_ALIGN_CENTER,pv.c_str());
@@ -330,8 +341,13 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         break;
                     case ALLEGRO_KEY_SPACE:
                         lvlEnergie = std::to_string(maCollection.getCarte()[tabEnergie[y][x][2]]->getLV());
+                        argentCarte = std::to_string(maCollection.getCarte()[tabEnergie[y][x][2]]->getPrix());
+                        argentJoueur = std::to_string(joueur.getArgent());
 
                         al_draw_bitmap(mapBitmap["templateCarteEnergie"],0,0,0);
+
+                        al_draw_text(agencyFB35,noirPresque,280,220,0,argentCarte.c_str());
+                        al_draw_text(agencyFB35,noirPresque,246,172,0,argentJoueur.c_str());
 
                         al_draw_text(agencyFB40,noirPresque,463 + 275/2,88,ALLEGRO_ALIGN_CENTER,maCollection.getCarte()[tabEnergie[y][x][2]]->getNom().c_str());
                         al_draw_text(agencyFB40,noirPresque,778 + 8,88,ALLEGRO_ALIGN_CENTER,lvlEnergie.c_str());

@@ -14,7 +14,8 @@ public:
     Joueur();
     Joueur(std::string nom, int argent);
     ~Joueur();
-    void iniJoueur(std::string nom, int argent,Deck deckJoueur);
+    void iniJoueur(std::string nom, Deck deckJoueur);
+    void iniJoueurArgent(int argent);
     ///Set et get
     void setArgent(int argent);
     void setDeck(Deck nouveauDeck);

@@ -9,20 +9,24 @@
 #include "Carte.h"
 #include "Creature.h"
 #include "Collections.h"
+//#include "Joueur.h"
+
+class Joueur;
+
 
 class Deck
 {
 public:
     Deck();
     ~Deck();
-    //void iniDeck(Collections toutesLesCartes);
-    void iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
+    void iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, Joueur joueur);
 
     ///Set et get
     void setDeck(Carte* nouvelleCarte);
     std::vector<Carte*> getDeck() const;
 
     void afficherDeck() const;
+
 protected:
     std::vector<Carte*> m_deck;
 };

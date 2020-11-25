@@ -121,10 +121,12 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                nom1 = iniNom(mapBitmap["fondCreaJoueur1Nom"]);
-                deckDeTest1.iniDeck(collection,mapBitmap);
+                Joueur1.iniJoueurArgent(1500);
 
-                Joueur1.iniJoueur(nom1,500,deckDeTest1);
+                nom1 = iniNom(mapBitmap["fondCreaJoueur1Nom"]);
+
+                deckDeTest1.iniDeck(collection,mapBitmap,Joueur1);
+                Joueur1.iniJoueur(nom1,deckDeTest1);
 
                 sauvegardeJoueur(Joueur1,collection);
 
@@ -163,10 +165,12 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                nom2 = iniNom(mapBitmap["fondCreaJoueur2Nom"]);
-                deckDeTest2.iniDeck(collection,mapBitmap);
+                Joueur2.iniJoueurArgent(1500);
 
-                Joueur2.iniJoueur(nom2,500,deckDeTest2);
+                nom2 = iniNom(mapBitmap["fondCreaJoueur2Nom"]);
+
+                deckDeTest2.iniDeck(collection,mapBitmap,Joueur2);
+                Joueur2.iniJoueur(nom2,deckDeTest2);
 
                 sauvegardeJoueur(Joueur2,collection);
 
@@ -189,39 +193,6 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
     }while (choix != 1);
 
-    /*
-    do {
-        std::cout << "Choisissez le premier joueur. \n1. Creer un nouveau joueur\n2. Prendre un joueur existant\nQue voulez vous faire : ";
-        std::cin >> choix;
-    }while (choix<1 && choix>2);
-    if (choix == 1){
-        std::cout << "Choisissez le nom du nouveau joueur : ";
-        std::cin >> nom;
-        std::cin.ignore();
-        std::cout << "Creer votre deck :" << std::endl;
-        deckDeTest1.iniDeck(collection);
-        Joueur1.iniJoueur(nom, 500, deckDeTest1);
-        sauvegardeJoueur(Joueur1,collection);
-    }
-    if (choix==2){
-        std::cout << "Pas encore disponible" << std::endl;
-    }
-    do {
-        std::cout << "Choisissez le deuxieme joueur. \n1. Creer un nouveau joueur\n2. Prendre un joueur existant\nQue voulez vous faire : ";
-        std::cin >> choix;
-    }while (choix<1 && choix>2);
-    if (choix == 1){
-        std::cout << "Choisissez le nom du nouveau joueur : ";
-        std::cin >> nom;
-        std::cin.ignore();
-        std::cout << "Creer votre deck :" << std::endl;
-        deckDeTest2.iniDeck(collection);
-        Joueur2.iniJoueur(nom, 500, deckDeTest2);
-    }
-    if (choix==2){
-        std::cout << "Pas encore disponible" << std::endl;
-    }
-    */
 
     Plateau J1(Joueur1.getNom(), Joueur1.getDeck());
     Plateau J2(Joueur2.getNom(), Joueur2.getDeck());
@@ -232,7 +203,8 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
     J1.initPioche();
     J2.initPioche();
 
-    for (int i=0; i<2; i++){
+    for (int i=0; i<2; i++)
+    {
         J1.melangerDeck();
         J2.melangerDeck();
     }
