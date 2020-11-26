@@ -35,6 +35,8 @@ public:
     virtual void setEnergie(std::string nom,std::string desc,int utilisation, int prix);
     virtual int getLV() const;
     virtual std::string getType();
+    virtual void setSpecial(std::string nom,std::string desc,int utilisation, int prix);
+
 
 protected:
     std::string m_nom;

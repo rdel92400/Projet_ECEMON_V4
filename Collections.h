@@ -10,6 +10,7 @@
 #include "Creature.h"
 #include "Attaque.h"
 #include "Energie.h"
+#include "Special.h"
 #include "Principal.h"
 
 

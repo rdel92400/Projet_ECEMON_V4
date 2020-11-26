@@ -178,6 +178,10 @@ void Collections::chargerCollectionEntiere() {
     ki3 = new Energie(3, "K");
     ki3->setEnergie("Ki Lv 3", "Puissante carte énergie de Ki", ENERGIE,200);
 
+    Carte* ki4(0);
+    ki4 = new Energie(4, "K");
+    ki3->setEnergie("Ki Lv 4", "Très puissante carte énergie de Ki", ENERGIE,250);
+
     Carte* haki1(0);
     haki1 = new Energie(1, "H");
     haki1->setEnergie("Haki Lv 1", "Faible carte énergie de Haki", ENERGIE,100);
@@ -189,6 +193,11 @@ void Collections::chargerCollectionEntiere() {
     Carte* haki3(0);
     haki3 = new Energie(3, "H");
     haki3->setEnergie("Haki Lv 3", "Puissante carte énergie de Haki", ENERGIE,200);
+
+    Carte* haki4(0);
+    haki4 = new Energie(4, "H");
+    haki3->setEnergie("Haki Lv 4", "Très puissante carte énergie de Haki", ENERGIE,250);
+
 
     Carte* chakra1(0);
     chakra1 = new Energie(1, "C");
@@ -202,6 +211,11 @@ void Collections::chargerCollectionEntiere() {
     chakra3 = new Energie(3, "C");
     chakra3->setEnergie("Chakra Lv 3", "Puissante carte énergie de Chakra", ENERGIE,200);
 
+    Carte* chakra4(0);
+    chakra4 = new Energie(4, "C");
+    chakra4->setEnergie("Chakra Lv 4", "Très puissante carte énergie de Chakra", ENERGIE,250);
+
+
     Carte* nen1(0);
     nen1 = new Energie(1, "N");
     nen1->setEnergie("Nen Lv 1", "faible carte énergie de nen", ENERGIE,100);
@@ -213,6 +227,37 @@ void Collections::chargerCollectionEntiere() {
     Carte* nen3(0);
     nen3 = new Energie(3, "N");
     nen3->setEnergie("Nen Lv 3", "Puissante carte énergie de Nen", ENERGIE,200);
+
+    Carte* nen4(0);
+    nen4 = new Energie(4, "N");
+    nen4->setEnergie("Nen Lv 4", "Très puissante carte énergie de Nen", ENERGIE,250);
+
+
+    ///Carte Spécial
+
+    Carte* necro(0);
+    necro = new Special();
+    necro->setSpecial("Nécromancien", "Vous permet de réanimer une carte et la mettre dans le deck",NECRO, 200);
+
+    Carte* supEnergie(0);
+    supEnergie = new Special();
+    supEnergie->setSpecial("Super énergie", "Vous permet de gagner deux points d'énergie dans tous les domaines", SUPER_ENERGIE, 200);
+
+    Carte* bouleFeu(0);
+    bouleFeu = new Special();
+    bouleFeu->setSpecial("Boule de Feu", "Vous permet d'attaquer directement l'adversaire contre des points de vie", BOULE_DE_FEU, 200);
+
+    Carte* vision(0);
+    vision = new Special();
+    vision->setSpecial("Vision Ultime", "Permet de voir sa pioche", VISION_ULTIME, 200);
+
+    Carte* mainMagique(0);
+    mainMagique = new Special();
+    mainMagique->setSpecial("Main magique", "Permet de choisir une carte dans sa pioche et la mettre au dessus de son deck", MAIN_MAGIQUE, 200);
+
+    Carte* protection(0);
+    protection = new Special();
+    protection->setSpecial("Protection", "Permet de se protéger face à la prochaine attaque de l'adversaire", PROTECTION, 200);
 
 ///Chargement des cartes dans le vecteur de cartes
 
@@ -248,22 +293,33 @@ void Collections::chargerCollectionEntiere() {
     setCarte(ki1);
     setCarte(ki2);
     setCarte(ki3);
+    setCarte(ki4);
 
     ///Pour les cartes Energies de One Piece
     setCarte(haki1);
     setCarte(haki2);
     setCarte(haki3);
+    setCarte(haki4);
 
     ///Pour les cartes Energies de Naruto
     setCarte(chakra1);
     setCarte(chakra2);
     setCarte(chakra3);
+    setCarte(chakra4);
 
     ///Pour les cartes Energies de HxH
     setCarte(nen1);
     setCarte(nen2);
     setCarte(nen3);
+    setCarte(nen4);
 
+    ///Pour les cartes Spéciales
+    setCarte(necro);
+    setCarte(supEnergie);
+    setCarte(bouleFeu);
+    setCarte(vision);
+    setCarte(mainMagique);
+    setCarte(protection);
 
 }
 
@@ -275,60 +331,3 @@ void Collections::setCarte(Carte *carteRecue) {
 std::vector<Carte *> Collections::getCarte() {
     return m_collectionCarte;
 }
-
-
-
-/*
-void Collections::chargementCreatures()
-{
-    std::ifstream monFlux(R"(C:\Users\Charles\OneDrive - Groupe INSEEC (POCE)\ECE\ING- 2\Informatique\Projets\Projet_ECEMON_V4\Fichiers\CollectionCreatures.txt)");
-
-    std::string tempFichier;
-    std::string tempNom;
-    std::string tempDescription;
-    int tempPV;
-    std::string tempNomAttaque1;
-    std::string tempDescriptionAttaque1;
-    std::string tempCoutAttaque1;
-    int tempDegat1;
-    std::string tempNomAttaque2;
-    std::string tempDescriptionAttaque2;
-    std::string tempCoutAttaque2;
-    int tempDegat2;
-
-    Creature creatureTemp;
-    Attaque attaqueTemp1;
-    Attaque attaqueTemp2;
-
-    if(!monFlux)
-    {
-        std::cout << "Erreur chargemement fichier CollectionsCreatures.txt" << std::endl;
-    }
-    else
-    {
-        while (getline(monFlux,tempFichier))
-        {
-            getline(monFlux,tempNom);
-            monFlux >> tempPV;
-            getline(monFlux,tempDescription);
-
-            getline(monFlux,tempNomAttaque1);
-            getline(monFlux,tempDescriptionAttaque1);
-            monFlux >> tempCoutAttaque1;
-            monFlux >> tempDegat1;
-
-            getline(monFlux,tempNomAttaque2);
-            getline(monFlux,tempDescriptionAttaque2);
-            monFlux >> tempCoutAttaque2;
-            monFlux >> tempDegat2;
-
-            attaqueTemp1.setAttaque(tempNomAttaque1,tempCoutAttaque1,tempDescriptionAttaque1,tempDegat1);
-            attaqueTemp2.setAttaque(tempNomAttaque2,tempCoutAttaque2,tempDescriptionAttaque2,tempDegat2);
-
-            creatureTemp.setCreature(tempNom,tempDescription,tempPV,false,attaqueTemp1,attaqueTemp2); //(Il faut rajouter la vie dans le setter)
-
-            m_collectionCreatures.push_back(creatureTemp);
-        }
-    }
-}
-*/

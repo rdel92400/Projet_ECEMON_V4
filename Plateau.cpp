@@ -98,8 +98,11 @@ void Plateau::initPioche() {
 }
 
 void Plateau::afficherPioche() {
+    int i=0;
     for (const auto& elem : getPioche()){
+        std::cout << "Carte " << i << " :\n";
         elem->afficher();
+        i++;
     }
 }
 
@@ -131,6 +134,7 @@ Carte *Plateau::getCreature() {
 }
 
 void Plateau::setCarteCreature(Carte* crea) {
+    m_creatures = nullptr;
     m_creatures = crea;
 }
 
@@ -147,10 +151,33 @@ void Plateau::afficherCarteCrea() {
 }
 
 void Plateau::afficherCimetiere() {
+    int i=0;
     for(const auto& elem : m_cimetiere){
+        std::cout << "Carte " << i << " : \n";
         elem->afficher();
+        i++;
     }
 
+}
+
+void Plateau::ajouterCarteBack(Carte* ajout) {
+    m_pioche.push_back(ajout);
+}
+
+void Plateau::supprimerCarteCim(int i) {
+    m_cimetiere.erase(m_cimetiere.begin() +i-1);
+}
+
+void Plateau::ajouterCarteSpe(Carte* j) {
+    m_speciales.push_back(j);
+}
+
+void Plateau::ajouterCarteFront(Carte* j) {
+    m_pioche.push_front(j);
+}
+
+void Plateau::supprimerCartePioche(int i) {
+    m_pioche.erase(m_pioche.begin() +i-1);
 }
 
 

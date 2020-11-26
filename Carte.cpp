@@ -92,5 +92,9 @@ void Carte::setPrix(int prix) {
     m_prix = prix;
 }
 
+void Carte::setSpecial(std::string nom, std::string desc, int utilisation, int prix) {
+
+}
+
 
 

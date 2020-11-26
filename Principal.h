@@ -28,9 +28,15 @@
 //void partie();
 
 #define NOMBRE_CARTES_DECK 5
-#define NOMBRE_CARTE_COLLEC 32
+#define NOMBRE_CARTE_COLLEC 42
 #define CREATURE 1
 #define ENERGIE 2
+#define NECRO 3
+#define SUPER_ENERGIE 4
+#define BOULE_DE_FEU 5
+#define VISION_ULTIME 6
+#define MAIN_MAGIQUE 7
+#define PROTECTION 8
 #define ARGENT_VICTOIRE 250
 
 #endif //PROJET_ECEMON_V4_PRINCIPAL_H

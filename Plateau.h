@@ -40,9 +40,14 @@ public:
     void supprimerCarteFront();
     void supprimerCarteBack();
     void ajouterCimetiere(Carte* mort);
+    void supprimerCarteCim(int i);
     void afficherCimetiere();
     void remiseSouspaquet();
+    void ajouterCarteSpe(Carte* j);
     void melangerDeck();
+    void ajouterCarteBack(Carte* ajout);
+    void ajouterCarteFront(Carte* j);
+    void supprimerCartePioche(int i);
 
     void piocher();
 
@@ -50,7 +55,6 @@ protected:
     std::string m_nomJoueur;
     int m_pointDeVie;
     std::map<std::string, int> m_energieJ;
-
     Deck m_deckJoueur;
 
     Carte* m_carteEnjeu;
