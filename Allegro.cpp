@@ -46,6 +46,7 @@ std::map<std::string,ALLEGRO_BITMAP*> chargementBitmaps()
     mymap["fondMenuJouer"] = chargement("..\\Bitmaps\\Fonds\\fondMenuPrincipalJouer.bmp");
     mymap["fondMenuRegles"] = chargement("..\\Bitmaps\\Fonds\\fondMenuPrincipalRegles.bmp");
     mymap["fondMenuQuitter"] = chargement("..\\Bitmaps\\Fonds\\fondMenuPrincipalQuitter.bmp");
+    mymap["fondMenuBoutique"] = chargement("..\\Bitmaps\\Fonds\\fondMenuPrincipalBoutique.bmp");
     mymap["fondRegles"] = chargement("..\\Bitmaps\\Fonds\\fondRegles.bmp");
     mymap["fondReglesRouge"] = chargement("..\\Bitmaps\\Fonds\\fondRegles1.bmp");
     mymap["fondCreaJoueur1"] = chargement("..\\Bitmaps\\Fonds\\fondCreaJoueur1.bmp");
@@ -58,13 +59,21 @@ std::map<std::string,ALLEGRO_BITMAP*> chargementBitmaps()
     mymap["fondCreaJoueur2Nom"] = chargement("..\\Bitmaps\\Fonds\\fondCreaJoueur2Nom.bmp");
     mymap["fondCollectionCreatures"] = chargement("..\\Bitmaps\\Fonds\\fondCollectionCreatures.bmp");
     mymap["fondCollectionEnergies"] = chargement("..\\Bitmaps\\Fonds\\fondCollectionEnergies.bmp");
+    mymap["fondCollectionSpeciales"] = chargement("..\\Bitmaps\\Fonds\\fondCollectionSpeciales.bmp");
     mymap["templateCarteCreature"] = chargement("..\\Bitmaps\\Templates\\TemplateCarteCreature.bmp");
     mymap["templateCarteEnergie"] = chargement("..\\Bitmaps\\Templates\\TemplateCarteEnergie.bmp");
+    mymap["templateCarteSpeciale"] = chargement("..\\Bitmaps\\Templates\\TemplateCarteSpeciale.bmp");
     mymap["fondChakra"] = chargement("..\\Bitmaps\\Templates\\fondChakra.bmp");
     mymap["fondNen"] = chargement("..\\Bitmaps\\Templates\\fondNen.bmp");
     mymap["fondKi"] = chargement("..\\Bitmaps\\Templates\\fondKi.bmp");
     mymap["fondHaki"] = chargement("..\\Bitmaps\\Templates\\fondHaki.bmp");
+    mymap["fondCarteSpeciale"] = chargement("..\\Bitmaps\\Templates\\fondCarteSpeciale.bmp");
     mymap["fondJeu"] = chargement("..\\Bitmaps\\Fonds\\fondJeu.bmp");
+    mymap["fondChargementJoueurOui"] = chargement("..\\Bitmaps\\Fonds\\fondChargementJoueurOui.bmp");
+    mymap["fondChargementJoueurNon"] = chargement("..\\Bitmaps\\Fonds\\fondChargementJoueurNon.bmp");
+    mymap["fondBoutique"] = chargement("..\\Bitmaps\\Fonds\\fondBoutique.bmp");
+    mymap["fondBoutiqueAcheter"] = chargement("..\\Bitmaps\\Fonds\\fondBoutiqueAcheter.bmp");
+    mymap["fondBoutiqueRetour"] = chargement("..\\Bitmaps\\Fonds\\fondBoutiqueRetour.bmp");
     mymap["fondChargementJoueurOui"] = chargement("..\\Bitmaps\\Fonds\\fondChargementJoueurOui.bmp");
     mymap["fondChargementJoueurNon"] = chargement("..\\Bitmaps\\Fonds\\fondChargementJoueurNon.bmp");
 
@@ -156,7 +165,7 @@ void regles(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
         al_get_mouse_state(&mouse);
 
         ///RETOUR
-        if (mouse.x >= 556 && mouse.x <= 556+168 && mouse.y >= 585 && mouse.y <= 585+66)
+        if (mouse.x >= 556 && mouse.x <= 556+168 && mouse.y >= 720-18-66 && mouse.y <= 720-18)
         {
             al_draw_bitmap(mapBitmap["fondReglesRouge"],0,0,0);
 
@@ -193,14 +202,14 @@ void iniTabCollectionCreature(int miseEnPage[4][5][3])
 }
 
 
-void iniTabCollectionEnergie(int miseEnPage[3][4][3])
+void iniTabCollectionEnergie(int miseEnPage[4][4][3])
 {
     int EspaceDefense = 160;
     int EspaceInterDefenses = 80;
     int Xinitial = 200;
-    int Yinitial = 165+20;
+    int Yinitial = 130+20;
 
-    for(int j = 0; j < 3; j++)
+    for(int j = 0; j < 4; j++)
     {
         for(int i = 0; i < 4; i++)
         {
@@ -213,6 +222,29 @@ void iniTabCollectionEnergie(int miseEnPage[3][4][3])
         Xinitial = 200;
     }
 }
+
+
+void iniTabCollectionSpeciale(int miseEnPage[2][3][3])
+{
+    int EspaceDefense = 160;
+    int EspaceInterDefenses = 80;
+    int Xinitial = 320;
+    int Yinitial = 230+20;
+
+    for(int j = 0; j < 2; j++)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            miseEnPage[j][i][0] = Xinitial;
+            Xinitial = miseEnPage[j][i][0] + EspaceDefense + EspaceInterDefenses;
+
+            miseEnPage[j][i][1] = Yinitial;
+        }
+        Yinitial = Yinitial + 130;
+        Xinitial = 320;
+    }
+}
+
 
 
 std::string iniNom(ALLEGRO_BITMAP* fond)

@@ -180,7 +180,7 @@ void Collections::chargerCollectionEntiere() {
 
     Carte* ki4(0);
     ki4 = new Energie(4, "K");
-    ki3->setEnergie("Ki Lv 4", "Très puissante carte énergie de Ki", ENERGIE,250);
+    ki4->setEnergie("Ki Lv 4", "Très puissante carte énergie de Ki", ENERGIE,250);
 
     Carte* haki1(0);
     haki1 = new Energie(1, "H");
@@ -196,7 +196,7 @@ void Collections::chargerCollectionEntiere() {
 
     Carte* haki4(0);
     haki4 = new Energie(4, "H");
-    haki3->setEnergie("Haki Lv 4", "Très puissante carte énergie de Haki", ENERGIE,250);
+    haki4->setEnergie("Haki Lv 4", "Très puissante carte énergie de Haki", ENERGIE,250);
 
 
     Carte* chakra1(0);

@@ -39,35 +39,43 @@ void sauvegardeJoueur(Joueur joueurRecu, Collections collection) {
 }
 
 
-void RemplacedeJoueur(std::map<int, Joueur> joueursRecus, Collections collection) {
+void RemplacedeJoueur(std::map<int, Joueur> joueursRecus, Collections collection)
+{
     std::map<int, std::string> indiceCarte;
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
 
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 32; i++)
+    {
         indiceCarte[i] = collection.getCarte()[i]->getNom();
     }
 
     std::ofstream fichier(fichierDeSauvegarde.c_str(), std::ios::out);
     fichier.open("fichierDeSauvegarde", std::ios::out);
 
-    if (fichier) {
-        for (auto &it : joueursRecus) {
+    if (fichier)
+    {
+        for (auto &it : joueursRecus)
+        {
             fichier << std::endl;
 
             fichier << it.second.getNom() << std::endl;
             fichier << it.second.getArgent() << std::endl;
 
-            for (int i = 0; i < NOMBRE_CARTES_DECK; i++) {
-                for (const auto &elem : indiceCarte) {
-                    if (elem.second == it.second.getDeck().getDeck()[i]->getNom()) {
+            for (int i = 0; i < NOMBRE_CARTES_DECK; i++)
+            {
+                for (const auto &elem : indiceCarte)
+                {
+                    if (elem.second == it.second.getDeck().getDeck()[i]->getNom())
+                    {
                         fichier << elem.first << std::endl;
                     }
                 }
-
             }
             fichier << "stop" << std::endl;
         }
-    } else {
+    }
+    else
+    {
         std::cout << "Impossible d'ouvrir le fichier en ecriture" << std::endl;
     }
 
@@ -295,7 +303,7 @@ std::map<int, Joueur> chargementJoueurs(Collections collection) {
     std::string finFichier;
 
     std::map<int, Joueur> joueursACharger;
-    Joueur joueurTempo;
+    std::vector<Joueur> tabJoueurTempo(6);
     int increment = -1;
 
     std::map<int, std::string> tabNoms;
@@ -307,15 +315,18 @@ std::map<int, Joueur> chargementJoueurs(Collections collection) {
 
     if (fichier) {
 
-        while (getline(fichier, finFichier)) {
-            increment++;
+        while (getline(fichier, finFichier))
+        {
             ///RECUP NOM
             fichier >> nomRecup;
+
+            increment++;
+
             ///RECUP ARGENT
             fichier >> argentRecup;
 
-            joueurTempo.setNom(nomRecup);
-            joueurTempo.setArgent(argentRecup);
+            joueursACharger[increment].setNom(nomRecup);
+            joueursACharger[increment].setArgent(argentRecup);
 
             ///RECUP CARTES
             for (int i = 0; i < NOMBRE_CARTES_DECK; i++) {
@@ -323,12 +334,13 @@ std::map<int, Joueur> chargementJoueurs(Collections collection) {
                 deckaCharger.setDeck(collection.getCarte()[nombreRecup]);
             }
 
-            joueurTempo.setDeck(deckaCharger);
+            joueursACharger[increment].setDeck(deckaCharger);
 
-            joueursACharger[increment] = joueurTempo;
             ///RECUP STOP
             fichier >> stopRecup;
+
         }
+        joueursACharger.erase(increment);
 
     } else {
         std::cout << "Impossible d'ouvrir le fichier en LECTURE" << std::endl;

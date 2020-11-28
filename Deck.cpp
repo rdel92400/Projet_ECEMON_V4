@@ -15,56 +15,7 @@ Deck::Deck() {
 Deck::~Deck() {
 
 }
-/*
-void Deck::iniDeck(Collections toutesLesCartes) {
 
-    Carte carteChoisie;
-    int choix;
-    std::string choixCarte;
-    bool deckEstComplet = false;
-    int compteurDeCartesChoisies(0);
-
-    for (int i = 0; i < NOMBRE_CARTE_COLLEC; i++) {
-        std::cout << "Carte " << i << " : \n";
-        toutesLesCartes.getCarte()[i]->afficher();
-    }
-
-    ///Choix du joueur
-
-    while (!deckEstComplet) {
-        choix = 0;
-        do {
-            std::cout << "Quelle carte voulez vous voir ?" << std::endl;
-            std::cin >> choix;
-        } while (choix < 0 && choix > NOMBRE_CARTE_COLLEC);
-
-        ///Probleme dans la classe collection constituée de créatures et pas de cartes
-
-        toutesLesCartes.getCarte()[choix]->afficher();
-
-        do {
-            std::cout << "Voulez vous garder cette carte ?" << std::endl;
-            std::cin >> choixCarte;
-            std::cin.ignore();
-        }while (choixCarte!="OUI" && choixCarte!="NON");
-
-
-        if (choixCarte == "OUI") {
-            compteurDeCartesChoisies++;
-            setDeck(toutesLesCartes.getCarte()[choix]);
-        } else{
-            std::cout << "Choisissez une autre carte." << std::endl;
-        }
-
-        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK) {
-            deckEstComplet = true;
-        }
-
-
-    }
-    //afficherDeck();
-}
-*/
 
 void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, Joueur joueur)
 {
@@ -80,12 +31,15 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
     int page(0);
     int autorisation = 0;
     int tabCreature[4][5][3] = {0};
-    int tabEnergie[3][4][3] = {0};
+    int tabEnergie[4][4][3] = {0};
+    int tabSpeciales[2][3][3] = {0};
     std::vector<int> tabCartePrise;
     std::vector<int> tabXCreaturePrise;
     std::vector<int> tabYCreaturePrise;
     std::vector<int> tabXEnergiePrise;
     std::vector<int> tabYEnergiePrise;
+    std::vector<int> tabXSpecialePrise;
+    std::vector<int> tabYSpecialePrise;
     std::string pv;
     std::string degat1;
     std::string degat2;
@@ -120,6 +74,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
     iniTabCollectionCreature(tabCreature);
     iniTabCollectionEnergie(tabEnergie);
+    iniTabCollectionSpeciale(tabSpeciales);
 
 
     do
@@ -150,20 +105,17 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
             al_draw_text(agencyFB30,rouge,tabCreature[y][x][0] + 80 - al_get_text_width(agencyFB30,maCollection.getCarte()[tabCreature[y][x][2]]->getNom().c_str())/2,tabCreature[y][x][1],0,maCollection.getCarte()[tabCreature[y][x][2]]->getNom().c_str());
 
             ///FLECHE DROITE
-            if(event.mouse.x >= 1280-26-21 && event.mouse.x <= 1280-26 && event.mouse.y >= 335 && event.mouse.y <= 338+33)
+            al_draw_text(agencyFB70,blanc,1280-26-21,310,0,">");
+            if (event.mouse.x >= 1280-26-21 && event.mouse.x <= 1280-26 && event.mouse.y >= 335 && event.mouse.y <= 338+33)
             {
                 al_draw_text(agencyFB70,rouge,1280-26-21,310,0,">");
 
-                if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+                if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
                 {
                     page = 1;
                     x = 0;
                     y = 0;
                 }
-            }
-            else
-            {
-                al_draw_text(agencyFB70,blanc,1280-26-21,310,0,">");
             }
 
             ///AFFICHAGE CREATURES DEJA PRISES
@@ -181,7 +133,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
             ///AFFICHAGE NOMS
             cpt = 20;
-            for(int j = 0; j < 3; j++)
+            for(int j = 0; j < 4; j++)
             {
                 for(int i = 0; i < 4; i++)
                 {
@@ -203,7 +155,9 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
                 if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
-                    page = 1;
+                    page = 2;
+                    x = 0;
+                    y = 0;
                 }
             }
 
@@ -216,6 +170,8 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                 if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
                     page = 0;
+                    x = 0;
+                    y = 0;
                 }
             }
 
@@ -223,6 +179,51 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
             for (int i = 0; i < tabXEnergiePrise.size(); i++)
             {
                 al_draw_rectangle(tabXEnergiePrise[i],tabYEnergiePrise[i]-20,tabXEnergiePrise[i]+160-1,tabYEnergiePrise[i]+80-20,rouge,7);
+            }
+        }
+
+
+        ///PAGE SPECIALES
+        if (page == 2)
+        {
+            al_draw_bitmap(mapBitmap["fondCollectionSpeciales"],0,0,0);
+
+            ///AFFICHAGE NOMS
+            cpt = 36;
+            for(int j = 0; j < 2; j++)
+            {
+                for(int i = 0; i < 3; i++)
+                {
+                    al_draw_text(agencyFB30,colorText,tabSpeciales[j][i][0] + 80 - al_get_text_width(agencyFB30,maCollection.getCarte()[cpt]->getNom().c_str())/2,tabSpeciales[j][i][1],0,maCollection.getCarte()[cpt]->getNom().c_str());
+                    tabSpeciales[j][i][2] = cpt;
+                    cpt++;
+                }
+            }
+
+            ///AFFICHAGE SELECTION
+            al_draw_rectangle(tabSpeciales[y][x][0]-1,tabSpeciales[y][x][1]-20,tabSpeciales[y][x][0]+160-1,tabSpeciales[y][x][1]+80-20,noirPresque2,7);
+            al_draw_text(agencyFB30,rouge,tabSpeciales[y][x][0] + 80 - al_get_text_width(agencyFB30,maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom().c_str())/2,tabSpeciales[y][x][1],0,maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom().c_str());
+
+
+            ///FLECHE GAUCHE
+            al_draw_text(agencyFB70,blanc,26,310,0,"<");
+            if (event.mouse.x >= 26 && event.mouse.x <= 26+21 && event.mouse.y >= 335 && event.mouse.y <= 338+33)
+            {
+                al_draw_text(agencyFB70,rouge,26,310,0,"<");
+
+                if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+                {
+                    page = 1;
+                    x = 0;
+                    y = 0;
+                }
+            }
+
+
+            ///AFFICHAGE CREATURES DEJA PRISES
+            for (int i = 0; i < tabXSpecialePrise.size(); i++)
+            {
+                al_draw_rectangle(tabXSpecialePrise[i],tabYSpecialePrise[i]-20,tabXSpecialePrise[i]+160-1,tabYSpecialePrise[i]+80-20,rouge,7);
             }
         }
 
@@ -317,7 +318,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                 {
                     case ALLEGRO_KEY_UP: if(y != 0) y--; break;
                     case ALLEGRO_KEY_RIGHT: if(x != 3) x++; break;
-                    case ALLEGRO_KEY_DOWN: if(y != 2) y++; break;
+                    case ALLEGRO_KEY_DOWN: if(y != 3) y++; break;
                     case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
                     case ALLEGRO_KEY_ENTER:
                         autorisation = 0;
@@ -374,6 +375,84 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                             al_draw_bitmap(mapBitmap["fondChakra"],460,163,0);
                             al_draw_text(agencyFB35,noirPresque2,460 + 359/2,520,ALLEGRO_ALIGN_CENTER,"Energie spirituelle");
                             al_draw_text(agencyFB35,noirPresque2,460 + 359/2,560,ALLEGRO_ALIGN_CENTER,"circulant dans le corps");
+                        }
+                        break;
+                }
+            }
+            ///PAGE CREATURE
+            if (page == 2)
+            {
+                switch (event.keyboard.keycode)
+                {
+                    case ALLEGRO_KEY_UP: if(y != 0) y--; break;
+                    case ALLEGRO_KEY_RIGHT: if(x != 2) x++; break;
+                    case ALLEGRO_KEY_DOWN: if(y != 1) y++; break;
+                    case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
+                    case ALLEGRO_KEY_ENTER:
+                        autorisation = 0;
+                        for (int i = 0; i < tabCartePrise.size(); ++i)
+                        {
+                            if (tabSpeciales[y][x][2] == tabCartePrise[i])
+                            {
+                                autorisation = 1;
+                            }
+                        }
+                        if (autorisation == 0)
+                        {
+                            setDeck(maCollection.getCarte()[tabSpeciales[y][x][2]]);
+                            tabCartePrise.push_back(tabSpeciales[y][x][2]);
+                            tabXSpecialePrise.push_back(tabSpeciales[y][x][0]);
+                            tabYSpecialePrise.push_back(tabSpeciales[y][x][1]);
+                            compteurDeCartesChoisies++;
+                        }
+                        break;
+                    case ALLEGRO_KEY_SPACE:
+                        argentCarte = std::to_string(maCollection.getCarte()[tabCreature[y][x][2]]->getPrix());
+                        argentJoueur = std::to_string(joueur.getArgent());
+
+                        al_draw_bitmap(mapBitmap["templateCarteSpeciale"],0,0,0);
+
+                        al_draw_text(agencyFB40,noirPresque,463 + 361/2,88,ALLEGRO_ALIGN_CENTER,maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom().c_str());
+                        
+                        al_draw_text(agencyFB35,noirPresque,280,220,0,argentCarte.c_str());
+                        al_draw_text(agencyFB35,noirPresque,246,172,0,argentJoueur.c_str());
+
+                        if (maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Nécromancien")
+                        {
+                            al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,460,ALLEGRO_ALIGN_CENTER,"Réanimation d'une carte");
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,500,ALLEGRO_ALIGN_CENTER,"du cimetière");
+                        }
+                        if (maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Super énergie")
+                        {
+                            al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,440,ALLEGRO_ALIGN_CENTER,"Ajout de deux energies de");
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,480,ALLEGRO_ALIGN_CENTER,"de chaque type");
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,520,ALLEGRO_ALIGN_CENTER,"dans votre main");
+                        }
+                        if (maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Boule de Feu")
+                        {
+                            al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,460,ALLEGRO_ALIGN_CENTER,"Attaque directe sur l'ennemi");
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,500,ALLEGRO_ALIGN_CENTER,"en échange de points de vie");
+                        }
+                        if (maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Vision Ultime")
+                        {
+                            al_draw_bitmap(mapBitmap["fondCarteSpeciale"], 460, 163, 0);
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2, 480,ALLEGRO_ALIGN_CENTER,"Permet de voir sa pioche");
+                        }
+                        if (maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Main magique")
+                        {
+                            al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,460,ALLEGRO_ALIGN_CENTER,"Choix possible de la");
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,500,ALLEGRO_ALIGN_CENTER,"prochaine carte piochée");
+                        }
+                        if (maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Protection")
+                        {
+                            al_draw_bitmap(mapBitmap["fondCarteSpeciale"], 460,163, 0);
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,440,ALLEGRO_ALIGN_CENTER,"Protection contre la");
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,480,ALLEGRO_ALIGN_CENTER,"prochaine attaque");
+                            al_draw_text(agencyFB35,noirPresque2,460 + 359/2,520,ALLEGRO_ALIGN_CENTER,"de l'ennemi");
                         }
                         break;
                 }

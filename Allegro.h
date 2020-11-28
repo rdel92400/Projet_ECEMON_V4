@@ -10,7 +10,8 @@
 #include "Principal.h"
 
 void iniTabCollectionCreature(int miseEnPage[4][5][3]);
-void iniTabCollectionEnergie(int miseEnPage[3][4][3]);
+void iniTabCollectionEnergie(int miseEnPage[4][4][3]);
+void iniTabCollectionSpeciale(int miseEnPage[2][3][3]);
 
 void erreur(const char* titre, const char* txt);
 ALLEGRO_BITMAP* chargement(const std::string& nomImage);

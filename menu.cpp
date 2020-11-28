@@ -1,38 +1,8 @@
 
 #include <random>
 
-#include "Principal.h"
-#include "Carte.h"
-#include "Creature.h"
-#include "Attaque.h"
-#include "Collections.h"
-#include "Joueur.h"
-#include "Plateau.h"
-#include "Energie.h"
-#include "sauvegarde.h"
 #include "menu.h"
-#include "Allegro.h"
 
-/*
-void menu(){
-    int menu(0);
-    do {
-        do {
-            std::cout << "Bienvenue dans ECEMON" << std::endl;
-            std::cout << "1. Jouer \n2. Regles \n3. Quitter \nQue voulez vous faire : " << std::endl;
-            std::cin >> menu;
-        }while (menu<1 && menu>3);
-        if (menu==1){
-            partie();
-        }
-        if (menu==2){
-            std::cout << "voici les regles ......";
-        }
-    }while (menu!=3);
-
-
-}
-*/
 
 void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 {
@@ -47,7 +17,7 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
         al_get_mouse_state(&mouse);
 
         ///JOUER
-        if (mouse.x >= 125 && mouse.x <= 125+308 && mouse.y >= 391 && mouse.y <= 391+122)
+        if (mouse.x >= 125 && mouse.x <= 125+273 && mouse.y >= 391-80 && mouse.y <= 391+122-80)
         {
             al_draw_bitmap(mapBitmap["fondMenuJouer"],0,0,0);
 
@@ -56,8 +26,9 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                 partie(mapBitmap);
             }
         }
+
         ///REGLES
-        if (mouse.x >= 125+308+53 && mouse.x <= 125+2*308+53 && mouse.y >= 391 && mouse.y <= 391+122)
+        if (mouse.x >= 125+308+53 && mouse.x <= 125+2*308+53 && mouse.y >= 391-80 && mouse.y <= 391+122-80)
         {
             al_draw_bitmap(mapBitmap["fondMenuRegles"],0,0,0);
 
@@ -66,8 +37,20 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                 regles(mapBitmap);
             }
         }
-        ///REGLES
-        if (mouse.x >= 125+2*308+2*53 && mouse.x <= 125+3*308+2*53 && mouse.y >= 391 && mouse.y <= 391+122)
+
+        ///BOUTIQUE
+        if (mouse.x >= 125+308+53 && mouse.x <= 125+2*308+53 && mouse.y >= 391-80+149 && mouse.y <= 391+122-80+149)
+        {
+            al_draw_bitmap(mapBitmap["fondMenuBoutique"],0,0,0);
+
+            if (mouse.buttons & 1)
+            {
+                boutique(mapBitmap);
+            }
+        }
+
+        ///QUITTER
+        if (mouse.x >= 125+2*308+2*53+308-273 && mouse.x <= 125+3*308+2*53 && mouse.y >= 391-80 && mouse.y <= 391+122-80)
         {
             al_draw_bitmap(mapBitmap["fondMenuQuitter"],0,0,0);
 
@@ -79,6 +62,7 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
         al_flip_display();
 
     }while (menu != 1);
+
 }
 
 void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
@@ -188,7 +172,6 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
             if (mouse.buttons & 1)
             {
                 Joueur2 = chargementJoueur2(collection,mapBitmap,Joueur1.getNom());
-
                 choix = 1;
             }
         }

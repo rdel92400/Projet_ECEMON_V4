@@ -7,9 +7,12 @@
 
 #include "Principal.h"
 #include "Joueur.h"
+#include "Allegro.h"
+#include "sauvegarde.h"
 
 void victoireArgent (Joueur joueurRecu);
 int achat(Joueur joueurRecu,Carte carteRecue);
+void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
 
 
 #endif //PROJET_ECEMON_V4_ARGENT_H
