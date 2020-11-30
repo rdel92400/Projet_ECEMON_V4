@@ -23,7 +23,7 @@ public:
     int getArgent();
     Deck getDeck();
     std::string getNom();
-
+    void victoireArgent();
 protected:
     std::string m_nom;
     int m_argent;

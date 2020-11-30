@@ -163,7 +163,6 @@ void Collections::chargerCollectionEntiere() {
     netero = new Creature(1000);
     netero->setCreature("Isaac Netero", "President de l'association hunter et surrement le plus fort d'entre eux", CREATURE, poingUtl, Tech1000,200);
 
-
     ///Carte Energie
 
     Carte* ki1(0);

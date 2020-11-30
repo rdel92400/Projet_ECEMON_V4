@@ -4,11 +4,6 @@
 
 #include "argent.h"
 
-void victoireArgent(Joueur joueurRecu) {
-    int nouvelArgent;
-    nouvelArgent = joueurRecu.getArgent() + ARGENT_VICTOIRE;
-    joueurRecu.setArgent(nouvelArgent);
-}
 
 int achat(Joueur joueurRecu, Carte carteRecue) {
     int nouvelArgent;

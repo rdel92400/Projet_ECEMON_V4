@@ -20,7 +20,6 @@ int main()
     collection.chargerCollectionEntiere();
     //collection.chargementCreatures(); (chargement avec fichiers non fonctionnel)
 
-
     ///VARIABLES ALLEGRO
     ALLEGRO_DISPLAY *display = nullptr;
     ALLEGRO_BITMAP* fondChargement;
