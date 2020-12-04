@@ -49,7 +49,8 @@ void Plateau::setPDV(int pdv) {
     m_pointDeVie = pdv;
 }
 
-void Plateau::setCarteEJ() {
+void Plateau::setCarteEJ()
+{
     m_pioche.front()->afficher();
     m_carteEnjeu = m_pioche.front();
     m_pioche.pop_front();
@@ -72,17 +73,20 @@ void Plateau::setEnergie(std::string type, int lv) {
 
 
 void Plateau::initEnergie() {
-    m_energieJ["K"]=0;
-    m_energieJ["H"]=0;
-    m_energieJ["C"]=0;
-    m_energieJ["N"]=0;
+    m_energieJ["K"]=5;
+    m_energieJ["H"]=5;
+    m_energieJ["C"]=5;
+    m_energieJ["N"]=5;
 }
 
-void Plateau::melangerDeck() {
+void Plateau::melangerDeck()
+{
     int nb2 = NOMBRE_CARTES_DECK;
     int index;
     Carte* temp(0);
-    for (int i=0; i<NOMBRE_CARTES_DECK; i++){
+
+    for (int i=0; i<NOMBRE_CARTES_DECK; i++)
+    {
         index = std::rand()%nb2;
         temp = m_pioche[index];
         m_pioche[index] = m_pioche[nb2-1];
@@ -165,7 +169,7 @@ void Plateau::ajouterCarteBack(Carte* ajout) {
 }
 
 void Plateau::supprimerCarteCim(int i) {
-    m_cimetiere.erase(m_cimetiere.begin() +i-1);
+    m_cimetiere.erase(m_cimetiere.begin() + i);
 }
 
 void Plateau::ajouterCarteSpe(Carte* j) {
@@ -177,7 +181,7 @@ void Plateau::ajouterCarteFront(Carte* j) {
 }
 
 void Plateau::supprimerCartePioche(int i) {
-    m_pioche.erase(m_pioche.begin() +i-1);
+    m_pioche.erase(m_pioche.begin() + i);
 }
 
 

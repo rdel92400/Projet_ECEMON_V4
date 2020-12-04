@@ -9,7 +9,7 @@ void sauvegardeJoueur(Joueur joueurRecu, Collections collection) {
     std::map<int, std::string> indiceCarte;
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
 
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < NOMBRE_CARTE_COLLEC; i++) {
         indiceCarte[i] = collection.getCarte()[i]->getNom();
     }
 
@@ -44,7 +44,7 @@ void RemplacedeJoueur(std::map<int, Joueur> joueursRecus, Collections collection
     std::map<int, std::string> indiceCarte;
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
 
-    for (int i = 0; i < 32; i++)
+    for (int i = 0; i < NOMBRE_CARTE_COLLEC; i++)
     {
         indiceCarte[i] = collection.getCarte()[i]->getNom();
     }
@@ -187,8 +187,8 @@ Joueur chargementJoueur1(Collections collection, std::map<std::string, ALLEGRO_B
 }
 
 
-Joueur chargementJoueur2(Collections collection, std::map<std::string, ALLEGRO_BITMAP *> mapBitmap,
-                         const std::string &nomJoueur1) {
+Joueur chargementJoueur2(Collections collection, std::map<std::string, ALLEGRO_BITMAP *> mapBitmap, const std::string &nomJoueur1)
+{
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
     std::string nomRecup;
     std::string stopRecup;
@@ -292,7 +292,8 @@ Joueur chargementJoueur2(Collections collection, std::map<std::string, ALLEGRO_B
 }
 
 
-std::map<int, Joueur> chargementJoueurs(Collections collection) {
+std::map<int, Joueur> chargementJoueurs(Collections collection)
+{
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
     std::string nomRecup;
     std::string stopRecup;
@@ -303,12 +304,9 @@ std::map<int, Joueur> chargementJoueurs(Collections collection) {
     std::string finFichier;
 
     std::map<int, Joueur> joueursACharger;
-    std::vector<Joueur> tabJoueurTempo(6);
     int increment = -1;
 
-    std::map<int, std::string> tabNoms;
-
-    Deck deckaCharger;
+    std::vector<Deck> deckaCharger(8);
 
     std::ifstream fichier(fichierDeSauvegarde.c_str(), std::ios::in);
     fichier.open("fichierDeSauvegarde", std::ios::in);
@@ -329,12 +327,13 @@ std::map<int, Joueur> chargementJoueurs(Collections collection) {
             joueursACharger[increment].setArgent(argentRecup);
 
             ///RECUP CARTES
-            for (int i = 0; i < NOMBRE_CARTES_DECK; i++) {
+            for (int i = 0; i < NOMBRE_CARTES_DECK; i++)
+            {
                 fichier >> nombreRecup;
-                deckaCharger.setDeck(collection.getCarte()[nombreRecup]);
+                deckaCharger[increment].setDeck(collection.getCarte()[nombreRecup]);
             }
 
-            joueursACharger[increment].setDeck(deckaCharger);
+            joueursACharger[increment].setDeck(deckaCharger[increment]);
 
             ///RECUP STOP
             fichier >> stopRecup;

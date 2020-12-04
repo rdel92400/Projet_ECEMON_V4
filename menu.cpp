@@ -108,7 +108,7 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                Joueur1.iniJoueurArgent(1500);
+                Joueur1.iniJoueurArgent(3000);
 
                 nom1 = iniNom(mapBitmap["fondCreaJoueur1Nom"]);
 
@@ -152,7 +152,7 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                Joueur2.iniJoueurArgent(1500);
+                Joueur2.iniJoueurArgent(3000);
 
                 nom2 = iniNom(mapBitmap["fondCreaJoueur2Nom"]);
 
@@ -179,6 +179,7 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
     }while (choix != 1);
 
+    ///JEU
 
     Plateau J1(Joueur1.getNom(), Joueur1.getDeck());
     Plateau J2(Joueur2.getNom(), Joueur2.getDeck());
@@ -210,10 +211,10 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
     std::cout << "\nL'enjeu du joueur 2 est ";
     J2.setCarteEJ();
 
-    std::cout << "\n\n\n\n DEBUT PARTIE \n\n";
+    std::cout << "\n\n\n\nDEBUT PARTIE \n\n";
 
-    do {
-
+    do
+    {
         std::cout << "pioche J1 : \n";
         J1.afficherPioche();
         std::cout << "Cimetiere J1 : \n";
@@ -225,65 +226,92 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
 
         ///TOUR DE J1 PHASE DE PIOCHE
+        al_draw_bitmap(mapBitmap["fondPartiePioche"],0,0,0);
+        affichageNomPvEnergie(J1,mapBitmap);
+        affichageCarteActive(J1,mapBitmap);
+        affichageCarteEnjeu(J1);
+
         premierTourJ1 = false;
+        if (!J1.getPioche().empty())
+        {
+            actionPioche(J1,mapBitmap);
 
-        if (!J1.getPioche().empty()){
-            J1.piocher();
-            std::cout << "PV J1 : " << J1.getPDV() << std::endl;
-            std::cout << "\nEnergie J1 : \n";
-            for (auto &elem : J1.getEnergie()){
-                std::cout << elem.first << " : " << elem.second << std::endl;
-            }
+            if (J1.getPioche().front()->get_EstUtilise() == ENERGIE)
+            {
+                choix = choixPioche1(mapBitmap);
 
-            if (J1.getPioche().front()->get_EstUtilise() == ENERGIE){
-                std::cout << "Voulez vous jouer cette carte ? : ";
-                std::cin >> choix;
-                if (choix == 1){
+                if (choix == 1)
+                {
                     J1.setEnergie(J1.getPioche().front()->getType(), J1.getPioche().front()->getLV());
                     J1.ajouterCimetiere(J1.getPioche().front());
                     J1.supprimerCarteFront();
+
+                    affichageNomPvEnergie(J1,mapBitmap);
+                    affichageCarteAjoutee(mapBitmap);
                 }
-                if (choix == 2){
-                    std::cout << "Carte remise sous le paquet" << std::endl;
+                if (choix == 2)
+                {
                     J1.remiseSouspaquet();
+
+                    affichageRemiseSousPioche(mapBitmap);
                 }
                 premierTourJ1 = true;
             }
 
-            if (premierTourJ1 == false){
-                if (J1.getPioche().front()->get_EstUtilise() == CREATURE){
-                    std::cout << "Voulez vous jouer cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix == 1){
-                        if (J1.getCreature() == nullptr){
+            if (premierTourJ1 == false)
+            {
+                if (J1.getPioche().front()->get_EstUtilise() == CREATURE)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix == 1)
+                    {
+                        if (J1.getCreature() == nullptr)
+                        {
                             J1.setCarteCreature(J1.getPioche().front());
                             J1.supprimerCarteFront();
-                        }else{
-                            std::cout << "Voulez vous vriament jouer cette carte ? ";
-                            std::cin >> choix;
-                            if (choix == 1){
+
+                            affichageCarteActive(J1,mapBitmap);
+                            affichageCarteAjoutee(mapBitmap);
+                        }
+                        else
+                        {
+                            choix = choixPioche2(mapBitmap);
+
+                            if (choix == 1)
+                            {
                                 J1.ajouterCarteBack(J1.getCreature());
                                 J1.setCarteCreature(J1.getPioche().front());
                                 J1.supprimerCarteFront();
+
+                                affichageCarteActive(J1,mapBitmap);
+                                affichageCarteAjoutee(mapBitmap);
                             }
-                            if(choix ==2){
-                                std::cout << "Carte remise sous le paquet" << std::endl;
+                            if(choix ==2)
+                            {
                                 J1.remiseSouspaquet();
+
+                                affichageRemiseSousPioche(mapBitmap);
                             }
                         }
                     }
-                    if(choix == 2){
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                    if(choix == 2)
+                    {
                         J1.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
+                    premierTourJ1 = true;
                 }
-                premierTourJ1 = true;
             }
-            if (premierTourJ1 == false){
-                if (J1.getPioche().front()->get_EstUtilise() == NECRO){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix==1){
+            if (premierTourJ1 == false)
+            {
+                if (J1.getPioche().front()->get_EstUtilise() == NECRO)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix==1)
+                    {
                         J1.afficherCimetiere();
                         std::cout << "Quelle carte voulez vous récuperer ? : ";
                         std::cin >> choix;
@@ -291,16 +319,20 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                         J1.supprimerCarteCim(choix);
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
-                    } else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                    }
+                    else
+                    {
                         J1.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J1.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix==1){
-                        std::cout << "Vous récupérer de l'énergie\n";
+                if (J1.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix==1)
+                    {
                         J1.setEnergie("H", 2);
                         J1.setEnergie("K", 2);
                         J1.setEnergie("C", 2);
@@ -308,47 +340,62 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+
+                        affichageNomPvEnergie(J1,mapBitmap);
+                        affichageSuperEnergie(mapBitmap);
+                    }
+                    else
+                    {
                         J1.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J1.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix == 1){
-                        ///Pas de blindage mais il faudra en rajouter un pour pas que le joueur sacrifier trop de point de vie
+                if (J1.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU)
+                {
+                    choix = choixPioche1(mapBitmap);
 
-                        std::cout << "Vous sacrifier des points de vie pour attaquer l'adversair.\nChoisissez le nombre de point de vie à sacrifier : ";
-                        std::cin >> choix;
+                    if (choix == 1)
+                    {
+                        choix = affichageBouleDeFeu(J2,mapBitmap);
+
                         J1.setPDV(J1.getPDV()-choix);
                         J2.setPDV(J2.getPDV()-choix*1.5);
 
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                    }
+                    else
+                    {
                         J1.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J1.getPioche().front()->get_EstUtilise() == VISION_ULTIME){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix==1){
-                        std::cout << "Affichage de la pioche\n";
-                        J1.afficherPioche();
+                if (J1.getPioche().front()->get_EstUtilise() == VISION_ULTIME)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix==1)
+                    {
+                        affichageVisionUltime(J1,mapBitmap);
 
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                    }
+                    else
+                    {
                         J1.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J1.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix==1){
+                if (J1.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix==1)
+                    {
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
 
@@ -356,143 +403,215 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                         std::cout << "Choisissez la carte à mettre au dessus du paquet : ";
                         std::cin >> choix;
                         J1.ajouterCarteFront(J1.getPioche()[choix]);
-                        J1.supprimerCartePioche(choix);
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                        J1.supprimerCartePioche(choix + 1);
+                    }
+                    else
+                    {
                         J1.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J1.getPioche().front()->get_EstUtilise() == PROTECTION){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if(choix==1){
+                if (J1.getPioche().front()->get_EstUtilise() == PROTECTION)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if(choix==1)
+                    {
                         J1Protec = false;
+
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+
+                        affichageProtection(mapBitmap);
+                    }
+                    else
+                    {
                         J1.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
             }
-
         }
 
 
         ///PHASE COMBAT J1:
-        if (J2Protec){
-            std::cout << "\n\nBATTLE PHASE \n\n";
-            if (J1.getCreature() == nullptr){
-                std::cout << "Pas de carte creature" << std::endl;
-            }else{
-                J1.getCreature()->afficher();
-                std::cout << "Veux tu attaquer ton adversaire ? : ";
-                std::cin >> choix;
-                if (choix==1){
-                    if (J2.getCreature() == nullptr){
-                        std::cout << "Votre adversaire n'a pas de carte creature, il perd 50 points de vie." << std::endl;
+        al_draw_bitmap(mapBitmap["fondPartieAttaque"],0,0,0);
+        affichageNomPvEnergie(J1,mapBitmap);
+        affichageCarteActive(J1,mapBitmap);
+        affichageCarteActiveEnnemie(J2,mapBitmap);
+        affichageCarteEnjeu(J1);
+
+        if (J2Protec)
+        {
+            if (J1.getCreature() == nullptr)
+            {
+                affichagePasDeCarteActive(mapBitmap);
+            }
+            else
+            {
+                choix = choixSiAttaque(mapBitmap);
+
+                if (choix == 1)
+                {
+                    if (J2.getCreature() == nullptr)
+                    {
                         J2.setPDV(J2.getPDV()-50);
+
+                        affichagePasDeCarteActiveEnnemie(mapBitmap);
                     }
-                    if (J2.getCreature() != nullptr){
-                        std::cout << "Carte de l'adversaire" << std::endl;
-                        J2.getCreature()->afficher();
-                        std::cout << "Quelle attaque voulez vous utiliser ? :";
-                        std::cin >> choix;
-                        if (choix == 1){
-                            if (J1.getCreature()->getAttaque()[0].getEnergieLV() <= J1.getEnergie()[J1.getCreature()->getAttaque()[0].getEnergie()]){
+                    if (J2.getCreature() != nullptr)
+                    {
+                        choix = choixAttaque(mapBitmap);
+
+                        if (choix == 1)
+                        {
+                            if (J1.getCreature()->getAttaque()[0].getEnergieLV() <= J1.getEnergie()[J1.getCreature()->getAttaque()[0].getEnergie()])
+                            {
                                 J1.getCreature()->attaquer(J2.getCreature(), 0);
                                 J1.setEnergie(J1.getCreature()->getAttaque()[0].getEnergie(), -J1.getCreature()->getAttaque()[0].getEnergieLV());
 
-                                if (J2.getCreature()->getPV() <= 0){
+                                if (J2.getCreature()->getPV() <= 0)
+                                {
                                     J2.ajouterCimetiere(J2.getCreature());
                                     J2.setCarteCreature(nullptr);
                                 }
-                            }else{
-                                std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+
+                                affichageCarteActiveEnnemie(J2,mapBitmap);
+                                affichageNomPvEnergie(J1,mapBitmap);
+                                affichageAttaqueReussie(mapBitmap);
+                            }
+                            else
+                            {
+                                affichagePasAssezEnergie(mapBitmap);
                             }
                         }
-                        if(choix ==2){
-                            if (J1.getCreature()->getAttaque()[1].getEnergieLV() <= J1.getEnergie()[J1.getCreature()->getAttaque()[1].getEnergie()]){
+                        if(choix ==2)
+                        {
+                            if (J1.getCreature()->getAttaque()[1].getEnergieLV() <= J1.getEnergie()[J1.getCreature()->getAttaque()[1].getEnergie()])
+                            {
                                 J1.getCreature()->attaquer(J2.getCreature(), 1);
                                 J1.setEnergie(J1.getCreature()->getAttaque()[1].getEnergie(), -J1.getCreature()->getAttaque()[1].getEnergieLV());
-                            }else{
-                                std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+
+                                if (J2.getCreature()->getPV() <= 0)
+                                {
+                                    J2.ajouterCimetiere(J2.getCreature());
+                                    J2.setCarteCreature(nullptr);
+                                }
+
+                                affichageCarteActiveEnnemie(J2,mapBitmap);
+                                affichageNomPvEnergie(J1,mapBitmap);
+                                affichageAttaqueReussie(mapBitmap);
+                            }
+                            else
+                            {
+                                affichagePasAssezEnergie(mapBitmap);
                             }
                         }
                     }
                 }
-                if (choix==2){
-                    std::cout << "Au tour du joueur suivant de jouer" << std::endl;
+                if (choix==2)
+                {
+                    affichageJoueurSuivant(mapBitmap);
                 }
-
             }
-        }else{
-            std::cout << "Le joueur est protégé grace a la carte spéciale protection, vous pourrez l'attaquer au prochain tour" << std::endl;
+        }
+        else
+        {
+            affichageJoueurProtege(mapBitmap);
+
             J2Protec = true;
         }
 
 
 
         ///TOUR de J2 PHASE DE PIOCHE
-        premierTourJ2 = false;
-        if (!J2.getPioche().empty()){
-            J2.piocher();
-            std::cout << "\nPV J2 : " << J2.getPDV() << std::endl;
-            std::cout << "\nEnergie J2 :\n";
-            for (auto &elem : J2.getEnergie()){
-                std::cout << elem.first << " : " << elem.second << std::endl;
-            }
+        al_draw_bitmap(mapBitmap["fondPartiePioche"],0,0,0);
+        affichageNomPvEnergie(J2,mapBitmap);
+        affichageCarteActive(J2,mapBitmap);
+        affichageCarteEnjeu(J2);
 
-            if (J2.getPioche().front()->get_EstUtilise() == ENERGIE){
-                std::cout << "Voulez vous jouer cette carte ? : ";
-                std::cin >> choix;
-                if (choix == 1){
+        premierTourJ2 = false;
+        if (!J2.getPioche().empty())
+        {
+            actionPioche(J2,mapBitmap);
+
+            if (J2.getPioche().front()->get_EstUtilise() == ENERGIE)
+            {
+                choix = choixPioche1(mapBitmap);
+
+                if (choix == 1)
+                {
                     J2.setEnergie(J2.getPioche().front()->getType(), J2.getPioche().front()->getLV());
                     J2.ajouterCimetiere(J2.getPioche().front());
                     J2.supprimerCarteFront();
+
+                    affichageNomPvEnergie(J2,mapBitmap);
+                    affichageCarteAjoutee(mapBitmap);
                 }
-                if (choix == 2){
-                    std::cout << "Carte remise sous le paquet" << std::endl;
+                if (choix == 2)
+                {
                     J2.remiseSouspaquet();
+
+                    affichageRemiseSousPioche(mapBitmap);
                 }
                 premierTourJ2 = true;
             }
 
-            if (premierTourJ2 == false){
-                if (J2.getPioche().front()->get_EstUtilise() == CREATURE){
-                    std::cout << "Voulez vous jouer cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix == 1){
-                        if (J2.getCreature() == nullptr){
+            if (premierTourJ2 == false)
+            {
+                if (J2.getPioche().front()->get_EstUtilise() == CREATURE)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix == 1)
+                    {
+                        if (J2.getCreature() == nullptr)
+                        {
                             J2.setCarteCreature(J2.getPioche().front());
                             J2.supprimerCarteFront();
-                        }else{
-                            std::cout << "Voulez vous vriament jouer cette carte ? ";
-                            std::cin >> choix;
-                            if (choix == 1){
+
+                            affichageCarteActive(J2,mapBitmap);
+                            affichageCarteAjoutee(mapBitmap);
+                        }
+                        else
+                        {
+                            choix = choixPioche2(mapBitmap);
+
+                            if (choix == 1)
+                            {
                                 J2.ajouterCarteBack(J2.getCreature());
                                 J2.setCarteCreature(J2.getPioche().front());
                                 J2.supprimerCarteFront();
+
+                                affichageCarteActive(J2,mapBitmap);
+                                affichageCarteAjoutee(mapBitmap);
                             }
-                            if(choix ==2){
-                                std::cout << "Carte remise sous le paquet" << std::endl;
+                            if(choix == 2)
+                            {
                                 J2.remiseSouspaquet();
+
+                                affichageRemiseSousPioche(mapBitmap);
                             }
                         }
                     }
-                    if(choix == 2){
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                    if(choix == 2)
+                    {
                         J2.remiseSouspaquet();
 
+                        affichageRemiseSousPioche(mapBitmap);
                     }
+                    premierTourJ2 = true;
                 }
-                premierTourJ2 = true;
             }
 
-            if (premierTourJ2 == false){
-                if (J2.getPioche().front()->get_EstUtilise() == NECRO){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
+            if (premierTourJ2 == false)
+            {
+                if (J2.getPioche().front()->get_EstUtilise() == NECRO)
+                {
+                    choix = choixPioche1(mapBitmap);
+
                     if (choix==1){
                         J2.afficherCimetiere();
                         std::cout << "Quelle carte voulez vous récuperer ? : ";
@@ -502,62 +621,78 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                         J2.ajouterCarteSpe(J2.getPioche().front());
                         J2.supprimerCarteFront();
                     } else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
                         J2.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J2.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix==1){
-                        std::cout << "Vous récupérer de l'énergie\n";
+                if (J2.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix==1)
+                    {
                         J2.setEnergie("H", 2);
                         J2.setEnergie("K", 2);
                         J2.setEnergie("C", 2);
                         J2.setEnergie("N", 2);
 
-                        J2.ajouterCarteSpe(J1.getPioche().front());
+                        J2.ajouterCarteSpe(J2.getPioche().front());
                         J2.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+
+                        affichageNomPvEnergie(J2,mapBitmap);
+                        affichageSuperEnergie(mapBitmap);
+                    }
+                    else
+                    {
                         J2.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J2.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix == 1){
-                        ///Pas de blindage mais il faudra en rajouter un pour pas que le joueur sacrifier trop de point de vie
+                if (J2.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU)
+                {
+                    choix = choixPioche1(mapBitmap);
 
-                        std::cout << "Vous sacrifier des points de vie pour attaquer l'adversair.\nChoisissez le nombre de point de vie à sacrifier : ";
-                        std::cin >> choix;
+                    if (choix == 1)
+                    {
+                        choix = affichageBouleDeFeu(J1,mapBitmap);
+
                         J2.setPDV(J2.getPDV()-choix);
                         J1.setPDV(J1.getPDV()-choix*1.5);
 
                         J2.ajouterCarteSpe(J2.getPioche().front());
                         J2.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                    }
+                    else
+                    {
                         J2.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J2.getPioche().front()->get_EstUtilise() == VISION_ULTIME){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if (choix==1){
-                        std::cout << "Affichage de la pioche\n";
-                        J2.afficherPioche();
+                if (J2.getPioche().front()->get_EstUtilise() == VISION_ULTIME)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if (choix==1)
+                    {
+                        affichageVisionUltime(J2,mapBitmap);
 
                         J2.ajouterCarteSpe(J2.getPioche().front());
                         J2.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+                    }
+                    else
+                    {
                         J2.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J2.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
+                if (J2.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE)
+                {
+                    choix = choixPioche1(mapBitmap);
+
                     if (choix==1){
                         J2.ajouterCarteSpe(J2.getPioche().front());
                         J2.supprimerCarteFront();
@@ -566,22 +701,31 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                         std::cout << "Choisissez la carte à mettre au dessus du paquet : ";
                         std::cin >> choix;
                         J2.ajouterCarteFront(J2.getPioche()[choix]);
-                        J2.supprimerCartePioche(choix);
+                        J2.supprimerCartePioche(choix + 1);
                     }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
                         J2.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
-                if (J2.getPioche().front()->get_EstUtilise() == PROTECTION){
-                    std::cout << "Voulez vous jouez cette carte ? : ";
-                    std::cin >> choix;
-                    if(choix==1){
+                if (J2.getPioche().front()->get_EstUtilise() == PROTECTION)
+                {
+                    choix = choixPioche1(mapBitmap);
+
+                    if(choix==1)
+                    {
                         J2Protec = false;
+
                         J2.ajouterCarteSpe(J2.getPioche().front());
                         J2.supprimerCarteFront();
-                    }else{
-                        std::cout << "Carte remise sous le paquet" << std::endl;
+
+                        affichageProtection(mapBitmap);
+                    }
+                    else
+                    {
                         J2.remiseSouspaquet();
+
+                        affichageRemiseSousPioche(mapBitmap);
                     }
                 }
             }
@@ -589,78 +733,117 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
 
         ///PHASE COMBAT J2 :
-        if (J1Protec){
-            std::cout << "\n\nBATTLE PHASE \n\n";
-            if (J2.getCreature() == nullptr){
-                std::cout << "Pas de carte creature" << std::endl;
-            }else {
-                J2.getCreature()->afficher();
-                std::cout << "Veux tu attaquer ton adversaire ? : ";
-                std::cin >> choix;
-                if (choix == 1) {
-                    if (J1.getCreature() == nullptr) {
-                        std::cout << "Votre adversaire n'a pas de carte creature, il perd 50 points de vie." << std::endl;
-                        J1.setPDV(J1.getPDV() - 50);
-                    }
-                    if (J1.getCreature() != nullptr) {
-                        std::cout << "Quelle attaque voulez vous utiliser ? :";
-                        std::cin >> choix;
-                        if (choix == 1) {
-                            if (J2.getCreature()->getAttaque()[0].getEnergieLV() <=
-                                J2.getEnergie()[J2.getCreature()->getAttaque()[0].getEnergie()]) {
-                                J2.getCreature()->attaquer(J1.getCreature(), 0);
-                                J2.setEnergie(J2.getCreature()->getAttaque()[0].getEnergie(),
-                                              -J2.getCreature()->getAttaque()[0].getEnergieLV());
+        al_draw_bitmap(mapBitmap["fondPartieAttaque"],0,0,0);
+        affichageNomPvEnergie(J2,mapBitmap);
+        affichageCarteActive(J2,mapBitmap);
+        affichageCarteActiveEnnemie(J1,mapBitmap);
+        affichageCarteEnjeu(J2);
 
-                                if (J1.getCreature()->getPV() <= 0) {
+        if (J1Protec)
+        {
+            if (J2.getCreature() == nullptr)
+            {
+                affichagePasDeCarteActive(mapBitmap);
+            }
+            else
+            {
+                choix = choixSiAttaque(mapBitmap);
+
+                if (choix == 1)
+                {
+                    if (J1.getCreature() == nullptr)
+                    {
+                        J1.setPDV(J1.getPDV() - 50);
+
+                        affichagePasDeCarteActiveEnnemie(mapBitmap);
+                    }
+                    if (J1.getCreature() != nullptr)
+                    {
+                        choix = choixAttaque(mapBitmap);
+
+                        if (choix == 1)
+                        {
+                            if (J2.getCreature()->getAttaque()[0].getEnergieLV() <= J2.getEnergie()[J2.getCreature()->getAttaque()[0].getEnergie()])
+                            {
+                                J2.getCreature()->attaquer(J1.getCreature(), 0);
+                                J2.setEnergie(J2.getCreature()->getAttaque()[0].getEnergie(),-J2.getCreature()->getAttaque()[0].getEnergieLV());
+
+                                if (J1.getCreature()->getPV() <= 0)
+                                {
                                     J1.ajouterCimetiere(J1.getCreature());
                                     J1.setCarteCreature(nullptr);
                                 }
-                            } else {
-                                std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+
+                                affichageCarteActiveEnnemie(J1,mapBitmap);
+                                affichageNomPvEnergie(J2,mapBitmap);
+                                affichageAttaqueReussie(mapBitmap);
+                            }
+                            else
+                            {
+                                affichagePasAssezEnergie(mapBitmap);
                             }
                         }
-                        if (choix == 2) {
-                            if (J2.getCreature()->getAttaque()[1].getEnergieLV() <=
-                                J2.getEnergie()[J2.getCreature()->getAttaque()[1].getEnergie()]) {
+                        if (choix == 2)
+                        {
+                            if (J2.getCreature()->getAttaque()[1].getEnergieLV() <= J2.getEnergie()[J2.getCreature()->getAttaque()[1].getEnergie()])
+                            {
                                 J2.getCreature()->attaquer(J1.getCreature(), 1);
-                                J2.setEnergie(J2.getCreature()->getAttaque()[1].getEnergie(),
-                                              -J2.getCreature()->getAttaque()[1].getEnergieLV());
-                            } else {
-                                std::cout << "Pas assez d'énergie pour attaquer" << std::endl;
+                                J2.setEnergie(J2.getCreature()->getAttaque()[1].getEnergie(),-J2.getCreature()->getAttaque()[1].getEnergieLV());
+
+                                if (J1.getCreature()->getPV() <= 0)
+                                {
+                                    J1.ajouterCimetiere(J1.getCreature());
+                                    J1.setCarteCreature(nullptr);
+                                }
+
+                                affichageCarteActiveEnnemie(J1,mapBitmap);
+                                affichageNomPvEnergie(J2,mapBitmap);
+                                affichageAttaqueReussie(mapBitmap);
+                            }
+                            else
+                            {
+                                affichagePasAssezEnergie(mapBitmap);
                             }
                         }
                     }
                 }
-                if (choix==2){
-                    std::cout << "Au tour du joueur suivant de jouer" << std::endl;
+                if (choix == 2)
+                {
+                    affichageJoueurSuivant(mapBitmap);
                 }
             }
-        }else{
-            std::cout << "Le joueur est protégé grace a la carte spéciale protection, vous pourrez l'attaquer au prochain tour" << std::endl;
+        }
+        else
+        {
+            affichageJoueurProtege(mapBitmap);
+
             J1Protec = true;
         }
 
 
-
-
-        if (J1.getPioche().empty() && J1.getCreature()== nullptr){
+        if (J1.getPioche().empty() && J1.getCreature() == nullptr)
+        {
             std::cout << "J1 ne peux plus se battre, la partie est fini";
             fin=1;
         }
-        if (J2.getPioche().empty() && J2.getCreature()== nullptr){
+        if (J2.getPioche().empty() && J2.getCreature() == nullptr)
+        {
             std::cout << "J2 ne peux plus se battre, la partie est fini";
             fin=1;
         }
 
-    }while (J1.getPDV()>0 && J2.getPDV()>0 && fin==0);
+    }while (J1.getPDV() > 0 && J2.getPDV() > 0 && fin == 0);
 
-    if (J1.getPDV() > J2.getPDV()){
-        std::cout << "Bravo J1 à gagner !!!\n";
-    }else{
-        std::cout << "Bravo J2 à gagner !!!\n";
+
+
+    if (J1.getPDV() > J2.getPDV())
+    {
+        ///VICTOIRE J1
+        affichageVictoire(J1,J2,mapBitmap);
     }
-
-
+    else
+    {
+        ///VICTOIRE J2
+        affichageVictoire(J2,J1,mapBitmap);
+    }
 }
-

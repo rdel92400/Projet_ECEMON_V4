@@ -4,22 +4,28 @@
 
 #include "argent.h"
 
-void victoireArgent(Joueur joueurRecu) {
+void victoireArgent(Joueur joueurRecu)
+{
     int nouvelArgent;
+
     nouvelArgent = joueurRecu.getArgent() + ARGENT_VICTOIRE;
     joueurRecu.setArgent(nouvelArgent);
 }
 
-int achat(Joueur joueurRecu, Carte carteRecue) {
+int achat(Joueur* joueurRecu, Carte* carteRecue)
+{
     int nouvelArgent;
 
-    if ((joueurRecu.getArgent() - carteRecue.getPrix()) < 0) {
-        ///Return -1 car il n'a pas pu acheter
+    ///PAS ACHAT
+    if ((joueurRecu->getArgent() - carteRecue->getPrix()) < 0)
+    {
         return -1;
-    } else {
-        nouvelArgent = joueurRecu.getArgent() - carteRecue.getPrix();
-        joueurRecu.setArgent(nouvelArgent);
-        ///Return 1 car il a pu acheter
+    }
+    ///ACHAT
+    else
+    {
+        joueurRecu->setArgent(joueurRecu->getArgent() - carteRecue->getPrix());
+
         return 1;
     }
 }
@@ -34,7 +40,9 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
     int page(0);
     int autorisation = 0;
     int tabCreature[4][5][3] = {0};
-    int tabEnergie[3][4][3] = {0};
+    int tabEnergie[4][4][3] = {0};
+    int tabSpeciales[2][3][3] = {0};
+    int tabDeck[3][5][3] = {0};
 
     std::string pv;
     std::string degat1;
@@ -67,7 +75,8 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
     iniTabCollectionCreature(tabCreature);
     iniTabCollectionEnergie(tabEnergie);
-
+    iniTabCollectionSpeciale(tabSpeciales);
+    iniTabCollectionDeck(tabDeck);
 
     ALLEGRO_MOUSE_STATE mouse;
 
@@ -79,7 +88,8 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
     int condition(0);
     int choix(0);
     int numeroJoueur(0);
-    std::string nomCarteAchetee;
+    Carte* carteAchetee;
+    Carte* carteRemplacee;
 
     collection.chargerCollectionEntiere();
     tabJoueur = chargementJoueurs(collection);
@@ -106,11 +116,6 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
     }while (condition == 0);
 
-    //for (auto &elem : tabJoueur[numeroJoueur].getDeck().getDeck())
-    {
-        //std::cout << elem->getNom() << std::endl;
-    }
-    std::cout << tabJoueur[numeroJoueur].getDeck().getDeck()[0]->getNom() << std::endl;
 
     do
     {
@@ -152,20 +157,17 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                         al_draw_text(agencyFB30,rouge,tabCreature[y][x][0] + 80 - al_get_text_width(agencyFB30,collection.getCarte()[tabCreature[y][x][2]]->getNom().c_str())/2,tabCreature[y][x][1],0,collection.getCarte()[tabCreature[y][x][2]]->getNom().c_str());
 
                         ///FLECHE DROITE
-                        if(event.mouse.x >= 1280-26-21 && event.mouse.x <= 1280-26 && event.mouse.y >= 335 && event.mouse.y <= 338+33)
+                        al_draw_text(agencyFB70,blanc,1280-26-21,310,0,">");
+                        if (event.mouse.x >= 1280-26-21 && event.mouse.x <= 1280-26 && event.mouse.y >= 335 && event.mouse.y <= 338+33)
                         {
                             al_draw_text(agencyFB70,rouge,1280-26-21,310,0,">");
 
-                            if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+                            if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
                             {
                                 page = 1;
                                 x = 0;
                                 y = 0;
                             }
-                        }
-                        else
-                        {
-                            al_draw_text(agencyFB70,blanc,1280-26-21,310,0,">");
                         }
                     }
 
@@ -177,7 +179,7 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
                         ///AFFICHAGE NOMS
                         cpt = 20;
-                        for(int j = 0; j < 3; j++)
+                        for(int j = 0; j < 4; j++)
                         {
                             for(int i = 0; i < 4; i++)
                             {
@@ -199,7 +201,9 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
                             if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                             {
-                                page = 1;
+                                page = 2;
+                                x = 0;
+                                y = 0;
                             }
                         }
 
@@ -212,6 +216,45 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                             if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                             {
                                 page = 0;
+                                x = 0;
+                                y = 0;
+                            }
+                        }
+                    }
+
+
+                    ///PAGE SPECIALES
+                    if (page == 2)
+                    {
+                        al_draw_bitmap(mapBitmap["fondCollectionSpeciales"],0,0,0);
+
+                        ///AFFICHAGE NOMS
+                        cpt = 36;
+                        for(int j = 0; j < 2; j++)
+                        {
+                            for(int i = 0; i < 3; i++)
+                            {
+                                al_draw_text(agencyFB30,colorText,tabSpeciales[j][i][0] + 80 - al_get_text_width(agencyFB30,collection.getCarte()[cpt]->getNom().c_str())/2,tabSpeciales[j][i][1],0,collection.getCarte()[cpt]->getNom().c_str());
+                                tabSpeciales[j][i][2] = cpt;
+                                cpt++;
+                            }
+                        }
+
+                        ///AFFICHAGE SELECTION
+                        al_draw_rectangle(tabSpeciales[y][x][0]-1,tabSpeciales[y][x][1]-20,tabSpeciales[y][x][0]+160-1,tabSpeciales[y][x][1]+80-20,noirPresque2,7);
+                        al_draw_text(agencyFB30,rouge,tabSpeciales[y][x][0] + 80 - al_get_text_width(agencyFB30,collection.getCarte()[tabSpeciales[y][x][2]]->getNom().c_str())/2,tabSpeciales[y][x][1],0,collection.getCarte()[tabSpeciales[y][x][2]]->getNom().c_str());
+
+                        ///FLECHE GAUCHE
+                        al_draw_text(agencyFB70,blanc,26,310,0,"<");
+                        if (event.mouse.x >= 26 && event.mouse.x <= 26+21 && event.mouse.y >= 335 && event.mouse.y <= 338+33)
+                        {
+                            al_draw_text(agencyFB70,rouge,26,310,0,"<");
+
+                            if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+                            {
+                                page = 1;
+                                x = 0;
+                                y = 0;
                             }
                         }
                     }
@@ -221,7 +264,7 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                     if (event.type == ALLEGRO_EVENT_KEY_CHAR)
                     {
                         ///PAGE CREATURE
-                        if (page == 0)
+                        if (page == 0 && event.type == ALLEGRO_EVENT_KEY_CHAR)
                         {
                             switch (event.keyboard.keycode)
                             {
@@ -230,14 +273,6 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                 case ALLEGRO_KEY_DOWN: if(y != 3) y++; break;
                                 case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
                                 case ALLEGRO_KEY_ENTER:
-/*
-                        int test = achat(joueur,maCollection.getCarte()[tabCreature[y][x][2]]);
-                        if(test<0)
-
-                            ///PAS LE DROIT
-                        else
-                            ///DROIT
-*/
                                     autorisation = 0;
                                     for (auto &elem : tabJoueur[numeroJoueur].getDeck().getDeck())
                                     {
@@ -249,7 +284,18 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                     }
                                     if (autorisation == 0)
                                     {
-                                        nomCarteAchetee = collection.getCarte()[tabCreature[y][x][2]]->getNom();
+                                        if (achat(&tabJoueur[numeroJoueur],collection.getCarte()[tabCreature[y][x][2]]) == 1)
+                                        {
+                                            autorisation = 0;
+                                        }
+                                        else
+                                        {
+                                            autorisation = 1;
+                                        }
+                                    }
+                                    if (autorisation == 0)
+                                    {
+                                        carteAchetee = collection.getCarte()[tabCreature[y][x][2]];
                                         compteurDeCartesChoisies++;
                                     }
                                     break;
@@ -257,6 +303,8 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                     pv = std::to_string(collection.getCarte()[tabCreature[y][x][2]]->getPV());
                                     degat1 = "Degats : " + std::to_string(collection.getCarte()[tabCreature[y][x][2]]->getAttaque(0).getDegat());
                                     degat2 = "Degats : " + std::to_string(collection.getCarte()[tabCreature[y][x][2]]->getAttaque(1).getDegat());
+                                    argentCarte = std::to_string(collection.getCarte()[tabCreature[y][x][2]]->getPrix());
+                                    argentJoueur = std::to_string(tabJoueur[numeroJoueur].getArgent());
 
                                     if (collection.getCarte()[tabCreature[y][x][2]]->getAttaque(0).getEnergie() == "H")
                                     {
@@ -281,7 +329,8 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
                                     al_draw_bitmap(mapBitmap["templateCarteCreature"],0,0,0);
 
-                                    al_draw_text(agencyFB35,noirPresque,758 + 27,92,0,pv.c_str());
+                                    al_draw_text(agencyFB35,noirPresque,280,220,0,argentCarte.c_str());
+                                    al_draw_text(agencyFB35,noirPresque,246,172,0,argentJoueur.c_str());
 
                                     al_draw_text(agencyFB40,noirPresque,463 + 275/2,88,ALLEGRO_ALIGN_CENTER,collection.getCarte()[tabCreature[y][x][2]]->getNom().c_str());
                                     al_draw_text(agencyFB35,noirPresque,758 + 27,92,ALLEGRO_ALIGN_CENTER,pv.c_str());
@@ -302,13 +351,13 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                             }
                         }
                         ///PAGE ENERGIE
-                        if (page == 1)
+                        if (page == 1 && event.type == ALLEGRO_EVENT_KEY_CHAR)
                         {
                             switch (event.keyboard.keycode)
                             {
                                 case ALLEGRO_KEY_UP: if(y != 0) y--; break;
                                 case ALLEGRO_KEY_RIGHT: if(x != 3) x++; break;
-                                case ALLEGRO_KEY_DOWN: if(y != 2) y++; break;
+                                case ALLEGRO_KEY_DOWN: if(y != 3) y++; break;
                                 case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
                                 case ALLEGRO_KEY_ENTER:
                                     autorisation = 0;
@@ -321,14 +370,30 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                     }
                                     if (autorisation == 0)
                                     {
-                                        nomCarteAchetee = collection.getCarte()[tabEnergie[y][x][2]]->getNom();
+                                        if (achat(&tabJoueur[numeroJoueur],collection.getCarte()[tabEnergie[y][x][2]]) == 1)
+                                        {
+                                            autorisation = 0;
+                                        }
+                                        else
+                                        {
+                                            autorisation = 1;
+                                        }
+                                    }
+                                    if (autorisation == 0)
+                                    {
+                                        carteAchetee = collection.getCarte()[tabEnergie[y][x][2]];
                                         compteurDeCartesChoisies++;
                                     }
                                     break;
                                 case ALLEGRO_KEY_SPACE:
                                     lvlEnergie = std::to_string(collection.getCarte()[tabEnergie[y][x][2]]->getLV());
+                                    argentCarte = std::to_string(collection.getCarte()[tabEnergie[y][x][2]]->getPrix());
+                                    argentJoueur = std::to_string(tabJoueur[numeroJoueur].getArgent());
 
                                     al_draw_bitmap(mapBitmap["templateCarteEnergie"],0,0,0);
+
+                                    al_draw_text(agencyFB35,noirPresque,280,220,0,argentCarte.c_str());
+                                    al_draw_text(agencyFB35,noirPresque,246,172,0,argentJoueur.c_str());
 
                                     al_draw_text(agencyFB40,noirPresque,463 + 275/2,88,ALLEGRO_ALIGN_CENTER,collection.getCarte()[tabEnergie[y][x][2]]->getNom().c_str());
                                     al_draw_text(agencyFB40,noirPresque,778 + 8,88,ALLEGRO_ALIGN_CENTER,lvlEnergie.c_str());
@@ -359,6 +424,92 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                     break;
                             }
                         }
+                        ///PAGE SPECIALES
+                        if (page == 2 && event.type == ALLEGRO_EVENT_KEY_CHAR)
+                        {
+                            switch (event.keyboard.keycode)
+                            {
+                                case ALLEGRO_KEY_UP: if(y != 0) y--; break;
+                                case ALLEGRO_KEY_RIGHT: if(x != 2) x++; break;
+                                case ALLEGRO_KEY_DOWN: if(y != 1) y++; break;
+                                case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
+                                case ALLEGRO_KEY_ENTER:
+                                    autorisation = 0;
+                                    for (auto &elem : tabJoueur[numeroJoueur].getDeck().getDeck())
+                                    {
+                                        if (collection.getCarte()[tabSpeciales[y][x][2]]->getNom() == elem->getNom())
+                                        {
+                                            autorisation = 1;
+                                        }
+                                    }
+                                    if (autorisation == 0)
+                                    {
+                                        if (achat(&tabJoueur[numeroJoueur],collection.getCarte()[tabSpeciales[y][x][2]]) == 1)
+                                        {
+                                            autorisation = 0;
+                                        }
+                                        else
+                                        {
+                                            autorisation = 1;
+                                        }
+                                    }
+                                    if (autorisation == 0)
+                                    {
+                                        carteAchetee = collection.getCarte()[tabSpeciales[y][x][2]];
+                                        compteurDeCartesChoisies++;
+                                    }
+                                    break;
+                                case ALLEGRO_KEY_SPACE:
+                                    argentCarte = std::to_string(collection.getCarte()[tabCreature[y][x][2]]->getPrix());
+                                    argentJoueur = std::to_string(tabJoueur[numeroJoueur].getArgent());
+
+                                    al_draw_bitmap(mapBitmap["templateCarteSpeciale"],0,0,0);
+
+                                    al_draw_text(agencyFB35,noirPresque,280,220,0,argentCarte.c_str());
+                                    al_draw_text(agencyFB35,noirPresque,246,172,0,argentJoueur.c_str());
+
+                                    al_draw_text(agencyFB40,noirPresque,463 + 361/2,88,ALLEGRO_ALIGN_CENTER,collection.getCarte()[tabSpeciales[y][x][2]]->getNom().c_str());
+
+                                    if (collection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Nécromancien")
+                                    {
+                                        al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,460,ALLEGRO_ALIGN_CENTER,"Réanimation d'une carte");
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,500,ALLEGRO_ALIGN_CENTER,"du cimetière");
+                                    }
+                                    if (collection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Super énergie")
+                                    {
+                                        al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,440,ALLEGRO_ALIGN_CENTER,"Ajout de deux energies de");
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,480,ALLEGRO_ALIGN_CENTER,"de chaque type");
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,520,ALLEGRO_ALIGN_CENTER,"dans votre main");
+                                    }
+                                    if (collection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Boule de Feu")
+                                    {
+                                        al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,460,ALLEGRO_ALIGN_CENTER,"Attaque directe sur l'ennemi");
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,500,ALLEGRO_ALIGN_CENTER,"en échange de points de vie");
+                                    }
+                                    if (collection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Vision Ultime")
+                                    {
+                                        al_draw_bitmap(mapBitmap["fondCarteSpeciale"], 460, 163, 0);
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2, 480,ALLEGRO_ALIGN_CENTER,"Permet de voir sa pioche");
+                                    }
+                                    if (collection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Main magique")
+                                    {
+                                        al_draw_bitmap(mapBitmap["fondCarteSpeciale"],460,163,0);
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,460,ALLEGRO_ALIGN_CENTER,"Choix possible de la");
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,500,ALLEGRO_ALIGN_CENTER,"prochaine carte piochée");
+                                    }
+                                    if (collection.getCarte()[tabSpeciales[y][x][2]]->getNom() == "Protection")
+                                    {
+                                        al_draw_bitmap(mapBitmap["fondCarteSpeciale"], 460,163, 0);
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,440,ALLEGRO_ALIGN_CENTER,"Protection contre la");
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,480,ALLEGRO_ALIGN_CENTER,"prochaine attaque");
+                                        al_draw_text(agencyFB35,noirPresque2,460 + 359/2,520,ALLEGRO_ALIGN_CENTER,"de l'ennemi");
+                                    }
+                                    break;
+                            }
+                        }
                     }
 
 
@@ -372,12 +523,73 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
                 }while (!deckComplet);
 
+
+                compteurDeCartesChoisies = 0;
+                deckComplet = false;
+                x = 0;
+                y = 0;
+
+
+                do
+                {
+                    ///ATTENTES D'EVENEMENTS
+                    al_wait_for_event(queue,&event);
+
+                    al_draw_bitmap(mapBitmap["fondCollectionDeck"],0,0,0);
+
+                    ///AFFICHAGE NOMS
+                    cpt = 0;
+                    for(int j = 0; j < 3; j++)
+                    {
+                        for(int i = 0; i < 5; i++)
+                        {
+                            al_draw_text(agencyFB30,colorText,tabDeck[j][i][0] + 80 - al_get_text_width(agencyFB30,tabJoueur[numeroJoueur].getDeck().getDeck()[cpt]->getNom().c_str())/2,tabDeck[j][i][1],0,tabJoueur[numeroJoueur].getDeck().getDeck()[cpt]->getNom().c_str());
+                            tabDeck[j][i][2] = cpt;
+                            cpt++;
+                        }
+                    }
+
+                    ///AFFICHAGE SELECTION
+                    al_draw_rectangle(tabDeck[y][x][0]-1,tabDeck[y][x][1]-20,tabDeck[y][x][0]+160-1,tabDeck[y][x][1]+80-20,noirPresque2,7);
+                    al_draw_text(agencyFB30,rouge,tabDeck[y][x][0] + 80 - al_get_text_width(agencyFB30,tabJoueur[numeroJoueur].getDeck().getDeck()[tabDeck[y][x][2]]->getNom().c_str())/2,tabDeck[y][x][1],0,tabJoueur[numeroJoueur].getDeck().getDeck()[tabDeck[y][x][2]]->getNom().c_str());
+
+
+                    ///MOUVEMENTS
+                    if (event.type == ALLEGRO_EVENT_KEY_CHAR)
+                    {
+                        switch (event.keyboard.keycode)
+                        {
+                                case ALLEGRO_KEY_UP: if(y != 0) y--; break;
+                                case ALLEGRO_KEY_RIGHT: if(x != 4) x++; break;
+                                case ALLEGRO_KEY_DOWN: if(y != 2) y++; break;
+                                case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
+                                case ALLEGRO_KEY_ENTER:
+                                    carteRemplacee = tabJoueur[numeroJoueur].getDeck().getDeck()[tabDeck[y][x][2]];
+                                    compteurDeCartesChoisies++;
+                                    break;
+                                case ALLEGRO_KEY_SPACE:
+                                    break;
+                            }
+                    }
+
+                    ///DECK COMPLET
+                    if (compteurDeCartesChoisies == 1)
+                    {
+                        deckComplet = true;
+                    }
+
+                    al_flip_display();
+
+                } while (!deckComplet);
+
                 al_destroy_event_queue(queue);
 
+                std::cout << "Carte a rajouter : " << carteAchetee->getNom() << std::endl;
+                std::cout << "Carte a enlever  : " << carteRemplacee->getNom() << std::endl;
 
-                std::cout << nomCarteAchetee << std::endl;
+                achatCarteBoutique(&tabJoueur[numeroJoueur],carteAchetee,carteRemplacee);
 
-
+                ///SAUVEGARDE
                 RemplacedeJoueur(tabJoueur,collection);
 
                 choix = 1;
@@ -396,4 +608,25 @@ void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
         al_flip_display();
 
     }while (choix != 1);
+}
+
+void achatCarteBoutique(Joueur* joueur, Carte* carteARajouter, Carte* carteAEnlever)
+{
+    Deck nouveauDeck;
+    Carte* carteTempo;
+
+    for (int i = 0; i < NOMBRE_CARTES_DECK; i++)
+    {
+        if (joueur->getDeck().getDeck()[i] == carteAEnlever)
+        {
+            carteTempo = carteARajouter;
+        }
+        else
+        {
+            carteTempo = joueur->getDeck().getDeck()[i];
+        }
+        nouveauDeck.setDeck(carteTempo);
+    }
+
+    joueur->setDeck(nouveauDeck);
 }

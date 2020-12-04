@@ -5,6 +5,7 @@
 #include "Deck.h"
 #include "Allegro.h"
 #include "Joueur.h"
+#include "argent.h"
 
 
 
@@ -251,13 +252,22 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         }
                         if (autorisation == 0)
                         {
+                            if (achat(&joueur,maCollection.getCarte()[tabCreature[y][x][2]]) == 1)
+                            {
+                                autorisation = 0;
+                            }
+                            else
+                            {
+                                autorisation = 1;
+                            }
+                        }
+                        if (autorisation == 0)
+                        {
                             setDeck(maCollection.getCarte()[tabCreature[y][x][2]]);
                             tabCartePrise.push_back(tabCreature[y][x][2]);
                             tabXCreaturePrise.push_back(tabCreature[y][x][0]);
                             tabYCreaturePrise.push_back(tabCreature[y][x][1]);
                             compteurDeCartesChoisies++;
-
-                            std::cout << maCollection.getCarte()[tabCreature[y][x][2]]->getNom() << std::endl;
                         }
                         break;
                     case ALLEGRO_KEY_SPACE:
@@ -331,13 +341,22 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         }
                         if (autorisation == 0)
                         {
+                            if (achat(&joueur,maCollection.getCarte()[tabEnergie[y][x][2]]) == 1)
+                            {
+                                autorisation = 0;
+                            }
+                            else
+                            {
+                                autorisation = 1;
+                            }
+                        }
+                        if (autorisation == 0)
+                        {
                             setDeck(maCollection.getCarte()[tabEnergie[y][x][2]]);
                             tabCartePrise.push_back(tabEnergie[y][x][2]);
                             tabXEnergiePrise.push_back(tabEnergie[y][x][0]);
                             tabYEnergiePrise.push_back(tabEnergie[y][x][1]);
                             compteurDeCartesChoisies++;
-
-                            std::cout << maCollection.getCarte()[tabEnergie[y][x][2]]->getNom() << std::endl;
                         }
                         break;
                     case ALLEGRO_KEY_SPACE:
@@ -379,7 +398,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         break;
                 }
             }
-            ///PAGE CREATURE
+            ///PAGE SPECIALES
             if (page == 2)
             {
                 switch (event.keyboard.keycode)
@@ -393,6 +412,17 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         for (int i = 0; i < tabCartePrise.size(); ++i)
                         {
                             if (tabSpeciales[y][x][2] == tabCartePrise[i])
+                            {
+                                autorisation = 1;
+                            }
+                        }
+                        if (autorisation == 0)
+                        {
+                            if (achat(&joueur,maCollection.getCarte()[tabSpeciales[y][x][2]]) == 1)
+                            {
+                                autorisation = 0;
+                            }
+                            else
                             {
                                 autorisation = 1;
                             }
@@ -413,7 +443,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
                         al_draw_bitmap(mapBitmap["templateCarteSpeciale"],0,0,0);
 
                         al_draw_text(agencyFB40,noirPresque,463 + 361/2,88,ALLEGRO_ALIGN_CENTER,maCollection.getCarte()[tabSpeciales[y][x][2]]->getNom().c_str());
-                        
+
                         al_draw_text(agencyFB35,noirPresque,280,220,0,argentCarte.c_str());
                         al_draw_text(agencyFB35,noirPresque,246,172,0,argentJoueur.c_str());
 
@@ -461,7 +491,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
 
         ///DECK COMPLET
-        if (compteurDeCartesChoisies == 5)
+        if (compteurDeCartesChoisies == NOMBRE_CARTES_DECK)
         {
             deckComplet = true;
         }

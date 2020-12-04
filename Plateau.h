@@ -9,6 +9,7 @@
 #include "Carte.h"
 #include "Deck.h"
 
+
 class Plateau
 {
 public:
@@ -59,9 +60,9 @@ protected:
 
     Carte* m_carteEnjeu;
     std::deque<Carte*> m_pioche;
-    std::vector <Carte*> m_speciales;
+    std::vector<Carte*> m_speciales;
     Carte* m_creatures;
-    std::vector <Carte*> m_cimetiere;
+    std::vector<Carte*> m_cimetiere;
 
 };
 
