@@ -42,3 +42,9 @@ Deck Joueur::getDeck() {
 std::string Joueur::getNom() {
     return m_nom;
 }
+
+void Joueur::victoireArgent() {
+    int nouvelArgent;
+    nouvelArgent = getArgent() + ARGENT_VICTOIRE;
+    setArgent(nouvelArgent);
+}
