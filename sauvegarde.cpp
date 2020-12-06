@@ -83,7 +83,7 @@ void RemplacedeJoueur(std::map<int, Joueur> joueursRecus, Collections collection
 }
 
 
-Joueur chargementJoueur1(Collections collection, std::map<std::string, ALLEGRO_BITMAP *> mapBitmap) {
+Joueur chargementJoueur1(Collections collection, std::map<std::string, ALLEGRO_BITMAP *> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice) {
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
     std::string nomRecup;
     std::string stopRecup;
@@ -133,7 +133,7 @@ Joueur chargementJoueur1(Collections collection, std::map<std::string, ALLEGRO_B
         fichier.close();
 
         do {
-            choixNom = iniNomChargementJoueur(mapBitmap["fondChargementJoueurOui"], 670, 597, tabNoms);
+            choixNom = iniNomChargementJoueur(mapBitmap["fondChargementJoueurOui"], 670, 597, tabNoms,myMapPolice);
 
             fichier.open("fichierDeSauvegarde", std::ios::in);
 
@@ -187,7 +187,7 @@ Joueur chargementJoueur1(Collections collection, std::map<std::string, ALLEGRO_B
 }
 
 
-Joueur chargementJoueur2(Collections collection, std::map<std::string, ALLEGRO_BITMAP *> mapBitmap, const std::string &nomJoueur1)
+Joueur chargementJoueur2(Collections collection, std::map<std::string, ALLEGRO_BITMAP *> mapBitmap, const std::string &nomJoueur1, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     std::string const fichierDeSauvegarde("Projet_ECEMON_V4//fichierDeSauvegarde");
     std::string nomRecup;
@@ -238,7 +238,7 @@ Joueur chargementJoueur2(Collections collection, std::map<std::string, ALLEGRO_B
         fichier.close();
 
         do {
-            choixNom = iniNomChargementJoueur(mapBitmap["fondChargementJoueurOui"], 670, 597, tabNoms);
+            choixNom = iniNomChargementJoueur(mapBitmap["fondChargementJoueurOui"], 670, 597, tabNoms,myMapPolice);
 
             fichier.open("fichierDeSauvegarde", std::ios::in);
 

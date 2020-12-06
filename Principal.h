@@ -24,8 +24,7 @@
 #include <fstream>
 
 
-//void menu();
-//void partie();
+
 
 #define NOMBRE_CARTES_DECK 15
 #define NOMBRE_CARTE_COLLEC 42
@@ -37,6 +36,6 @@
 #define VISION_ULTIME 6
 #define MAIN_MAGIQUE 7
 #define PROTECTION 8
-#define ARGENT_VICTOIRE 250
+#define ARGENT_VICTOIRE 500
 
 #endif //PROJET_ECEMON_V4_PRINCIPAL_H

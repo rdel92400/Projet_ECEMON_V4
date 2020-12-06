@@ -12,7 +12,7 @@
 
 void victoireArgent (Joueur joueurRecu);
 int achat(Joueur* joueurRecu,Carte* carteRecue);
-void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
+void boutique(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice, std::map<std::string,ALLEGRO_SAMPLE*> mapSample);
 void achatCarteBoutique(Joueur* joueur, Carte* carteARajouter, Carte* carteAEnlever);
 
 

@@ -19,5 +19,5 @@
 #include "Allegro.h"
 #include "argent.h"
 
-void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
-void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
+void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice, std::map<std::string,ALLEGRO_SAMPLE*> mapSample);
+void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice, std::map<std::string,ALLEGRO_SAMPLE*> mapSample);

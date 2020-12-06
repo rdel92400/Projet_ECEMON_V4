@@ -4,11 +4,13 @@
 #include "menu.h"
 
 
-void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
+void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice, std::map<std::string,ALLEGRO_SAMPLE*> mapSample)
 {
     int menu(0);
 
     ALLEGRO_MOUSE_STATE mouse;
+
+    al_play_sample(mapSample["menu"],1,0,1,ALLEGRO_PLAYMODE_LOOP, nullptr);
 
     do
     {
@@ -23,7 +25,8 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                partie(mapBitmap);
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                partie(mapBitmap,myMapPolice,mapSample);
             }
         }
 
@@ -34,7 +37,8 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                regles(mapBitmap);
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                regles(mapBitmap,mapSample);
             }
         }
 
@@ -45,7 +49,8 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                boutique(mapBitmap);
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                boutique(mapBitmap,myMapPolice,mapSample);
             }
         }
 
@@ -65,7 +70,7 @@ void menu(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
 }
 
-void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
+void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice, std::map<std::string,ALLEGRO_SAMPLE*> mapSample)
 {
     Collections collection;
     Joueur Joueur1, Joueur2;
@@ -108,11 +113,13 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+
                 Joueur1.iniJoueurArgent(3000);
 
-                nom1 = iniNom(mapBitmap["fondCreaJoueur1Nom"]);
+                nom1 = iniNom(mapBitmap["fondCreaJoueur1Nom"],myMapPolice);
 
-                deckDeTest1.iniDeck(collection,mapBitmap,Joueur1);
+                deckDeTest1.iniDeck(collection,mapBitmap,Joueur1,mapSample);
                 Joueur1.iniJoueur(nom1,deckDeTest1);
 
                 sauvegardeJoueur(Joueur1,collection);
@@ -127,7 +134,9 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                Joueur1 = chargementJoueur1(collection,mapBitmap);
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+
+                Joueur1 = chargementJoueur1(collection,mapBitmap,myMapPolice);
 
                 choix = 1;
             }
@@ -152,11 +161,13 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+
                 Joueur2.iniJoueurArgent(3000);
 
-                nom2 = iniNom(mapBitmap["fondCreaJoueur2Nom"]);
+                nom2 = iniNom(mapBitmap["fondCreaJoueur2Nom"],myMapPolice);
 
-                deckDeTest2.iniDeck(collection,mapBitmap,Joueur2);
+                deckDeTest2.iniDeck(collection,mapBitmap,Joueur2,mapSample);
                 Joueur2.iniJoueur(nom2,deckDeTest2);
 
                 sauvegardeJoueur(Joueur2,collection);
@@ -171,7 +182,9 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
-                Joueur2 = chargementJoueur2(collection,mapBitmap,Joueur1.getNom());
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+
+                Joueur2 = chargementJoueur2(collection,mapBitmap,Joueur1.getNom(),myMapPolice);
                 choix = 1;
             }
         }
@@ -179,7 +192,10 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
     }while (choix != 1);
 
+
     ///JEU
+    al_stop_samples();
+    al_play_sample(mapSample["combat"],0.5,0,1,ALLEGRO_PLAYMODE_LOOP, nullptr);
 
     Plateau J1(Joueur1.getNom(), Joueur1.getDeck());
     Plateau J2(Joueur2.getNom(), Joueur2.getDeck());
@@ -227,18 +243,18 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
         ///TOUR DE J1 PHASE DE PIOCHE
         al_draw_bitmap(mapBitmap["fondPartiePioche"],0,0,0);
-        affichageNomPvEnergie(J1,mapBitmap);
-        affichageCarteActive(J1,mapBitmap);
-        affichageCarteEnjeu(J1);
+        affichageNomPvEnergie(J1,mapBitmap,myMapPolice);
+        affichageCarteActive(J1,mapBitmap,myMapPolice);
+        affichageCarteEnjeu(J1,myMapPolice);
 
         premierTourJ1 = false;
         if (!J1.getPioche().empty())
         {
-            actionPioche(J1,mapBitmap);
+            actionPioche(J1,mapBitmap,myMapPolice);
 
             if (J1.getPioche().front()->get_EstUtilise() == ENERGIE)
             {
-                choix = choixPioche1(mapBitmap);
+                choix = choixPioche1(mapBitmap,myMapPolice);
 
                 if (choix == 1)
                 {
@@ -246,14 +262,14 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                     J1.ajouterCimetiere(J1.getPioche().front());
                     J1.supprimerCarteFront();
 
-                    affichageNomPvEnergie(J1,mapBitmap);
-                    affichageCarteAjoutee(mapBitmap);
+                    affichageNomPvEnergie(J1,mapBitmap,myMapPolice);
+                    affichageCarteAjoutee(mapBitmap,myMapPolice);
                 }
                 if (choix == 2)
                 {
                     J1.remiseSouspaquet();
 
-                    affichageRemiseSousPioche(mapBitmap);
+                    affichageRemiseSousPioche(mapBitmap,myMapPolice);
                 }
                 premierTourJ1 = true;
             }
@@ -262,7 +278,7 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
             {
                 if (J1.getPioche().front()->get_EstUtilise() == CREATURE)
                 {
-                    choix = choixPioche1(mapBitmap);
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
                     if (choix == 1)
                     {
@@ -271,12 +287,12 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                             J1.setCarteCreature(J1.getPioche().front());
                             J1.supprimerCarteFront();
 
-                            affichageCarteActive(J1,mapBitmap);
-                            affichageCarteAjoutee(mapBitmap);
+                            affichageCarteActive(J1,mapBitmap,myMapPolice);
+                            affichageCarteAjoutee(mapBitmap,myMapPolice);
                         }
                         else
                         {
-                            choix = choixPioche2(mapBitmap);
+                            choix = choixPioche2(mapBitmap,myMapPolice);
 
                             if (choix == 1)
                             {
@@ -284,14 +300,14 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                 J1.setCarteCreature(J1.getPioche().front());
                                 J1.supprimerCarteFront();
 
-                                affichageCarteActive(J1,mapBitmap);
-                                affichageCarteAjoutee(mapBitmap);
+                                affichageCarteActive(J1,mapBitmap,myMapPolice);
+                                affichageCarteAjoutee(mapBitmap,myMapPolice);
                             }
                             if(choix ==2)
                             {
                                 J1.remiseSouspaquet();
 
-                                affichageRemiseSousPioche(mapBitmap);
+                                affichageRemiseSousPioche(mapBitmap,myMapPolice);
                             }
                         }
                     }
@@ -299,7 +315,7 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                     {
                         J1.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                     premierTourJ1 = true;
                 }
@@ -308,15 +324,15 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
             {
                 if (J1.getPioche().front()->get_EstUtilise() == NECRO)
                 {
-                    choix = choixPioche1(mapBitmap);
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
                     if (choix==1)
                     {
-                        J1.afficherCimetiere();
-                        std::cout << "Quelle carte voulez vous récuperer ? : ";
-                        std::cin >> choix;
+                        choix = affichageNecro(J1,mapBitmap,myMapPolice);
+
                         J1.ajouterCarteBack(J1.getCimetiere()[choix]);
                         J1.supprimerCarteCim(choix);
+
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
                     }
@@ -324,12 +340,12 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                     {
                         J1.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                 }
                 if (J1.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE)
                 {
-                    choix = choixPioche1(mapBitmap);
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
                     if (choix==1)
                     {
@@ -341,26 +357,26 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
 
-                        affichageNomPvEnergie(J1,mapBitmap);
-                        affichageSuperEnergie(mapBitmap);
+                        affichageNomPvEnergie(J1,mapBitmap,myMapPolice);
+                        affichageSuperEnergie(mapBitmap,myMapPolice);
                     }
                     else
                     {
                         J1.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                 }
                 if (J1.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU)
                 {
-                    choix = choixPioche1(mapBitmap);
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
                     if (choix == 1)
                     {
-                        choix = affichageBouleDeFeu(J2,mapBitmap);
+                        choix = affichageBouleDeFeu(J2,mapBitmap,myMapPolice);
 
-                        J1.setPDV(J1.getPDV()-choix);
-                        J2.setPDV(J2.getPDV()-choix*1.5);
+                        J1.setPDV(J1.getPDV() - choix);
+                        J2.setPDV(J2.getPDV() - choix*1.5);
 
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
@@ -369,39 +385,38 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                     {
                         J1.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                 }
                 if (J1.getPioche().front()->get_EstUtilise() == VISION_ULTIME)
                 {
-                    choix = choixPioche1(mapBitmap);
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
                     if (choix==1)
                     {
-                        affichageVisionUltime(J1,mapBitmap);
-
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
+
+                        affichageVisionUltime(J1,mapBitmap,myMapPolice);
                     }
                     else
                     {
                         J1.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                 }
                 if (J1.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE)
                 {
-                    choix = choixPioche1(mapBitmap);
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
                     if (choix==1)
                     {
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
 
-                        J1.afficherPioche();
-                        std::cout << "Choisissez la carte à mettre au dessus du paquet : ";
-                        std::cin >> choix;
+                        choix = affichageMainMagique(J1,mapBitmap,myMapPolice);
+
                         J1.ajouterCarteFront(J1.getPioche()[choix]);
                         J1.supprimerCartePioche(choix + 1);
                     }
@@ -409,12 +424,12 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                     {
                         J1.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                 }
                 if (J1.getPioche().front()->get_EstUtilise() == PROTECTION)
                 {
-                    choix = choixPioche1(mapBitmap);
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
                     if(choix==1)
                     {
@@ -423,13 +438,13 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                         J1.ajouterCarteSpe(J1.getPioche().front());
                         J1.supprimerCarteFront();
 
-                        affichageProtection(mapBitmap);
+                        affichageProtection(mapBitmap,myMapPolice);
                     }
                     else
                     {
                         J1.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                 }
             }
@@ -438,20 +453,20 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
         ///PHASE COMBAT J1:
         al_draw_bitmap(mapBitmap["fondPartieAttaque"],0,0,0);
-        affichageNomPvEnergie(J1,mapBitmap);
-        affichageCarteActive(J1,mapBitmap);
-        affichageCarteActiveEnnemie(J2,mapBitmap);
-        affichageCarteEnjeu(J1);
+        affichageNomPvEnergie(J1,mapBitmap,myMapPolice);
+        affichageCarteActive(J1,mapBitmap,myMapPolice);
+        affichageCarteActiveEnnemie(J2,mapBitmap,myMapPolice);
+        affichageCarteEnjeu(J1,myMapPolice);
 
         if (J2Protec)
         {
             if (J1.getCreature() == nullptr)
             {
-                affichagePasDeCarteActive(mapBitmap);
+                affichagePasDeCarteActive(mapBitmap,myMapPolice);
             }
             else
             {
-                choix = choixSiAttaque(mapBitmap);
+                choix = choixSiAttaque(mapBitmap,myMapPolice);
 
                 if (choix == 1)
                 {
@@ -459,11 +474,11 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                     {
                         J2.setPDV(J2.getPDV()-50);
 
-                        affichagePasDeCarteActiveEnnemie(mapBitmap);
+                        affichagePasDeCarteActiveEnnemie(mapBitmap,myMapPolice);
                     }
                     if (J2.getCreature() != nullptr)
                     {
-                        choix = choixAttaque(mapBitmap);
+                        choix = choixAttaque(mapBitmap,myMapPolice);
 
                         if (choix == 1)
                         {
@@ -478,13 +493,13 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                     J2.setCarteCreature(nullptr);
                                 }
 
-                                affichageCarteActiveEnnemie(J2,mapBitmap);
-                                affichageNomPvEnergie(J1,mapBitmap);
-                                affichageAttaqueReussie(mapBitmap);
+                                affichageCarteActiveEnnemie(J2,mapBitmap,myMapPolice);
+                                affichageNomPvEnergie(J1,mapBitmap,myMapPolice);
+                                affichageAttaqueReussie(mapBitmap,myMapPolice);
                             }
                             else
                             {
-                                affichagePasAssezEnergie(mapBitmap);
+                                affichagePasAssezEnergie(mapBitmap,myMapPolice);
                             }
                         }
                         if(choix ==2)
@@ -500,336 +515,315 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
                                     J2.setCarteCreature(nullptr);
                                 }
 
-                                affichageCarteActiveEnnemie(J2,mapBitmap);
-                                affichageNomPvEnergie(J1,mapBitmap);
-                                affichageAttaqueReussie(mapBitmap);
+                                affichageCarteActiveEnnemie(J2,mapBitmap,myMapPolice);
+                                affichageNomPvEnergie(J1,mapBitmap,myMapPolice);
+                                affichageAttaqueReussie(mapBitmap,myMapPolice);
                             }
                             else
                             {
-                                affichagePasAssezEnergie(mapBitmap);
+                                affichagePasAssezEnergie(mapBitmap,myMapPolice);
                             }
                         }
                     }
                 }
                 if (choix==2)
                 {
-                    affichageJoueurSuivant(mapBitmap);
+                    affichageJoueurSuivant(mapBitmap,myMapPolice);
                 }
             }
         }
         else
         {
-            affichageJoueurProtege(mapBitmap);
+            affichageJoueurProtege(mapBitmap,myMapPolice);
 
             J2Protec = true;
         }
 
 
-
-        ///TOUR de J2 PHASE DE PIOCHE
-        al_draw_bitmap(mapBitmap["fondPartiePioche"],0,0,0);
-        affichageNomPvEnergie(J2,mapBitmap);
-        affichageCarteActive(J2,mapBitmap);
-        affichageCarteEnjeu(J2);
-
-        premierTourJ2 = false;
-        if (!J2.getPioche().empty())
+        if (J2.getPDV() > 0)
         {
-            actionPioche(J2,mapBitmap);
+            ///TOUR de J2 PHASE DE PIOCHE
+            al_draw_bitmap(mapBitmap["fondPartiePioche"], 0, 0, 0);
+            affichageNomPvEnergie(J2, mapBitmap,myMapPolice);
+            affichageCarteActive(J2, mapBitmap,myMapPolice);
+            affichageCarteEnjeu(J2,myMapPolice);
 
-            if (J2.getPioche().front()->get_EstUtilise() == ENERGIE)
-            {
-                choix = choixPioche1(mapBitmap);
+            premierTourJ2 = false;
+            if (!J2.getPioche().empty()) {
+                actionPioche(J2, mapBitmap,myMapPolice);
 
-                if (choix == 1)
-                {
-                    J2.setEnergie(J2.getPioche().front()->getType(), J2.getPioche().front()->getLV());
-                    J2.ajouterCimetiere(J2.getPioche().front());
-                    J2.supprimerCarteFront();
+                if (J2.getPioche().front()->get_EstUtilise() == ENERGIE) {
+                    choix = choixPioche1(mapBitmap,myMapPolice);
 
-                    affichageNomPvEnergie(J2,mapBitmap);
-                    affichageCarteAjoutee(mapBitmap);
-                }
-                if (choix == 2)
-                {
-                    J2.remiseSouspaquet();
+                    if (choix == 1) {
+                        J2.setEnergie(J2.getPioche().front()->getType(), J2.getPioche().front()->getLV());
+                        J2.ajouterCimetiere(J2.getPioche().front());
+                        J2.supprimerCarteFront();
 
-                    affichageRemiseSousPioche(mapBitmap);
-                }
-                premierTourJ2 = true;
-            }
-
-            if (premierTourJ2 == false)
-            {
-                if (J2.getPioche().front()->get_EstUtilise() == CREATURE)
-                {
-                    choix = choixPioche1(mapBitmap);
-
-                    if (choix == 1)
-                    {
-                        if (J2.getCreature() == nullptr)
-                        {
-                            J2.setCarteCreature(J2.getPioche().front());
-                            J2.supprimerCarteFront();
-
-                            affichageCarteActive(J2,mapBitmap);
-                            affichageCarteAjoutee(mapBitmap);
-                        }
-                        else
-                        {
-                            choix = choixPioche2(mapBitmap);
-
-                            if (choix == 1)
-                            {
-                                J2.ajouterCarteBack(J2.getCreature());
-                                J2.setCarteCreature(J2.getPioche().front());
-                                J2.supprimerCarteFront();
-
-                                affichageCarteActive(J2,mapBitmap);
-                                affichageCarteAjoutee(mapBitmap);
-                            }
-                            if(choix == 2)
-                            {
-                                J2.remiseSouspaquet();
-
-                                affichageRemiseSousPioche(mapBitmap);
-                            }
-                        }
+                        affichageNomPvEnergie(J2, mapBitmap,myMapPolice);
+                        affichageCarteAjoutee(mapBitmap,myMapPolice);
                     }
-                    if(choix == 2)
-                    {
+                    if (choix == 2) {
                         J2.remiseSouspaquet();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                        affichageRemiseSousPioche(mapBitmap,myMapPolice);
                     }
                     premierTourJ2 = true;
                 }
-            }
 
-            if (premierTourJ2 == false)
-            {
-                if (J2.getPioche().front()->get_EstUtilise() == NECRO)
-                {
-                    choix = choixPioche1(mapBitmap);
+                if (premierTourJ2 == false) {
+                    if (J2.getPioche().front()->get_EstUtilise() == CREATURE) {
+                        choix = choixPioche1(mapBitmap,myMapPolice);
 
-                    if (choix==1){
-                        J2.afficherCimetiere();
-                        std::cout << "Quelle carte voulez vous récuperer ? : ";
-                        std::cin >> choix;
-                        J2.ajouterCarteBack(J2.getCimetiere()[choix]);
-                        J2.supprimerCarteCim(choix);
-                        J2.ajouterCarteSpe(J2.getPioche().front());
-                        J2.supprimerCarteFront();
-                    } else{
-                        J2.remiseSouspaquet();
+                        if (choix == 1) {
+                            if (J2.getCreature() == nullptr) {
+                                J2.setCarteCreature(J2.getPioche().front());
+                                J2.supprimerCarteFront();
 
-                        affichageRemiseSousPioche(mapBitmap);
+                                affichageCarteActive(J2, mapBitmap,myMapPolice);
+                                affichageCarteAjoutee(mapBitmap,myMapPolice);
+                            } else {
+                                choix = choixPioche2(mapBitmap,myMapPolice);
+
+                                if (choix == 1) {
+                                    J2.ajouterCarteBack(J2.getCreature());
+                                    J2.setCarteCreature(J2.getPioche().front());
+                                    J2.supprimerCarteFront();
+
+                                    affichageCarteActive(J2, mapBitmap,myMapPolice);
+                                    affichageCarteAjoutee(mapBitmap,myMapPolice);
+                                }
+                                if (choix == 2) {
+                                    J2.remiseSouspaquet();
+
+                                    affichageRemiseSousPioche(mapBitmap,myMapPolice);
+                                }
+                            }
+                        }
+                        if (choix == 2) {
+                            J2.remiseSouspaquet();
+
+                            affichageRemiseSousPioche(mapBitmap,myMapPolice);
+                        }
+                        premierTourJ2 = true;
                     }
                 }
-                if (J2.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE)
+
+                if (premierTourJ2 == false)
                 {
-                    choix = choixPioche1(mapBitmap);
-
-                    if (choix==1)
+                    if (J2.getPioche().front()->get_EstUtilise() == NECRO)
                     {
-                        J2.setEnergie("H", 2);
-                        J2.setEnergie("K", 2);
-                        J2.setEnergie("C", 2);
-                        J2.setEnergie("N", 2);
-
-                        J2.ajouterCarteSpe(J2.getPioche().front());
-                        J2.supprimerCarteFront();
-
-                        affichageNomPvEnergie(J2,mapBitmap);
-                        affichageSuperEnergie(mapBitmap);
-                    }
-                    else
-                    {
-                        J2.remiseSouspaquet();
-
-                        affichageRemiseSousPioche(mapBitmap);
-                    }
-                }
-                if (J2.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU)
-                {
-                    choix = choixPioche1(mapBitmap);
-
-                    if (choix == 1)
-                    {
-                        choix = affichageBouleDeFeu(J1,mapBitmap);
-
-                        J2.setPDV(J2.getPDV()-choix);
-                        J1.setPDV(J1.getPDV()-choix*1.5);
-
-                        J2.ajouterCarteSpe(J2.getPioche().front());
-                        J2.supprimerCarteFront();
-                    }
-                    else
-                    {
-                        J2.remiseSouspaquet();
-
-                        affichageRemiseSousPioche(mapBitmap);
-                    }
-                }
-                if (J2.getPioche().front()->get_EstUtilise() == VISION_ULTIME)
-                {
-                    choix = choixPioche1(mapBitmap);
-
-                    if (choix==1)
-                    {
-                        affichageVisionUltime(J2,mapBitmap);
-
-                        J2.ajouterCarteSpe(J2.getPioche().front());
-                        J2.supprimerCarteFront();
-                    }
-                    else
-                    {
-                        J2.remiseSouspaquet();
-
-                        affichageRemiseSousPioche(mapBitmap);
-                    }
-                }
-                if (J2.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE)
-                {
-                    choix = choixPioche1(mapBitmap);
-
-                    if (choix==1){
-                        J2.ajouterCarteSpe(J2.getPioche().front());
-                        J2.supprimerCarteFront();
-
-                        J2.afficherPioche();
-                        std::cout << "Choisissez la carte à mettre au dessus du paquet : ";
-                        std::cin >> choix;
-                        J2.ajouterCarteFront(J2.getPioche()[choix]);
-                        J2.supprimerCartePioche(choix + 1);
-                    }else{
-                        J2.remiseSouspaquet();
-
-                        affichageRemiseSousPioche(mapBitmap);
-                    }
-                }
-                if (J2.getPioche().front()->get_EstUtilise() == PROTECTION)
-                {
-                    choix = choixPioche1(mapBitmap);
-
-                    if(choix==1)
-                    {
-                        J2Protec = false;
-
-                        J2.ajouterCarteSpe(J2.getPioche().front());
-                        J2.supprimerCarteFront();
-
-                        affichageProtection(mapBitmap);
-                    }
-                    else
-                    {
-                        J2.remiseSouspaquet();
-
-                        affichageRemiseSousPioche(mapBitmap);
-                    }
-                }
-            }
-        }
-
-
-        ///PHASE COMBAT J2 :
-        al_draw_bitmap(mapBitmap["fondPartieAttaque"],0,0,0);
-        affichageNomPvEnergie(J2,mapBitmap);
-        affichageCarteActive(J2,mapBitmap);
-        affichageCarteActiveEnnemie(J1,mapBitmap);
-        affichageCarteEnjeu(J2);
-
-        if (J1Protec)
-        {
-            if (J2.getCreature() == nullptr)
-            {
-                affichagePasDeCarteActive(mapBitmap);
-            }
-            else
-            {
-                choix = choixSiAttaque(mapBitmap);
-
-                if (choix == 1)
-                {
-                    if (J1.getCreature() == nullptr)
-                    {
-                        J1.setPDV(J1.getPDV() - 50);
-
-                        affichagePasDeCarteActiveEnnemie(mapBitmap);
-                    }
-                    if (J1.getCreature() != nullptr)
-                    {
-                        choix = choixAttaque(mapBitmap);
+                        choix = choixPioche1(mapBitmap,myMapPolice);
 
                         if (choix == 1)
                         {
-                            if (J2.getCreature()->getAttaque()[0].getEnergieLV() <= J2.getEnergie()[J2.getCreature()->getAttaque()[0].getEnergie()])
-                            {
-                                J2.getCreature()->attaquer(J1.getCreature(), 0);
-                                J2.setEnergie(J2.getCreature()->getAttaque()[0].getEnergie(),-J2.getCreature()->getAttaque()[0].getEnergieLV());
+                            J2.afficherCimetiere();
 
-                                if (J1.getCreature()->getPV() <= 0)
-                                {
-                                    J1.ajouterCimetiere(J1.getCreature());
-                                    J1.setCarteCreature(nullptr);
-                                }
+                            choix = affichageNecro(J2,mapBitmap,myMapPolice);
 
-                                affichageCarteActiveEnnemie(J1,mapBitmap);
-                                affichageNomPvEnergie(J2,mapBitmap);
-                                affichageAttaqueReussie(mapBitmap);
-                            }
-                            else
-                            {
-                                affichagePasAssezEnergie(mapBitmap);
-                            }
+                            J2.ajouterCarteBack(J2.getCimetiere()[choix]);
+                            J2.supprimerCarteCim(choix);
+
+                            J2.ajouterCarteSpe(J2.getPioche().front());
+                            J2.supprimerCarteFront();
                         }
-                        if (choix == 2)
+                        else
                         {
-                            if (J2.getCreature()->getAttaque()[1].getEnergieLV() <= J2.getEnergie()[J2.getCreature()->getAttaque()[1].getEnergie()])
-                            {
-                                J2.getCreature()->attaquer(J1.getCreature(), 1);
-                                J2.setEnergie(J2.getCreature()->getAttaque()[1].getEnergie(),-J2.getCreature()->getAttaque()[1].getEnergieLV());
+                            J2.remiseSouspaquet();
 
-                                if (J1.getCreature()->getPV() <= 0)
-                                {
-                                    J1.ajouterCimetiere(J1.getCreature());
-                                    J1.setCarteCreature(nullptr);
-                                }
+                            affichageRemiseSousPioche(mapBitmap,myMapPolice);
+                        }
+                    }
+                    if (J2.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE)
+                    {
+                        choix = choixPioche1(mapBitmap,myMapPolice);
 
-                                affichageCarteActiveEnnemie(J1,mapBitmap);
-                                affichageNomPvEnergie(J2,mapBitmap);
-                                affichageAttaqueReussie(mapBitmap);
-                            }
-                            else
+                        if (choix == 1)
+                        {
+                            J2.setEnergie("H", 2);
+                            J2.setEnergie("K", 2);
+                            J2.setEnergie("C", 2);
+                            J2.setEnergie("N", 2);
+
+                            J2.ajouterCarteSpe(J2.getPioche().front());
+                            J2.supprimerCarteFront();
+
+                            affichageNomPvEnergie(J2, mapBitmap,myMapPolice);
+                            affichageSuperEnergie(mapBitmap,myMapPolice);
+                        }
+                        else
                             {
-                                affichagePasAssezEnergie(mapBitmap);
-                            }
+                            J2.remiseSouspaquet();
+
+                            affichageRemiseSousPioche(mapBitmap,myMapPolice);
+                        }
+                    }
+                    if (J2.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU)
+                    {
+                        choix = choixPioche1(mapBitmap,myMapPolice);
+
+                        if (choix == 1)
+                        {
+                            choix = affichageBouleDeFeu(J1, mapBitmap,myMapPolice);
+
+                            J2.setPDV(J2.getPDV() - choix);
+                            J1.setPDV(J1.getPDV() - choix * 1.5);
+
+                            J2.ajouterCarteSpe(J2.getPioche().front());
+                            J2.supprimerCarteFront();
+                        }
+                        else
+                        {
+                            J2.remiseSouspaquet();
+
+                            affichageRemiseSousPioche(mapBitmap,myMapPolice);
+                        }
+                    }
+                    if (J2.getPioche().front()->get_EstUtilise() == VISION_ULTIME)
+                    {
+                        choix = choixPioche1(mapBitmap,myMapPolice);
+
+                        if (choix == 1)
+                        {
+                            J2.ajouterCarteSpe(J2.getPioche().front());
+                            J2.supprimerCarteFront();
+
+                            affichageVisionUltime(J2, mapBitmap,myMapPolice);
+                        }
+                        else
+                        {
+                            J2.remiseSouspaquet();
+
+                            affichageRemiseSousPioche(mapBitmap,myMapPolice);
+                        }
+                    }
+                    if (J2.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE)
+                    {
+                        choix = choixPioche1(mapBitmap,myMapPolice);
+
+                        if (choix == 1)
+                        {
+                            J2.ajouterCarteSpe(J2.getPioche().front());
+                            J2.supprimerCarteFront();
+
+                            choix = affichageMainMagique(J2,mapBitmap,myMapPolice);
+
+                            J2.ajouterCarteFront(J2.getPioche()[choix]);
+                            J2.supprimerCartePioche(choix + 1);
+                        }
+                        else
+                        {
+                            J2.remiseSouspaquet();
+
+                            affichageRemiseSousPioche(mapBitmap,myMapPolice);
+                        }
+                    }
+                    if (J2.getPioche().front()->get_EstUtilise() == PROTECTION)
+                    {
+                        choix = choixPioche1(mapBitmap,myMapPolice);
+
+                        if (choix == 1)
+                        {
+                            J2Protec = false;
+
+                            J2.ajouterCarteSpe(J2.getPioche().front());
+                            J2.supprimerCarteFront();
+
+                            affichageProtection(mapBitmap,myMapPolice);
+                        }
+                        else
+                            {
+                            J2.remiseSouspaquet();
+
+                            affichageRemiseSousPioche(mapBitmap,myMapPolice);
                         }
                     }
                 }
-                if (choix == 2)
-                {
-                    affichageJoueurSuivant(mapBitmap);
-                }
             }
-        }
-        else
-        {
-            affichageJoueurProtege(mapBitmap);
-
-            J1Protec = true;
-        }
 
 
-        if (J1.getPioche().empty() && J1.getCreature() == nullptr)
-        {
-            std::cout << "J1 ne peux plus se battre, la partie est fini";
-            fin=1;
-        }
-        if (J2.getPioche().empty() && J2.getCreature() == nullptr)
-        {
-            std::cout << "J2 ne peux plus se battre, la partie est fini";
-            fin=1;
+            ///PHASE COMBAT J2 :
+            al_draw_bitmap(mapBitmap["fondPartieAttaque"], 0, 0, 0);
+            affichageNomPvEnergie(J2, mapBitmap,myMapPolice);
+            affichageCarteActive(J2, mapBitmap,myMapPolice);
+            affichageCarteActiveEnnemie(J1, mapBitmap,myMapPolice);
+            affichageCarteEnjeu(J2,myMapPolice);
+
+            if (J1Protec) {
+                if (J2.getCreature() == nullptr) {
+                    affichagePasDeCarteActive(mapBitmap,myMapPolice);
+                } else {
+                    choix = choixSiAttaque(mapBitmap,myMapPolice);
+
+                    if (choix == 1) {
+                        if (J1.getCreature() == nullptr) {
+                            J1.setPDV(J1.getPDV() - 50);
+
+                            affichagePasDeCarteActiveEnnemie(mapBitmap,myMapPolice);
+                        }
+                        if (J1.getCreature() != nullptr) {
+                            choix = choixAttaque(mapBitmap,myMapPolice);
+
+                            if (choix == 1) {
+                                if (J2.getCreature()->getAttaque()[0].getEnergieLV() <=
+                                    J2.getEnergie()[J2.getCreature()->getAttaque()[0].getEnergie()]) {
+                                    J2.getCreature()->attaquer(J1.getCreature(), 0);
+                                    J2.setEnergie(J2.getCreature()->getAttaque()[0].getEnergie(),
+                                                  -J2.getCreature()->getAttaque()[0].getEnergieLV());
+
+                                    if (J1.getCreature()->getPV() <= 0) {
+                                        J1.ajouterCimetiere(J1.getCreature());
+                                        J1.setCarteCreature(nullptr);
+                                    }
+
+                                    affichageCarteActiveEnnemie(J1, mapBitmap,myMapPolice);
+                                    affichageNomPvEnergie(J2, mapBitmap,myMapPolice);
+                                    affichageAttaqueReussie(mapBitmap,myMapPolice);
+                                } else {
+                                    affichagePasAssezEnergie(mapBitmap,myMapPolice);
+                                }
+                            }
+                            if (choix == 2) {
+                                if (J2.getCreature()->getAttaque()[1].getEnergieLV() <=
+                                    J2.getEnergie()[J2.getCreature()->getAttaque()[1].getEnergie()]) {
+                                    J2.getCreature()->attaquer(J1.getCreature(), 1);
+                                    J2.setEnergie(J2.getCreature()->getAttaque()[1].getEnergie(),
+                                                  -J2.getCreature()->getAttaque()[1].getEnergieLV());
+
+                                    if (J1.getCreature()->getPV() <= 0) {
+                                        J1.ajouterCimetiere(J1.getCreature());
+                                        J1.setCarteCreature(nullptr);
+                                    }
+
+                                    affichageCarteActiveEnnemie(J1, mapBitmap,myMapPolice);
+                                    affichageNomPvEnergie(J2, mapBitmap,myMapPolice);
+                                    affichageAttaqueReussie(mapBitmap,myMapPolice);
+                                } else {
+                                    affichagePasAssezEnergie(mapBitmap,myMapPolice);
+                                }
+                            }
+                        }
+                    }
+                    if (choix == 2) {
+                        affichageJoueurSuivant(mapBitmap,myMapPolice);
+                    }
+                }
+            } else {
+                affichageJoueurProtege(mapBitmap,myMapPolice);
+
+                J1Protec = true;
+            }
+
+
+            if (J1.getPioche().empty() && J1.getCreature() == nullptr) {
+                std::cout << "J1 ne peux plus se battre, la partie est fini";
+                fin = 1;
+            }
+            if (J2.getPioche().empty() && J2.getCreature() == nullptr) {
+                std::cout << "J2 ne peux plus se battre, la partie est fini";
+                fin = 1;
+            }
+
         }
 
     }while (J1.getPDV() > 0 && J2.getPDV() > 0 && fin == 0);
@@ -839,11 +833,11 @@ void partie(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
     if (J1.getPDV() > J2.getPDV())
     {
         ///VICTOIRE J1
-        affichageVictoire(J1,J2,mapBitmap);
+        affichageVictoire(J1,J2,mapBitmap,myMapPolice);
     }
     else
     {
         ///VICTOIRE J2
-        affichageVictoire(J2,J1,mapBitmap);
+        affichageVictoire(J2,J1,mapBitmap,myMapPolice);
     }
 }

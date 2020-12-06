@@ -23,8 +23,9 @@ int main()
     ///VARIABLES ALLEGRO
     ALLEGRO_DISPLAY *display = nullptr;
     ALLEGRO_BITMAP* fondChargement;
-    ALLEGRO_SAMPLE* sample = nullptr;
+    std::map<std::string,ALLEGRO_SAMPLE*> mapSample;
     std::map<std::string,ALLEGRO_BITMAP*> mapBitmap;
+    std::map<std::string,ALLEGRO_FONT*> mapFont;
 
 
     ///INI ALLEGRO
@@ -61,13 +62,27 @@ int main()
 
 
     ///INI MUSIQUE
-    al_reserve_samples(1);
-    sample = al_load_sample("..\\Musique\\Son 8.ogg");
-    if (!sample)
+    al_reserve_samples(3);
+    mapSample["menu"] = al_load_sample("..\\Musique\\menu.ogg");
+    if (!mapSample["menu"])
     {
-        erreur("Chargement","Son 8");
+        erreur("Chargement","menu.ogg");
     }
-    //al_play_sample(sample,1,0,1,ALLEGRO_PLAYMODE_LOOP, nullptr);
+    mapSample["combat"] = al_load_sample("..\\Musique\\combat.ogg");
+    if (!mapSample["combat"])
+    {
+        erreur("Chargement","combat.ogg");
+    }
+    mapSample["click"] = al_load_sample("..\\Musique\\click.ogg");
+    if (!mapSample["click"])
+    {
+        erreur("Chargement","click.ogg");
+    }
+    mapSample["click2"] = al_load_sample("..\\Musique\\click2.ogg");
+    if (!mapSample["click2"])
+    {
+        erreur("Chargement","click2.ogg");
+    }
 
 
     ///CREATION DE LA FENETRE
@@ -84,17 +99,20 @@ int main()
     al_flip_display();
 
 
-    ///CHARGEMENT BITMAPS
+    ///CHARGEMENT BITMAPS / FONTS
     mapBitmap = chargementBitmaps();
+    mapFont = chargementToutesLesPolices();
 
 
     ///LANCEMENT DU JEU
-    menu(mapBitmap);
+    menu(mapBitmap,mapFont,mapSample);
 
 
     destructionBitmaps(mapBitmap);
     al_destroy_bitmap(fondChargement);
-    al_destroy_sample(sample);
+    al_destroy_sample(mapSample["menu"]);
+    al_destroy_sample(mapSample["combat"]);
+    al_destroy_sample(mapSample["click"]);
     al_destroy_display(display);
 
 

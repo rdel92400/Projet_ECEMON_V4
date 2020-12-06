@@ -14,6 +14,6 @@ void sauvegardeJoueur (Joueur joueurRecu,Collections collection);
 void RemplacedeJoueur(std::map<int,Joueur> joueursRecus, Collections collection);
 
 
-Joueur chargementJoueur1(Collections collection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap);
-Joueur chargementJoueur2(Collections collection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, const std::string& nomJoueur1);
+Joueur chargementJoueur1(Collections collection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice);
+Joueur chargementJoueur2(Collections collection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, const std::string& nomJoueur1, std::map<std::string,ALLEGRO_FONT*> myMapPolice);
 std::map<int,Joueur> chargementJoueurs(Collections collection);

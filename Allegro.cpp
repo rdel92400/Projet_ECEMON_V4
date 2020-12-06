@@ -25,6 +25,25 @@ ALLEGRO_FONT* chargementPolice(const std::string& nomImage,int size)
 }
 
 
+std::map<std::string,ALLEGRO_FONT*> chargementToutesLesPolices()
+{
+    std::map<std::string,ALLEGRO_FONT*> myMap;
+
+    myMap["16"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",16);
+    myMap["18"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",18);
+    myMap["22"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",22);
+    myMap["30"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
+    myMap["35"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
+    myMap["40"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",40);
+    myMap["45"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
+    myMap["50"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",50);
+    myMap["55"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",55);
+    myMap["70"] = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",70);
+
+    return myMap;
+}
+
+
 ALLEGRO_BITMAP* chargement(const std::string& nomImage)
 {
     ALLEGRO_BITMAP *bmp;
@@ -80,6 +99,7 @@ std::map<std::string,ALLEGRO_BITMAP*> chargementBitmaps()
     mymap["fondPartiePioche"] = chargement("..\\Bitmaps\\Fonds\\fondPartiePioche.bmp");
     mymap["fondPartieAttaque"] = chargement("..\\Bitmaps\\Fonds\\fondPartieAttaque.bmp");
     mymap["fondAffichagePioche"] = chargement("..\\Bitmaps\\Fonds\\fondAffichagePioche.bmp");
+    mymap["fondAffichageCimetiere"] = chargement("..\\Bitmaps\\Fonds\\fondAffichageCimetiere.bmp");
     mymap["templateCarteCreatureVide"] = chargement("..\\Bitmaps\\Templates\\TemplateCarteCreatureVide.bmp");
     mymap["templateCarteEnergieVide"] = chargement("..\\Bitmaps\\Templates\\TemplateCarteEnergieVide.bmp");
     mymap["templateCarteSpecialeVide"] = chargement("..\\Bitmaps\\Templates\\TemplateCarteSpecialVide.bmp");
@@ -174,7 +194,7 @@ void destructionBitmaps(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     al_destroy_bitmap(mymap["Isaac Netero"]);
 }
 
-void regles(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
+void regles(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_SAMPLE*> mapSample)
 {
     int menu(0);
     ALLEGRO_MOUSE_STATE mouse;
@@ -192,6 +212,7 @@ void regles(std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
 
             if (mouse.buttons & 1)
             {
+                al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
                 menu = 1;
             }
         }
@@ -290,9 +311,8 @@ void iniTabCollectionDeck(int miseEnPage[3][5][3])
 
 
 
-std::string iniNom(ALLEGRO_BITMAP* fond)
+std::string iniNom(ALLEGRO_BITMAP* fond, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",55);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
 
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
@@ -349,7 +369,7 @@ std::string iniNom(ALLEGRO_BITMAP* fond)
         }
 
         al_draw_bitmap(fond,0,0,0);
-        al_draw_text(agencyFB,colorText,562,295,0,nom.c_str());
+        al_draw_text(myMapPolice["55"],colorText,562,295,0,nom.c_str());
         al_flip_display();
 
     }while (event.keyboard.keycode != ALLEGRO_KEY_ENTER);
@@ -357,9 +377,8 @@ std::string iniNom(ALLEGRO_BITMAP* fond)
     return nom;
 }
 
-std::string iniNomChargementJoueur(ALLEGRO_BITMAP* fond, int posX, int posY, std::map<int,std::string> tabNoms)
+std::string iniNomChargementJoueur(ALLEGRO_BITMAP* fond, int posX, int posY, std::map<int,std::string> tabNoms, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",55);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
 
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
@@ -378,7 +397,7 @@ std::string iniNomChargementJoueur(ALLEGRO_BITMAP* fond, int posX, int posY, std
     al_draw_bitmap(fond,0,0,0);
     for (const auto &elem : tabNoms)
     {
-        al_draw_text(agencyFB,colorText,1280/2,elem.first,ALLEGRO_ALIGN_CENTER,elem.second.c_str());
+        al_draw_text(myMapPolice["55"],colorText,1280/2,elem.first,ALLEGRO_ALIGN_CENTER,elem.second.c_str());
     }
     al_flip_display();
 
@@ -429,10 +448,10 @@ std::string iniNomChargementJoueur(ALLEGRO_BITMAP* fond, int posX, int posY, std
 
         for (const auto &elem : tabNoms)
         {
-            al_draw_text(agencyFB,colorText,1280/2,elem.first,ALLEGRO_ALIGN_CENTER,elem.second.c_str());
+            al_draw_text(myMapPolice["55"],colorText,1280/2,elem.first,ALLEGRO_ALIGN_CENTER,elem.second.c_str());
         }
 
-        al_draw_text(agencyFB,colorText,posX,posY,0,nom.c_str());
+        al_draw_text(myMapPolice["55"],colorText,posX,posY,0,nom.c_str());
         al_flip_display();
 
     }while (fin == 0);
@@ -441,9 +460,8 @@ std::string iniNomChargementJoueur(ALLEGRO_BITMAP* fond, int posX, int posY, std
 }
 
 
-void affichageNomPvEnergie(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageNomPvEnergie(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
 
     std::string pv = std::to_string(p.getPDV());
@@ -452,28 +470,22 @@ void affichageNomPvEnergie(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> myma
     std::string N = std::to_string(p.getEnergie()["N"]);
     std::string C = std::to_string(p.getEnergie()["C"]);
 
-    al_draw_text(agencyFB,colorText,44+265/2,53,ALLEGRO_ALIGN_CENTER,p.getNom().c_str());
+    al_draw_text(myMapPolice["45"],colorText,44+265/2,53,ALLEGRO_ALIGN_CENTER,p.getNom().c_str());
 
-    al_draw_text(agencyFB,colorText,352+78/2,53,ALLEGRO_ALIGN_CENTER,pv.c_str());
+    al_draw_text(myMapPolice["45"],colorText,352+78/2,53,ALLEGRO_ALIGN_CENTER,pv.c_str());
 
     al_draw_bitmap(mymap["templateAffichageEnergie"],513,38,0);
 
-    al_draw_text(agencyFB,colorText,637,115,0,H.c_str());
-    al_draw_text(agencyFB,colorText,756,115,0,K.c_str());
-    al_draw_text(agencyFB,colorText,672,157,0,C.c_str());
-    al_draw_text(agencyFB,colorText,783,157,0,N.c_str());
+    al_draw_text(myMapPolice["45"],colorText,637,115,0,H.c_str());
+    al_draw_text(myMapPolice["45"],colorText,756,115,0,K.c_str());
+    al_draw_text(myMapPolice["45"],colorText,672,157,0,C.c_str());
+    al_draw_text(myMapPolice["45"],colorText,783,157,0,N.c_str());
 
     al_flip_display();
 }
 
-void actionPioche(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void actionPioche(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",40);
-    ALLEGRO_FONT* agencyFB3 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
-    ALLEGRO_FONT* agencyFB4 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",22);
-    ALLEGRO_FONT* agencyFB5 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",18);
-    ALLEGRO_FONT* agencyFB6 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",16);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -492,9 +504,9 @@ void actionPioche(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
     std::string energieRequis2;
     std::string lvlEnergie;
 
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,340,ALLEGRO_ALIGN_CENTER,"Pressez P");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,390,ALLEGRO_ALIGN_CENTER,"pour piocher");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["40"],colorTextSmall,44+385/2,340,ALLEGRO_ALIGN_CENTER,"Pressez P");
+    al_draw_text(myMapPolice["40"],colorTextSmall,44+385/2,390,ALLEGRO_ALIGN_CENTER,"pour piocher");
     al_flip_display();
 
     do
@@ -509,9 +521,9 @@ void actionPioche(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
     }while (condition == 0);
 
     al_draw_bitmap(mymap["fondPartiePioche"],0,0,0);
-    affichageCarteActive(p,mymap);
-    affichageNomPvEnergie(p,mymap);
-    affichageCarteEnjeu(p);
+    affichageCarteActive(p,mymap,myMapPolice);
+    affichageNomPvEnergie(p,mymap,myMapPolice);
+    affichageCarteEnjeu(p,myMapPolice);
 
     if (p.getPioche().front()->get_EstUtilise() == CREATURE)
     {
@@ -543,94 +555,94 @@ void actionPioche(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
         al_draw_scaled_bitmap(mymap["templateCarteCreatureVide"],0,0,410,608,574,352,225,333.6,0);
         al_draw_scaled_bitmap(mymap[p.getPioche().front()->getNom()],0,0,359,202,574+14,352+59,197.5,111,0);
 
-        al_draw_text(agencyFB3,colorText,574+14+151/2,365,ALLEGRO_ALIGN_CENTER,p.getPioche().front()->getNom().c_str());
-        al_draw_text(agencyFB4,colorText,574+14+151+10+37/2,370,ALLEGRO_ALIGN_CENTER,pv.c_str());
+        al_draw_text(myMapPolice["30"],colorText,574+14+151/2,365,ALLEGRO_ALIGN_CENTER,p.getPioche().front()->getNom().c_str());
+        al_draw_text(myMapPolice["22"],colorText,574+14+151+10+37/2,370,ALLEGRO_ALIGN_CENTER,pv.c_str());
 
-        al_draw_text(agencyFB5,colorText,595,535,0,p.getPioche().front()->getAttaque(0).getNom().c_str());
-        al_draw_text(agencyFB6,colorTextSmall,595,555,0,p.getPioche().front()->getAttaque(0).getDesc().c_str());
-        al_draw_text(agencyFB5,colorText,595,575,0,degat1.c_str());
-        al_draw_text(agencyFB5,colorText,777,575,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,535,0,p.getPioche().front()->getAttaque(0).getNom().c_str());
+        al_draw_text(myMapPolice["16"],colorTextSmall,595,555,0,p.getPioche().front()->getAttaque(0).getDesc().c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,575,0,degat1.c_str());
+        al_draw_text(myMapPolice["18"],colorText,777,575,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
 
-        al_draw_text(agencyFB5,colorText,595,607,0,p.getPioche().front()->getAttaque(1).getNom().c_str());
-        al_draw_text(agencyFB6,colorTextSmall,595,627,0,p.getPioche().front()->getAttaque(1).getDesc().c_str());
-        al_draw_text(agencyFB5,colorText,595,647,0,degat2.c_str());
-        al_draw_text(agencyFB5,colorText,777,647,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,607,0,p.getPioche().front()->getAttaque(1).getNom().c_str());
+        al_draw_text(myMapPolice["16"],colorTextSmall,595,627,0,p.getPioche().front()->getAttaque(1).getDesc().c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,647,0,degat2.c_str());
+        al_draw_text(myMapPolice["18"],colorText,777,647,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
     }
     else if (p.getPioche().front()->get_EstUtilise() == ENERGIE)
     {
         lvlEnergie = std::to_string(p.getPioche().front()->getLV());
 
         al_draw_scaled_bitmap(mymap["templateCarteEnergieVide"],0,0,410,608,574,352,225,333.6,0);
-        al_draw_text(agencyFB3,colorText,574+14+151/2,365,ALLEGRO_ALIGN_CENTER,p.getPioche().front()->getNom().c_str());
-        al_draw_text(agencyFB4,colorText,574+14+151+10+37/2,370,ALLEGRO_ALIGN_CENTER,lvlEnergie.c_str());
+        al_draw_text(myMapPolice["30"],colorText,574+14+151/2,365,ALLEGRO_ALIGN_CENTER,p.getPioche().front()->getNom().c_str());
+        al_draw_text(myMapPolice["22"],colorText,574+14+151+10+37/2,370,ALLEGRO_ALIGN_CENTER,lvlEnergie.c_str());
 
         if (p.getPioche().front()->getType() == "H")
         {
             al_draw_scaled_bitmap(mymap["fondHaki"],0,0,359,319,575+14,353.5+59,197.5,175.5,0);
-            al_draw_text(agencyFB5,colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Energie mentale devastatrice");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Energie mentale devastatrice");
         }
         if (p.getPioche().front()->getType() == "K")
         {
             al_draw_scaled_bitmap(mymap["fondKi"],0,0,359,319,575+14,353.5+59,197.5,175.5,0);
-            al_draw_text(agencyFB5,colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Energie vitale pouvant");
-            al_draw_text(agencyFB5,colorText,575+224/2,630,ALLEGRO_ALIGN_CENTER,"etre deployée");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Energie vitale pouvant");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,630,ALLEGRO_ALIGN_CENTER,"etre deployée");
         }
         if (p.getPioche().front()->getType() == "C")
         {
             al_draw_scaled_bitmap(mymap["fondChakra"],0,0,359,319,575+14,353.5+59,197.5,175.5,0);
-            al_draw_text(agencyFB5,colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Energie spirituelle");
-            al_draw_text(agencyFB5,colorText,575+224/2,630,ALLEGRO_ALIGN_CENTER,"circulant dans le corps");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Energie spirituelle");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,630,ALLEGRO_ALIGN_CENTER,"circulant dans le corps");
         }
         if (p.getPioche().front()->getType() == "N")
         {
             al_draw_scaled_bitmap(mymap["fondNen"],0,0,359,319,575+14,353.5+59,197.5,175.5,0);
-            al_draw_text(agencyFB5,colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Force d'esprit");
-            al_draw_text(agencyFB5,colorText,575+224/2,630,ALLEGRO_ALIGN_CENTER,"creant une aura puissante");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,610,ALLEGRO_ALIGN_CENTER,"Force d'esprit");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,630,ALLEGRO_ALIGN_CENTER,"creant une aura puissante");
         }
     }
     else
     {
         al_draw_scaled_bitmap(mymap["templateCarteSpecialeVide"],0,0,410,608,574,352,225,333.6,0);
         al_draw_scaled_bitmap(mymap["fondCarteSpeciale"],0,0,359,202,574.5+14,353+59,197.5,110.5,0);
-        al_draw_text(agencyFB3,colorText,574+14+197/2,365,ALLEGRO_ALIGN_CENTER,p.getPioche().front()->getNom().c_str());
+        al_draw_text(myMapPolice["30"],colorText,574+14+197/2,365,ALLEGRO_ALIGN_CENTER,p.getPioche().front()->getNom().c_str());
 
         if (p.getPioche().front()->get_EstUtilise() == NECRO)
         {
-            al_draw_text(agencyFB5,colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Réanimation d'une carte");
-            al_draw_text(agencyFB5,colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"du cimetière");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Réanimation d'une carte");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"du cimetière");
         }
         if (p.getPioche().front()->get_EstUtilise() == SUPER_ENERGIE)
         {
-            al_draw_text(agencyFB5,colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Ajout de deux energies de");
-            al_draw_text(agencyFB5,colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"de chaque type");
-            al_draw_text(agencyFB5,colorText,575+224/2,600,ALLEGRO_ALIGN_CENTER,"dans votre main");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Ajout de deux energies de");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"de chaque type");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,600,ALLEGRO_ALIGN_CENTER,"dans votre main");
         }
         if (p.getPioche().front()->get_EstUtilise() == BOULE_DE_FEU)
         {
-            al_draw_text(agencyFB5,colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Attaque directe sur l'ennemi");
-            al_draw_text(agencyFB5,colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"en échange de points de vie");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Attaque directe sur l'ennemi");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"en échange de points de vie");
         }
         if (p.getPioche().front()->get_EstUtilise() == VISION_ULTIME)
         {
-            al_draw_text(agencyFB5,colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"Permet de voir sa pioche");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"Permet de voir sa pioche");
         }
         if (p.getPioche().front()->get_EstUtilise() == MAIN_MAGIQUE)
         {
-            al_draw_text(agencyFB5,colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Choix possible de la");
-            al_draw_text(agencyFB5,colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"prochaine carte piochée");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Choix possible de la");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"prochaine carte piochée");
         }
         if (p.getPioche().front()->get_EstUtilise() == PROTECTION)
         {
-            al_draw_text(agencyFB5,colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Protection contre la");
-            al_draw_text(agencyFB5,colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"prochaine attaque");
-            al_draw_text(agencyFB5,colorText,575+224/2,600,ALLEGRO_ALIGN_CENTER,"de l'ennemi");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,560,ALLEGRO_ALIGN_CENTER,"Protection contre la");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,580,ALLEGRO_ALIGN_CENTER,"prochaine attaque");
+            al_draw_text(myMapPolice["18"],colorText,575+224/2,600,ALLEGRO_ALIGN_CENTER,"de l'ennemi");
         }
     }
 
     al_flip_display();
 }
 
-int choixPioche1(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+int choixPioche1(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -638,8 +650,6 @@ int choixPioche1(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -649,9 +659,9 @@ int choixPioche1(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int bouton(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Voulez vous jouer");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"cette carte ?");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Voulez vous jouer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"cette carte ?");
     al_draw_bitmap(mymap["boutonOuiNon"],44+386/2-293/2,425,0);
     al_flip_display();
 
@@ -692,7 +702,7 @@ int choixPioche1(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-int choixPioche2(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+int choixPioche2(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -700,8 +710,6 @@ int choixPioche2(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -711,10 +719,10 @@ int choixPioche2(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int bouton(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,265,ALLEGRO_ALIGN_CENTER,"Voulez vous vraiment");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,315,ALLEGRO_ALIGN_CENTER,"remplacer votre carte");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,365,ALLEGRO_ALIGN_CENTER,"active ?");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,265,ALLEGRO_ALIGN_CENTER,"Voulez vous vraiment");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,315,ALLEGRO_ALIGN_CENTER,"remplacer votre carte");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,365,ALLEGRO_ALIGN_CENTER,"active ?");
 
 
     do
@@ -753,7 +761,7 @@ int choixPioche2(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-void affichageRemiseSousPioche(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageRemiseSousPioche(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -761,8 +769,6 @@ void affichageRemiseSousPioche(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -770,12 +776,12 @@ void affichageRemiseSousPioche(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"La carte a été remise");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"dans la pioche");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"La carte a été remise");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"dans la pioche");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"pour continuer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"pour continuer");
 
     al_flip_display();
 
@@ -792,7 +798,7 @@ void affichageRemiseSousPioche(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-void affichageCarteAjoutee(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageCarteAjoutee(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -800,8 +806,6 @@ void affichageCarteAjoutee(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -809,12 +813,12 @@ void affichageCarteAjoutee(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"La carte a été jouée");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"avec succès");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"La carte a été jouée");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"avec succès");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"pour continuer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"pour continuer");
 
     al_flip_display();
 
@@ -831,7 +835,7 @@ void affichageCarteAjoutee(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-void affichagePasDeCarteActive(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichagePasDeCarteActive(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -839,8 +843,6 @@ void affichagePasDeCarteActive(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -848,12 +850,12 @@ void affichagePasDeCarteActive(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Vous n'avez pas de");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"carte créature active");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Vous n'avez pas de");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"carte créature active");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
 
     al_flip_display();
 
@@ -870,7 +872,7 @@ void affichagePasDeCarteActive(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-void affichagePasDeCarteActiveEnnemie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichagePasDeCarteActiveEnnemie(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -878,8 +880,6 @@ void affichagePasDeCarteActiveEnnemie(std::map<std::string,ALLEGRO_BITMAP*> myma
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -887,13 +887,13 @@ void affichagePasDeCarteActiveEnnemie(std::map<std::string,ALLEGRO_BITMAP*> myma
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,275,ALLEGRO_ALIGN_CENTER,"L'ennemi n'a pas de");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"carte créature active");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,375,ALLEGRO_ALIGN_CENTER,"=> -50");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,275,ALLEGRO_ALIGN_CENTER,"L'ennemi n'a pas de");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"carte créature active");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,375,ALLEGRO_ALIGN_CENTER,"=> -50");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
 
     al_flip_display();
 
@@ -910,14 +910,8 @@ void affichagePasDeCarteActiveEnnemie(std::map<std::string,ALLEGRO_BITMAP*> myma
 }
 
 
-void affichageCarteActive(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageCarteActive(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",40);
-    ALLEGRO_FONT* agencyFB3 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
-    ALLEGRO_FONT* agencyFB4 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",22);
-    ALLEGRO_FONT* agencyFB5 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",18);
-    ALLEGRO_FONT* agencyFB6 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",16);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
 
@@ -953,30 +947,26 @@ void affichageCarteActive(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap
         al_draw_scaled_bitmap(mymap["templateCarteCreatureVide"],0,0,410,608,913,115.5,329,487,0);
         al_draw_scaled_bitmap(mymap[p.getCreature()->getNom()],0,0,359,202,913+20,116.5+85,288,162,0);
 
-        al_draw_text(agencyFB2,colorText,1280-351+228/2,138,ALLEGRO_ALIGN_CENTER,p.getCreature()->getNom().c_str());
-        al_draw_text(agencyFB3,colorText,1280-117+62/2,145,ALLEGRO_ALIGN_CENTER,pv.c_str());
+        al_draw_text(myMapPolice["40"],colorText,1280-351+228/2,138,ALLEGRO_ALIGN_CENTER,p.getCreature()->getNom().c_str());
+        al_draw_text(myMapPolice["30"],colorText,1280-117+62/2,145,ALLEGRO_ALIGN_CENTER,pv.c_str());
 
-        al_draw_text(agencyFB3,colorText,1280-351+15,380,0,p.getCreature()->getAttaque(0).getNom().c_str());
-        al_draw_text(agencyFB4,colorTextSmall,1280-351+15,420,0,p.getCreature()->getAttaque(0).getDesc().c_str());
-        al_draw_text(agencyFB4,colorText,1280-351+15,450,0,degat1.c_str());
-        al_draw_text(agencyFB4,colorText,1280-56-15,450,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
+        al_draw_text(myMapPolice["30"],colorText,1280-351+15,380,0,p.getCreature()->getAttaque(0).getNom().c_str());
+        al_draw_text(myMapPolice["22"],colorTextSmall,1280-351+15,420,0,p.getCreature()->getAttaque(0).getDesc().c_str());
+        al_draw_text(myMapPolice["22"],colorText,1280-351+15,450,0,degat1.c_str());
+        al_draw_text(myMapPolice["22"],colorText,1280-56-15,450,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
 
-        al_draw_text(agencyFB3,colorText,1280-351+15,482,0,p.getCreature()->getAttaque(1).getNom().c_str());
-        al_draw_text(agencyFB4,colorTextSmall,1280-351+15,522,0,p.getCreature()->getAttaque(1).getDesc().c_str());
-        al_draw_text(agencyFB4,colorText,1280-351+15,552,0,degat2.c_str());
-        al_draw_text(agencyFB4,colorText,1280-56-15,552,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
+        al_draw_text(myMapPolice["30"],colorText,1280-351+15,482,0,p.getCreature()->getAttaque(1).getNom().c_str());
+        al_draw_text(myMapPolice["22"],colorTextSmall,1280-351+15,522,0,p.getCreature()->getAttaque(1).getDesc().c_str());
+        al_draw_text(myMapPolice["22"],colorText,1280-351+15,552,0,degat2.c_str());
+        al_draw_text(myMapPolice["22"],colorText,1280-56-15,552,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
 
         al_flip_display();
     }
 }
 
 
-void affichageCarteActiveEnnemie(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageCarteActiveEnnemie(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB3 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
-    ALLEGRO_FONT* agencyFB4 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",22);
-    ALLEGRO_FONT* agencyFB5 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",18);
-    ALLEGRO_FONT* agencyFB6 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",16);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
 
@@ -1016,25 +1006,25 @@ void affichageCarteActiveEnnemie(Plateau p, std::map<std::string,ALLEGRO_BITMAP*
         al_draw_scaled_bitmap(mymap["templateCarteCreatureVide"],0,0,410,608,574,352,225,333.6,0);
         al_draw_scaled_bitmap(mymap[p.getCreature()->getNom()],0,0,359,202,574+14,352+59,197.5,111,0);
 
-        al_draw_text(agencyFB3,colorText,574+14+151/2,365,ALLEGRO_ALIGN_CENTER,p.getCreature()->getNom().c_str());
-        al_draw_text(agencyFB4,colorText,574+14+151+10+37/2,370,ALLEGRO_ALIGN_CENTER,pv.c_str());
+        al_draw_text(myMapPolice["30"],colorText,574+14+151/2,365,ALLEGRO_ALIGN_CENTER,p.getCreature()->getNom().c_str());
+        al_draw_text(myMapPolice["22"],colorText,574+14+151+10+37/2,370,ALLEGRO_ALIGN_CENTER,pv.c_str());
 
-        al_draw_text(agencyFB5,colorText,595,535,0,p.getCreature()->getAttaque(0).getNom().c_str());
-        al_draw_text(agencyFB6,colorTextSmall,595,555,0,p.getCreature()->getAttaque(0).getDesc().c_str());
-        al_draw_text(agencyFB5,colorText,595,575,0,degat1.c_str());
-        al_draw_text(agencyFB5,colorText,777,575,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,535,0,p.getCreature()->getAttaque(0).getNom().c_str());
+        al_draw_text(myMapPolice["16"],colorTextSmall,595,555,0,p.getCreature()->getAttaque(0).getDesc().c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,575,0,degat1.c_str());
+        al_draw_text(myMapPolice["18"],colorText,777,575,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
 
-        al_draw_text(agencyFB5,colorText,595,607,0,p.getCreature()->getAttaque(1).getNom().c_str());
-        al_draw_text(agencyFB6,colorTextSmall,595,627,0,p.getCreature()->getAttaque(1).getDesc().c_str());
-        al_draw_text(agencyFB5,colorText,595,647,0,degat2.c_str());
-        al_draw_text(agencyFB5,colorText,777,647,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,607,0,p.getCreature()->getAttaque(1).getNom().c_str());
+        al_draw_text(myMapPolice["16"],colorTextSmall,595,627,0,p.getCreature()->getAttaque(1).getDesc().c_str());
+        al_draw_text(myMapPolice["18"],colorText,595,647,0,degat2.c_str());
+        al_draw_text(myMapPolice["18"],colorText,777,647,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
 
         al_flip_display();
     }
 }
 
 
-int choixSiAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+int choixSiAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1042,8 +1032,6 @@ int choixSiAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1053,9 +1041,9 @@ int choixSiAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int bouton(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Voulez vous attaquer");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"l'adversaire ?");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Voulez vous attaquer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"l'adversaire ?");
     al_draw_bitmap(mymap["boutonOuiNon"],44+386/2-293/2,425,0);
     al_flip_display();
 
@@ -1096,7 +1084,7 @@ int choixSiAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-int choixAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+int choixAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1104,8 +1092,6 @@ int choixAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1115,9 +1101,9 @@ int choixAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int bouton(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Quelle attaque");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"voulez vous utiliser ?");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Quelle attaque");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"voulez vous utiliser ?");
     al_draw_bitmap(mymap["bouton1Ou2"],44+386/2-293/2,425,0);
     al_flip_display();
 
@@ -1158,7 +1144,7 @@ int choixAttaque(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-void affichagePasAssezEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichagePasAssezEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1166,8 +1152,6 @@ void affichagePasAssezEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1175,12 +1159,12 @@ void affichagePasAssezEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Impposible vous n'avez");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"pas assez d'energie");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Impposible vous n'avez");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"pas assez d'energie");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
 
     al_flip_display();
 
@@ -1196,7 +1180,7 @@ void affichagePasAssezEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     }while (condition == 0);
 }
 
-void affichageAttaqueReussie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageAttaqueReussie(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1204,8 +1188,6 @@ void affichageAttaqueReussie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1213,49 +1195,11 @@ void affichageAttaqueReussie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"Attaque reussie !");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"Attaque reussie !");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
-
-    al_flip_display();
-
-    do
-    {
-        al_wait_for_event(queue,&event);
-
-        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_ENTER)
-        {
-            condition = 1;
-        }
-
-    }while (condition == 0);
-}
-
-
-void affichageJoueurSuivant(std::map<std::string,ALLEGRO_BITMAP*> mymap)
-{
-    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
-    ALLEGRO_EVENT event;
-    if (!queue)
-        erreur("Initialisation","queue");
-    al_register_event_source(queue,al_get_keyboard_event_source());
-
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
-    ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
-    ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
-    ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
-
-    int condition(0);
-
-    al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"Tour terminé");
-
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
 
     al_flip_display();
 
@@ -1272,7 +1216,7 @@ void affichageJoueurSuivant(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-void affichageJoueurProtege(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageJoueurSuivant(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1280,8 +1224,6 @@ void affichageJoueurProtege(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1289,12 +1231,11 @@ void affichageJoueurProtege(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Joueur ennemi protégé");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"par la carte PROTECTION");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"Tour terminé");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
 
     al_flip_display();
 
@@ -1310,19 +1251,55 @@ void affichageJoueurProtege(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     }while (condition == 0);
 }
 
-void affichageCarteEnjeu(Plateau p)
+
+void affichageJoueurProtege(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_EVENT event;
+    if (!queue)
+        erreur("Initialisation","queue");
+    al_register_event_source(queue,al_get_keyboard_event_source());
+
+    ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
+    ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
+    ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
+
+    int condition(0);
+
+    al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE COMBAT");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Joueur ennemi protégé");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"par la carte PROTECTION");
+
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"passer au joueur suivant");
+
+    al_flip_display();
+
+    do
+    {
+        al_wait_for_event(queue,&event);
+
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_ENTER)
+        {
+            condition = 1;
+        }
+
+    }while (condition == 0);
+}
+
+void affichageCarteEnjeu(Plateau p, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
+{
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
 
     std::string chaine = "Enjeu : " + p.GetCarteEJ()->getNom();
 
-    al_draw_text(agencyFB2,colorText,1080,630,ALLEGRO_ALIGN_CENTER,chaine.c_str());
+    al_draw_text(myMapPolice["35"],colorText,1080,630,ALLEGRO_ALIGN_CENTER,chaine.c_str());
 
     al_flip_display();
 }
 
-void affichageSuperEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageSuperEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1330,8 +1307,6 @@ void affichageSuperEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1339,12 +1314,12 @@ void affichageSuperEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Vous avez gagné 2 énergies");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"de chaque type !");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Vous avez gagné 2 énergies");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"de chaque type !");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
 
     al_flip_display();
 
@@ -1360,7 +1335,7 @@ void affichageSuperEnergie(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     }while (condition == 0);
 }
 
-void affichageProtection(std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageProtection(std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1368,8 +1343,6 @@ void affichageProtection(std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1377,12 +1350,12 @@ void affichageProtection(std::map<std::string,ALLEGRO_BITMAP*> mymap)
     int condition(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Vous serez protégé");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"au prochain tour !");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Vous serez protégé");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"au prochain tour !");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
 
     al_flip_display();
 
@@ -1399,7 +1372,7 @@ void affichageProtection(std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-int affichageBouleDeFeu(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+int affichageBouleDeFeu(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1407,27 +1380,24 @@ int affichageBouleDeFeu(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
 
     int condition(0);
     std::string pv;
-    std::string pvEnnemi = "PV de l'adversaire :" + std::to_string(p.getPDV());
+    //std::string pvEnnemi = "PV de l'adversaire :" + std::to_string(p.getPDV());
     int cpt(0);
     char ascii;
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,250,ALLEGRO_ALIGN_CENTER,"L'adversaire perd 1.5x");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"des PV sacrifiés (<250) !");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2-60,400,0,pvEnnemi.c_str());
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2-60,360,0,"PV sacrifiés : ");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,275,ALLEGRO_ALIGN_CENTER,"L'adversaire perd 1.5x");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"des PV sacrifiés (<250)");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2-40,375,0,"PV : ");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
 
     al_flip_display();
 
@@ -1437,21 +1407,16 @@ int affichageBouleDeFeu(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
 
         if(event.type == ALLEGRO_EVENT_KEY_CHAR)
         {
-            ///ESPACE
-            if (event.keyboard.keycode == 75)
+            ///CHIFFRES
+            if (event.keyboard.keycode >= ALLEGRO_KEY_0 && event.keyboard.keycode <= ALLEGRO_KEY_9)
             {
-                ascii = 32;
+                ascii = event.keyboard.keycode + 21;
             }
             ///BACKSPACE
             else if (event.keyboard.keycode == 63 && pv.size() > 0)
             {
                 ascii = 8;
                 pv.pop_back();
-            }
-            ///LETTRES
-            else if (event.keyboard.keycode >= 1 && event.keyboard.keycode <= 26)
-            {
-                ascii = event.keyboard.keycode + 64;
             }
             else
             {
@@ -1460,7 +1425,7 @@ int affichageBouleDeFeu(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
             cpt = 1;
         }
 
-        if ((ascii >= 65 && ascii <= 90) || (ascii == 32))
+        if (ascii >= 48 && ascii <= 57)
         {
             if (cpt == 1)
             {
@@ -1470,26 +1435,27 @@ int affichageBouleDeFeu(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
         }
 
         al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-        al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,275,ALLEGRO_ALIGN_CENTER,"L'adversaire perd 1.5x");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"les PV sacrifiés (<250) !");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2-30,360,0,"PV : ");
+        al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+        al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,275,ALLEGRO_ALIGN_CENTER,"L'adversaire perd 1.5x");
+        al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"des PV sacrifiés (<250)");
+        al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2-40,375,0,"PV : ");
 
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+        al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+        al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
 
-        al_draw_text(agencyFB2,colorText,44+385/2+5,360,0,pv.c_str());
+        al_draw_text(myMapPolice["35"],colorText,44+385/2+15,375,0,pv.c_str());
 
         al_flip_display();
 
 
-        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_P)
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_ENTER)
         {
             condition = 1;
         }
         if (atoi(pv.c_str()) < 0 || atoi(pv.c_str()) > 250)
         {
             condition = 0;
+            pv = "";
         }
 
     } while (condition == 0);
@@ -1498,7 +1464,7 @@ int affichageBouleDeFeu(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
 }
 
 
-void affichageVisionUltime(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+void affichageVisionUltime(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1506,9 +1472,6 @@ void affichageVisionUltime(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> myma
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
-    ALLEGRO_FONT* agencyFB3 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1516,14 +1479,15 @@ void affichageVisionUltime(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> myma
     int condition(0);
     int posY(151);
     std::string carte;
+    int varAffichage(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre pioche");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre pioche");
 
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,450,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,500,ALLEGRO_ALIGN_CENTER,"continuer");
 
     al_flip_display();
 
@@ -1539,29 +1503,36 @@ void affichageVisionUltime(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> myma
 
             for (int i = 0; i < p.getPioche().size(); i++)
             {
-                carte = "Carte " + std::to_string(i) + " : ";
-                al_draw_text(agencyFB3,colorText,520,posY,0,carte.c_str());
-                al_draw_text(agencyFB3,colorText,612,posY,0,p.getPioche()[i]->getNom().c_str());
+                carte = "Carte " + std::to_string(i+1) + " : ";
+                al_draw_text(myMapPolice["30"],colorText,520,posY,0,carte.c_str());
+                al_draw_text(myMapPolice["30"],colorText,612,posY,0,p.getPioche()[i]->getNom().c_str());
 
                 posY = posY + 35;
             }
+
+            varAffichage = 1;
 
             al_flip_display();
         }
         else
         {
-            al_draw_bitmap(mymap["fondPartiePioche"],0,0,0);
-            affichageCarteActive(p,mymap);
-            affichageNomPvEnergie(p,mymap);
-            affichageCarteEnjeu(p);
+            if (varAffichage == 1)
+            {
+                al_draw_bitmap(mymap["fondPartiePioche"],0,0,0);
+                affichageCarteActive(p,mymap,myMapPolice);
+                affichageNomPvEnergie(p,mymap,myMapPolice);
+                affichageCarteEnjeu(p,myMapPolice);
+
+                varAffichage = 0;
+            }
 
             al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-            al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-            al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
-            al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre pioche");
+            al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre pioche");
 
-            al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-            al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,450,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,500,ALLEGRO_ALIGN_CENTER,"continuer");
 
             al_flip_display();
         }
@@ -1577,7 +1548,7 @@ void affichageVisionUltime(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> myma
 }
 
 
-std::string affichageMainMagique(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+int affichageMainMagique(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1585,8 +1556,6 @@ std::string affichageMainMagique(Plateau p, std::map<std::string,ALLEGRO_BITMAP*
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",45);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1595,20 +1564,20 @@ std::string affichageMainMagique(Plateau p, std::map<std::string,ALLEGRO_BITMAP*
     std::string nom;
     int cpt(0);
     char ascii;
+    int posY(151);
+    std::string carte;
+    int varAffichage(0);
 
     al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-    al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,250,ALLEGRO_ALIGN_CENTER,"L'adversaire perd 1.5x");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"des PV sacrifiés (<250) !");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2-60,360,0,"Carte Choisie : ");
-
-
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre pioche");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-    al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre pioche");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2-100,400,0,"NUMERO : ");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,450,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,500,ALLEGRO_ALIGN_CENTER,"continuer");
 
     al_flip_display();
+
 
     do
     {
@@ -1616,21 +1585,16 @@ std::string affichageMainMagique(Plateau p, std::map<std::string,ALLEGRO_BITMAP*
 
         if(event.type == ALLEGRO_EVENT_KEY_CHAR)
         {
-            ///ESPACE
-            if (event.keyboard.keycode == 75)
+            ///CHIFFRES
+            if (event.keyboard.keycode >= ALLEGRO_KEY_0 && event.keyboard.keycode <= ALLEGRO_KEY_9)
             {
-                ascii = 32;
+                ascii = event.keyboard.keycode + 21;
             }
-                ///BACKSPACE
+            ///BACKSPACE
             else if (event.keyboard.keycode == 63 && nom.size() > 0)
             {
                 ascii = 8;
                 nom.pop_back();
-            }
-                ///LETTRES
-            else if (event.keyboard.keycode >= 1 && event.keyboard.keycode <= 26)
-            {
-                ascii = event.keyboard.keycode + 64;
             }
             else
             {
@@ -1639,7 +1603,7 @@ std::string affichageMainMagique(Plateau p, std::map<std::string,ALLEGRO_BITMAP*
             cpt = 1;
         }
 
-        if ((ascii >= 65 && ascii <= 90) || (ascii == 32))
+        if (ascii >= 48 && ascii <= 57)
         {
             if (cpt == 1)
             {
@@ -1648,35 +1612,68 @@ std::string affichageMainMagique(Plateau p, std::map<std::string,ALLEGRO_BITMAP*
             cpt = 0;
         }
 
-        al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
-        al_draw_text(agencyFB1,rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,275,ALLEGRO_ALIGN_CENTER,"L'adversaire perd 1.5x");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,325,ALLEGRO_ALIGN_CENTER,"les PV sacrifiés (<250) !");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2-30,360,0,"PV : ");
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_SPACE)
+        {
+            al_draw_bitmap(mymap["fondAffichagePioche"],0,0,0);
 
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,440,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
-        al_draw_text(agencyFB2,colorTextSmall,44+385/2,490,ALLEGRO_ALIGN_CENTER,"continuer");
+            posY = 151;
 
-        al_draw_text(agencyFB2,colorText,44+385/2+5,360,0,nom.c_str());
+            for (int i = 0; i < p.getPioche().size(); i++)
+            {
+                carte = "Carte " + std::to_string(i+1) + " : ";
+                al_draw_text(myMapPolice["30"],colorText,520,posY,0,carte.c_str());
+                al_draw_text(myMapPolice["30"],colorText,612,posY,0,p.getPioche()[i]->getNom().c_str());
 
-        al_flip_display();
+                posY = posY + 35;
+            }
 
+            varAffichage = 1;
 
-        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_P)
+            al_flip_display();
+        }
+        else
+        {
+            if (varAffichage == 1)
+            {
+                al_draw_bitmap(mymap["fondPartiePioche"],0,0,0);
+                affichageCarteActive(p,mymap,myMapPolice);
+                affichageNomPvEnergie(p,mymap,myMapPolice);
+                affichageCarteEnjeu(p,myMapPolice);
+
+                varAffichage = 0;
+            }
+
+            al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
+            al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre pioche");
+
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,450,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,500,ALLEGRO_ALIGN_CENTER,"continuer");
+
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2-100,400,0,"NUMERO : ");
+            al_draw_text(myMapPolice["35"],colorText,44+385/2+20,400,0,nom.c_str());
+
+            al_flip_display();
+        }
+
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_ENTER)
         {
             condition = 1;
         }
-        if (atoi(nom.c_str()) < 0 || atoi(nom.c_str()) > 250)
+        if (atoi(nom.c_str()) <= 0 || atoi(nom.c_str()) > p.getPioche().size())
         {
             condition = 0;
+            nom = "";
         }
 
     } while (condition == 0);
 
-    return nom;
+    return atoi(nom.c_str()) - 1;
 }
 
-void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,ALLEGRO_BITMAP*> mymap)
+
+int affichageNecro(Plateau p, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_EVENT event;
@@ -1684,14 +1681,132 @@ void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,AL
         erreur("Initialisation","queue");
     al_register_event_source(queue,al_get_keyboard_event_source());
 
-    ALLEGRO_FONT* agencyFB70 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",70);
-    ALLEGRO_FONT* agencyFB1 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",50);
-    ALLEGRO_FONT* agencyFB40 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",40);
-    ALLEGRO_FONT* agencyFB2 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",35);
-    ALLEGRO_FONT* agencyFB3 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
-    ALLEGRO_FONT* agencyFB4 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",22);
-    ALLEGRO_FONT* agencyFB5 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",18);
-    ALLEGRO_FONT* agencyFB6 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",16);
+    ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
+    ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
+    ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
+
+    int condition(0);
+    std::string nom;
+    int cpt(0);
+    char ascii;
+    int posY(151);
+    std::string carte;
+    int varAffichage(0);
+
+    al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
+    al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre cimetiere");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2-100,400,0,"NUMERO : ");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,450,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+    al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,500,ALLEGRO_ALIGN_CENTER,"continuer");
+
+    al_flip_display();
+
+
+    do
+    {
+        al_wait_for_event(queue,&event);
+
+        if(event.type == ALLEGRO_EVENT_KEY_CHAR)
+        {
+            ///CHIFFRES
+            if (event.keyboard.keycode >= ALLEGRO_KEY_0 && event.keyboard.keycode <= ALLEGRO_KEY_9)
+            {
+                ascii = event.keyboard.keycode + 21;
+            }
+            ///BACKSPACE
+            else if (event.keyboard.keycode == 63 && nom.size() > 0)
+            {
+                ascii = 8;
+                nom.pop_back();
+            }
+            else
+            {
+                ascii = 0;
+            }
+            cpt = 1;
+        }
+
+        if (ascii >= 48 && ascii <= 57)
+        {
+            if (cpt == 1)
+            {
+                nom = nom + ascii;
+            }
+            cpt = 0;
+        }
+
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_SPACE)
+        {
+            al_draw_bitmap(mymap["fondAffichageCimetiere"],0,0,0);
+
+            posY = 151;
+
+            for (int i = 0; i < p.getCimetiere().size(); i++)
+            {
+                carte = "Carte " + std::to_string(i+1) + " : ";
+                al_draw_text(myMapPolice["30"],colorText,520,posY,0,carte.c_str());
+                al_draw_text(myMapPolice["30"],colorText,612,posY,0,p.getCimetiere()[i]->getNom().c_str());
+
+                posY = posY + 35;
+            }
+
+            varAffichage = 1;
+
+            al_flip_display();
+        }
+        else
+        {
+            if (varAffichage == 1)
+            {
+                al_draw_bitmap(mymap["fondPartiePioche"],0,0,0);
+                affichageCarteActive(p,mymap,myMapPolice);
+                affichageNomPvEnergie(p,mymap,myMapPolice);
+                affichageCarteEnjeu(p,myMapPolice);
+
+                varAffichage = 0;
+            }
+
+            al_draw_bitmap(mymap["templateAffichageZoneTexte"],33,167,0);
+            al_draw_text(myMapPolice["45"],rouge,44+385/2,200,ALLEGRO_ALIGN_CENTER,"PHASE DE PIOCHE");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,300,ALLEGRO_ALIGN_CENTER,"Pressez Espace pour");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,350,ALLEGRO_ALIGN_CENTER,"afficher votre cimetiere");
+
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,450,ALLEGRO_ALIGN_CENTER,"Pressez Entrer pour");
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2,500,ALLEGRO_ALIGN_CENTER,"continuer");
+
+            al_draw_text(myMapPolice["35"],colorTextSmall,44+385/2-100,400,0,"NUMERO : ");
+            al_draw_text(myMapPolice["35"],colorText,44+385/2+20,400,0,nom.c_str());
+
+            al_flip_display();
+        }
+
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR && event.keyboard.keycode == ALLEGRO_KEY_ENTER)
+        {
+            condition = 1;
+        }
+        if (atoi(nom.c_str()) <= 0 || atoi(nom.c_str()) > p.getCimetiere().size())
+        {
+            condition = 0;
+            nom = "";
+        }
+
+
+    } while (condition == 0);
+
+    return atoi(nom.c_str()) - 1;
+}
+
+
+void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,ALLEGRO_BITMAP*> mymap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
+{
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    ALLEGRO_EVENT event;
+    if (!queue)
+        erreur("Initialisation","queue");
+    al_register_event_source(queue,al_get_keyboard_event_source());
+
     ALLEGRO_COLOR colorText = al_map_rgb(30,30,30);
     ALLEGRO_COLOR colorTextSmall = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
@@ -1711,9 +1826,30 @@ void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,AL
 
     al_draw_bitmap(mymap["fondVictoire"],0,0,0);
 
-    al_draw_text(agencyFB70,rouge,405,194,ALLEGRO_ALIGN_CENTER,gagnant.getNom().c_str());
-    al_draw_text(agencyFB1,colorText,410,390,0,"500");
-    al_draw_text(agencyFB1,colorText,410,452,0,perdant.GetCarteEJ()->getNom().c_str());
+    al_draw_text(myMapPolice["70"],rouge,405,194,ALLEGRO_ALIGN_CENTER,gagnant.getNom().c_str());
+    al_draw_text(myMapPolice["50"],colorText,410,390,0,"500");
+    al_draw_text(myMapPolice["50"],colorText,410,452,0,perdant.GetCarteEJ()->getNom().c_str());
+
+    int numeroJoueur(0);
+    Collections collection;
+    std::map<int, Joueur> tabJoueur;
+
+    collection.chargerCollectionEntiere();
+    tabJoueur = chargementJoueurs(collection);
+
+    for (auto &elem : tabJoueur)
+    {
+        if (gagnant.getNom() == elem.second.getNom())
+        {
+            numeroJoueur = elem.first;
+        }
+    }
+
+    ///AJOUT ARGENT GAGNE
+    tabJoueur[numeroJoueur].victoireArgent();
+
+    ///SAUVEGARDE
+    RemplacedeJoueur(tabJoueur,collection);
 
 
     if (perdant.GetCarteEJ()->get_EstUtilise() == CREATURE)
@@ -1745,18 +1881,18 @@ void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,AL
 
         al_draw_bitmap(mymap["templateCarteCreatureVide"],774,57,0);
 
-        al_draw_text(agencyFB40,colorText,463 + 275/2 + 338,88,ALLEGRO_ALIGN_CENTER,perdant.GetCarteEJ()->getNom().c_str());
-        al_draw_text(agencyFB2,colorText,758 + 27 + 338,92,ALLEGRO_ALIGN_CENTER,pv.c_str());
+        al_draw_text(myMapPolice["40"],colorText,463 + 275/2 + 338,88,ALLEGRO_ALIGN_CENTER,perdant.GetCarteEJ()->getNom().c_str());
+        al_draw_text(myMapPolice["35"],colorText,758 + 27 + 338,92,ALLEGRO_ALIGN_CENTER,pv.c_str());
 
-        al_draw_text(agencyFB3,colorText,470 + 338,390,0,perdant.GetCarteEJ()->getAttaque(0).getNom().c_str());
-        al_draw_text(agencyFB3,colorTextSmall,470 + 338,425,0,perdant.GetCarteEJ()->getAttaque(0).getDesc().c_str());
-        al_draw_text(agencyFB3,colorText,470 + 338,465,0,degat1.c_str());
-        al_draw_text(agencyFB3,colorText,800 + 338,465,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
+        al_draw_text(myMapPolice["30"],colorText,470 + 338,390,0,perdant.GetCarteEJ()->getAttaque(0).getNom().c_str());
+        al_draw_text(myMapPolice["30"],colorTextSmall,470 + 338,425,0,perdant.GetCarteEJ()->getAttaque(0).getDesc().c_str());
+        al_draw_text(myMapPolice["30"],colorText,470 + 338,465,0,degat1.c_str());
+        al_draw_text(myMapPolice["30"],colorText,800 + 338,465,ALLEGRO_ALIGN_RIGHT,energieRequis1.c_str());
 
-        al_draw_text(agencyFB3,colorText,470 + 338,520,0,perdant.GetCarteEJ()->getAttaque(1).getNom().c_str());
-        al_draw_text(agencyFB3,colorTextSmall,470 + 338,555,0,perdant.GetCarteEJ()->getAttaque(1).getDesc().c_str());
-        al_draw_text(agencyFB3,colorText,470 + 338,595,0,degat2.c_str());
-        al_draw_text(agencyFB3,colorText,800 + 338,595,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
+        al_draw_text(myMapPolice["30"],colorText,470 + 338,520,0,perdant.GetCarteEJ()->getAttaque(1).getNom().c_str());
+        al_draw_text(myMapPolice["30"],colorTextSmall,470 + 338,555,0,perdant.GetCarteEJ()->getAttaque(1).getDesc().c_str());
+        al_draw_text(myMapPolice["30"],colorText,470 + 338,595,0,degat2.c_str());
+        al_draw_text(myMapPolice["30"],colorText,800 + 338,595,ALLEGRO_ALIGN_RIGHT,energieRequis2.c_str());
 
         al_draw_bitmap(mymap[perdant.GetCarteEJ()->getNom()],460 + 339,163,0);
     }
@@ -1766,75 +1902,75 @@ void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,AL
 
         al_draw_bitmap(mymap["templateCarteEnergieVide"],774,57,0);
 
-        al_draw_text(agencyFB40,colorText,463 + 275/2 + 338,88,ALLEGRO_ALIGN_CENTER,perdant.GetCarteEJ()->getNom().c_str());
-        al_draw_text(agencyFB40,colorText,778 + 8 + 338,88,ALLEGRO_ALIGN_CENTER,lvlEnergie.c_str());
+        al_draw_text(myMapPolice["40"],colorText,463 + 275/2 + 338,88,ALLEGRO_ALIGN_CENTER,perdant.GetCarteEJ()->getNom().c_str());
+        al_draw_text(myMapPolice["40"],colorText,778 + 8 + 338,88,ALLEGRO_ALIGN_CENTER,lvlEnergie.c_str());
 
         if (perdant.GetCarteEJ()->getType() == "H")
         {
             al_draw_bitmap(mymap["fondHaki"],460 + 338+2,163+3,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,540,ALLEGRO_ALIGN_CENTER,"Energie mentale devastatrice");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,540,ALLEGRO_ALIGN_CENTER,"Energie mentale devastatrice");
         }
         if (perdant.GetCarteEJ()->getType() == "K")
         {
             al_draw_bitmap(mymap["fondKi"],460 + 338+2,163+3,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"Energie vitale pouvant");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,560,ALLEGRO_ALIGN_CENTER,"etre deployée");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"Energie vitale pouvant");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,560,ALLEGRO_ALIGN_CENTER,"etre deployée");
         }
         if (perdant.GetCarteEJ()->getType() == "C")
         {
             al_draw_bitmap(mymap["fondChakra"],460 + 338+2,163+3,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"Energie spirituelle");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,560,ALLEGRO_ALIGN_CENTER,"circulant dans le corps");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"Energie spirituelle");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,560,ALLEGRO_ALIGN_CENTER,"circulant dans le corps");
         }
         if (perdant.GetCarteEJ()->getType() == "N")
         {
             al_draw_bitmap(mymap["fondNen"],460 + 338+2,163+3,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/ + 338,520,ALLEGRO_ALIGN_CENTER,"Force d'esprit");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,560,ALLEGRO_ALIGN_CENTER,"creant une aura puissante");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/ + 338,520,ALLEGRO_ALIGN_CENTER,"Force d'esprit");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,560,ALLEGRO_ALIGN_CENTER,"creant une aura puissante");
         }
     }
     else
     {
         al_draw_bitmap(mymap["templateCarteSpecialeVide"],774,57,0);
 
-        al_draw_text(agencyFB40,colorText,463 + 361/2 + 338,88,ALLEGRO_ALIGN_CENTER,perdant.GetCarteEJ()->getNom().c_str());
+        al_draw_text(myMapPolice["40"],colorText,463 + 361/2 + 338,88,ALLEGRO_ALIGN_CENTER,perdant.GetCarteEJ()->getNom().c_str());
 
         if (perdant.GetCarteEJ()->get_EstUtilise() == NECRO)
         {
             al_draw_bitmap(mymap["fondCarteSpeciale"],460 + 340,165,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,460,ALLEGRO_ALIGN_CENTER,"Réanimation d'une carte");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,500,ALLEGRO_ALIGN_CENTER,"du cimetière");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,460,ALLEGRO_ALIGN_CENTER,"Réanimation d'une carte");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,500,ALLEGRO_ALIGN_CENTER,"du cimetière");
         }
         if (perdant.GetCarteEJ()->get_EstUtilise() == SUPER_ENERGIE)
         {
             al_draw_bitmap(mymap["fondCarteSpeciale"],460 + 340,165,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,440,ALLEGRO_ALIGN_CENTER,"Ajout de deux energies de");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,480,ALLEGRO_ALIGN_CENTER,"de chaque type");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"dans votre main");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,440,ALLEGRO_ALIGN_CENTER,"Ajout de deux energies de");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,480,ALLEGRO_ALIGN_CENTER,"de chaque type");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"dans votre main");
         }
         if (perdant.GetCarteEJ()->get_EstUtilise() == BOULE_DE_FEU)
         {
             al_draw_bitmap(mymap["fondCarteSpeciale"],460 + 340,165,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,460,ALLEGRO_ALIGN_CENTER,"Attaque directe sur l'ennemi");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,500,ALLEGRO_ALIGN_CENTER,"en échange de points de vie");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,460,ALLEGRO_ALIGN_CENTER,"Attaque directe sur l'ennemi");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,500,ALLEGRO_ALIGN_CENTER,"en échange de points de vie");
         }
         if (perdant.GetCarteEJ()->get_EstUtilise() == VISION_ULTIME)
         {
             al_draw_bitmap(mymap["fondCarteSpeciale"], 460 + 340, 165, 0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338, 480,ALLEGRO_ALIGN_CENTER,"Permet de voir sa pioche");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338, 480,ALLEGRO_ALIGN_CENTER,"Permet de voir sa pioche");
         }
         if (perdant.GetCarteEJ()->get_EstUtilise() == MAIN_MAGIQUE)
         {
             al_draw_bitmap(mymap["fondCarteSpeciale"],460 + 340,165,0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,460,ALLEGRO_ALIGN_CENTER,"Choix possible de la");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,500,ALLEGRO_ALIGN_CENTER,"prochaine carte piochée");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,460,ALLEGRO_ALIGN_CENTER,"Choix possible de la");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,500,ALLEGRO_ALIGN_CENTER,"prochaine carte piochée");
         }
         if (perdant.GetCarteEJ()->get_EstUtilise() == PROTECTION)
         {
             al_draw_bitmap(mymap["fondCarteSpeciale"], 460 + 340,165, 0);
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,440,ALLEGRO_ALIGN_CENTER,"Protection contre la");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,480,ALLEGRO_ALIGN_CENTER,"prochaine attaque");
-            al_draw_text(agencyFB2,colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"de l'ennemi");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,440,ALLEGRO_ALIGN_CENTER,"Protection contre la");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,480,ALLEGRO_ALIGN_CENTER,"prochaine attaque");
+            al_draw_text(myMapPolice["35"],colorTextSmall,460 + 359/2 + 338,520,ALLEGRO_ALIGN_CENTER,"de l'ennemi");
         }
     }
 
@@ -1888,7 +2024,7 @@ void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,AL
 
         if (condition == 0)
         {
-            ajoutCarteEnjeu(gagnant,perdant,mymap);
+            ajoutCarteEnjeu(gagnant,perdant,mymap,myMapPolice);
         }
         else
         {
@@ -1917,10 +2053,8 @@ void affichageVictoire(Plateau gagnant, Plateau perdant, std::map<std::string,AL
 }
 
 
-void ajoutCarteEnjeu(Plateau gagnant, Plateau perdant, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap)
+void ajoutCarteEnjeu(Plateau gagnant, Plateau perdant, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, std::map<std::string,ALLEGRO_FONT*> myMapPolice)
 {
-    ALLEGRO_FONT* agencyFB30 = chargementPolice("..\\Fonts\\agency-fb-bold.ttf",30);
-
     ALLEGRO_COLOR colorText = al_map_rgb(55,55,55);
     ALLEGRO_COLOR rouge = al_map_rgb(193,39,45);
     ALLEGRO_COLOR noirPresque2 = al_map_rgb(35,35,35);
@@ -1946,7 +2080,6 @@ void ajoutCarteEnjeu(Plateau gagnant, Plateau perdant, std::map<std::string,ALLE
 
     iniTabCollectionDeck(tabDeck);
     collection.chargerCollectionEntiere();
-
     tabJoueur = chargementJoueurs(collection);
 
     for (auto &elem : tabJoueur)
@@ -1972,7 +2105,7 @@ void ajoutCarteEnjeu(Plateau gagnant, Plateau perdant, std::map<std::string,ALLE
         {
             for(int i = 0; i < 5; i++)
             {
-                al_draw_text(agencyFB30,colorText,tabDeck[j][i][0] + 80 - al_get_text_width(agencyFB30,tabJoueur[numeroJoueur].getDeck().getDeck()[cpt]->getNom().c_str())/2,tabDeck[j][i][1],0,tabJoueur[numeroJoueur].getDeck().getDeck()[cpt]->getNom().c_str());
+                al_draw_text(myMapPolice["30"],colorText,tabDeck[j][i][0] + 80 - al_get_text_width(myMapPolice["30"],tabJoueur[numeroJoueur].getDeck().getDeck()[cpt]->getNom().c_str())/2,tabDeck[j][i][1],0,tabJoueur[numeroJoueur].getDeck().getDeck()[cpt]->getNom().c_str());
                 tabDeck[j][i][2] = cpt;
                 cpt++;
             }
@@ -1980,7 +2113,7 @@ void ajoutCarteEnjeu(Plateau gagnant, Plateau perdant, std::map<std::string,ALLE
 
         ///AFFICHAGE SELECTION
         al_draw_rectangle(tabDeck[y][x][0]-1,tabDeck[y][x][1]-20,tabDeck[y][x][0]+160-1,tabDeck[y][x][1]+80-20,noirPresque2,7);
-        al_draw_text(agencyFB30,rouge,tabDeck[y][x][0] + 80 - al_get_text_width(agencyFB30,tabJoueur[numeroJoueur].getDeck().getDeck()[tabDeck[y][x][2]]->getNom().c_str())/2,tabDeck[y][x][1],0,tabJoueur[numeroJoueur].getDeck().getDeck()[tabDeck[y][x][2]]->getNom().c_str());
+        al_draw_text(myMapPolice["30"],rouge,tabDeck[y][x][0] + 80 - al_get_text_width(myMapPolice["30"],tabJoueur[numeroJoueur].getDeck().getDeck()[tabDeck[y][x][2]]->getNom().c_str())/2,tabDeck[y][x][1],0,tabJoueur[numeroJoueur].getDeck().getDeck()[tabDeck[y][x][2]]->getNom().c_str());
 
 
         ///MOUVEMENTS

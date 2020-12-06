@@ -19,7 +19,8 @@ class Deck
 public:
     Deck();
     ~Deck();
-    void iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, Joueur joueur);
+    void iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, Joueur joueur, std::map<std::string,ALLEGRO_SAMPLE*> mapSample
+    );
 
     ///Set et get
     void setDeck(Carte* nouvelleCarte);

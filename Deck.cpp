@@ -18,7 +18,7 @@ Deck::~Deck() {
 }
 
 
-void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, Joueur joueur)
+void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP*> mapBitmap, Joueur joueur, std::map<std::string,ALLEGRO_SAMPLE*> mapSample)
 {
     Carte carteChoisie;
     int choix;
@@ -113,6 +113,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
                 if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
                 {
+                    al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
                     page = 1;
                     x = 0;
                     y = 0;
@@ -156,6 +157,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
                 if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
+                    al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
                     page = 2;
                     x = 0;
                     y = 0;
@@ -170,6 +172,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
                 if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
+                    al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
                     page = 0;
                     x = 0;
                     y = 0;
@@ -214,6 +217,7 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
 
                 if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
+                    al_play_sample(mapSample["click"],1,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
                     page = 1;
                     x = 0;
                     y = 0;
@@ -237,10 +241,18 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
             {
                 switch (event.keyboard.keycode)
                 {
-                    case ALLEGRO_KEY_UP: if(y != 0) y--; break;
-                    case ALLEGRO_KEY_RIGHT: if(x != 4) x++; break;
-                    case ALLEGRO_KEY_DOWN: if(y != 3) y++; break;
-                    case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
+                    case ALLEGRO_KEY_UP: if(y != 0) y--;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_RIGHT: if(x != 4) x++;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_DOWN: if(y != 3) y++;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_LEFT: if(x != 0) x--;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
                     case ALLEGRO_KEY_ENTER:
                         autorisation = 0;
                         for (int i = 0; i < tabCartePrise.size(); ++i)
@@ -326,10 +338,18 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
             {
                 switch (event.keyboard.keycode)
                 {
-                    case ALLEGRO_KEY_UP: if(y != 0) y--; break;
-                    case ALLEGRO_KEY_RIGHT: if(x != 3) x++; break;
-                    case ALLEGRO_KEY_DOWN: if(y != 3) y++; break;
-                    case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
+                    case ALLEGRO_KEY_UP: if(y != 0) y--;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_RIGHT: if(x != 3) x++;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_DOWN: if(y != 3) y++;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_LEFT: if(x != 0) x--;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
                     case ALLEGRO_KEY_ENTER:
                         autorisation = 0;
                         for (int i = 0; i < tabCartePrise.size(); ++i)
@@ -403,10 +423,18 @@ void Deck::iniDeck(Collections maCollection, std::map<std::string,ALLEGRO_BITMAP
             {
                 switch (event.keyboard.keycode)
                 {
-                    case ALLEGRO_KEY_UP: if(y != 0) y--; break;
-                    case ALLEGRO_KEY_RIGHT: if(x != 2) x++; break;
-                    case ALLEGRO_KEY_DOWN: if(y != 1) y++; break;
-                    case ALLEGRO_KEY_LEFT: if(x != 0) x--; break;
+                    case ALLEGRO_KEY_UP: if(y != 0) y--;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_RIGHT: if(x != 2) x++;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_DOWN: if(y != 1) y++;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
+                    case ALLEGRO_KEY_LEFT: if(x != 0) x--;
+                        al_play_sample(mapSample["click2"],0.5,0,1,ALLEGRO_PLAYMODE_ONCE, nullptr);
+                        break;
                     case ALLEGRO_KEY_ENTER:
                         autorisation = 0;
                         for (int i = 0; i < tabCartePrise.size(); ++i)
